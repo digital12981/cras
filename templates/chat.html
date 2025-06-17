@@ -640,16 +640,20 @@ const startWorkResponses = {
         },
         {
             message: function() {
-                const locationData = lƒocalStorage.getItem('trainingLocation');
-                if (locationData) {
+                const locationData = localStorage.getItem('trainingLocation');
+                // Get clinic data from localStorage or URL
+                const clinicData = localStorage.getItem('clinicLocation');
+                
+                if (clinicData) {
                     try {
-                        const location = JSON.parse(locationData);
-                        return `Você deverá comparecer com documento de identificação com foto, carteira de trabalho e comprovante de residência.\n\n📍 Local do exame:\n${location.endereco}, ${location.bairro}\n${location.cidade} - CEP: ${location.cep}`;
+                        const clinic = JSON.parse(clinicData);
+                        return `Você deverá comparecer com documento de identificação com foto, carteira de trabalho e comprovante de residência.\n\n📍 Local do exame:\n${clinic.nome}\n${clinic.endereco}\nTelefone: ${clinic.telefone}`;
                     } catch (e) {
-                        return "Você deverá comparecer com documento de identificação com foto e dados bancários para cadastro na base de funcionários no local de treinamento informado.";
+                        console.error('Error parsing clinic data:', e);
+                        return "Você deverá comparecer com documento de identificação com foto, carteira de trabalho e comprovante de residência no local do exame médico informado.";
                     }
                 } else {
-                    return "Você deverá comparecer com documento de identificação com foto e dados bancários para cadastro na base de funcionários no local de treinamento informado.";
+                    return "Você deverá comparecer com documento de identificação com foto, carteira de trabalho e comprovante de residência no local do exame médico informado.";
                 }
             },
             delay: 4500,
