@@ -87,7 +87,7 @@
     <!-- Main Content -->
     <section class="py-10 md:py-14">
         <div class="container mx-auto px-4 md:px-8 text-center">
-            <h2 class="text-lg md:text-xl font-bold mb-1 leading-tight">Confirmação de Agendamento do Curso</h2>
+            <h2 class="text-lg md:text-xl font-bold mb-1 leading-tight">Pagamento do Exame Admissional</h2>
             <div class="w-24 h-2 bg-[#044785] mx-auto mb-3 rounded-full"></div>
             <!-- Countdown Timer -->
             <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 max-w-md mx-auto">
@@ -101,8 +101,15 @@
             </div>
             
             <p class="max-w-3xl mx-auto mb-6 md:mb-10 leading-relaxed text-sm">
-                Para confirmar o agendamento do curso prático para assumir a vaga de Vigilante de Carro Forte, é obrigatório o pagamento da munição que será utilizada no treinamento. O valor é de <span class="font-bold text-red-600">R$ 73,40</span>.
+                Para confirmar sua contratação como Assistente Social no CRAS, é obrigatório o pagamento do exame médico admissional. O valor é de <span class="font-bold text-red-600">R$ 73,40</span>.
             </p>
+            
+            <div id="clinicInfo" class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded-r-lg max-w-2xl mx-auto" style="display: none;">
+                <h3 class="font-semibold text-blue-800 mb-2">📍 Local do Exame:</h3>
+                <p id="clinicName" class="text-blue-700 font-medium"></p>
+                <p id="clinicAddress" class="text-blue-600 text-sm"></p>
+                <p id="clinicPhone" class="text-blue-600 text-sm"></p>
+            </div>
 
             <div class="flex flex-col items-center mb-6">
                 {% if payment_data %}
@@ -114,7 +121,7 @@
                     </div>
                     <div class="border-t border-gray-300 pt-4 text-left">
                         <p class="text-sm text-gray-700 mb-3" id="training-info">
-                            Após o pagamento, você deve comparecer ao local de treinamento conforme agendado.
+                            Após o pagamento, você deve comparecer à clínica para realizar o exame médico admissional conforme agendado.
                         </p>
                         <h4 class="font-semibold text-gray-800 mb-2 text-sm">Documentos obrigatórios para levar no dia:</h4>
                         <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
@@ -125,7 +132,7 @@
                     </div>
                 </div>
                 
-                <img src="{{ payment_data.pixQrCode }}" alt="QR Code para pagamento do curso prático de Vigilante de Carro Forte" class="w-48 h-48 mb-4">
+                <img src="{{ payment_data.pixQrCode }}" alt="QR Code para pagamento do exame médico admissional" class="w-48 h-48 mb-4">
                 <p class="text-sm text-gray-600 mb-4">Escaneie o QR Code acima para realizar o pagamento.</p>
                 {% else %}
                 <!-- Error Status Box -->
@@ -136,7 +143,7 @@
                     </div>
                     <div class="border-t border-gray-300 pt-4 text-left">
                         <p class="text-sm text-gray-700 mb-3" id="training-info-error">
-                            Após o pagamento, você deve comparecer ao local de treinamento conforme agendado.
+                            Após o pagamento, você deve comparecer à clínica para realizar o exame médico admissional conforme agendado.
                         </p>
                         <h4 class="font-semibold text-gray-800 mb-2 text-sm">Documentos obrigatórios para levar no dia:</h4>
                         <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
@@ -171,7 +178,7 @@
             </p>
 
             <p class="max-w-3xl mx-auto mb-6 md:mb-10 leading-relaxed text-sm">
-                Após o pagamento, o curso de Vigilante da Prosegur será confirmado e você poderá assumir a vaga. Certifique-se de clicar no botão abaixo após realizar o pagamento.
+                Após o pagamento, o exame médico admissional será confirmado e você poderá prosseguir com sua contratação no CRAS. Certifique-se de clicar no botão abaixo após realizar o pagamento.
             </p>
 
             <a href="#" class="bg-[#044785] text-white font-medium px-6 md:px-8 py-3 rounded-full inline-block">Confirmar Pagamento</a>
@@ -298,6 +305,40 @@
         // Update timer every second
         updateTimer();
         setInterval(updateTimer, 1000);
+        
+        // Load clinic information
+        function loadClinicInfo() {
+            try {
+                const clinicData = localStorage.getItem('clinicLocation');
+                if (clinicData) {
+                    const clinic = JSON.parse(clinicData);
+                    
+                    // Update clinic info elements
+                    const clinicNameEl = document.getElementById('clinicName');
+                    const clinicAddressEl = document.getElementById('clinicAddress');
+                    const clinicPhoneEl = document.getElementById('clinicPhone');
+                    const clinicInfoEl = document.getElementById('clinicInfo');
+                    
+                    if (clinicNameEl && clinicAddressEl && clinicPhoneEl && clinicInfoEl) {
+                        clinicNameEl.textContent = clinic.nome || 'Clínica não informada';
+                        clinicAddressEl.textContent = clinic.endereco || '';
+                        clinicPhoneEl.textContent = clinic.telefone ? `Tel: ${clinic.telefone}` : '';
+                        
+                        // Show clinic info section
+                        clinicInfoEl.style.display = 'block';
+                        
+                        console.log('Clinic info loaded:', clinic);
+                    }
+                } else {
+                    console.log('No clinic data found in localStorage');
+                }
+            } catch (error) {
+                console.error('Error loading clinic info:', error);
+            }
+        }
+        
+        // Load clinic info when page loads
+        loadClinicInfo();
         
         function copyPixCode() {
             const pixCode = document.getElementById('pix-code');
