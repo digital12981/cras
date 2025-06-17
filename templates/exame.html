@@ -1,0 +1,318 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="max-w-[1800px] mx-auto px-2">
+    <div class="mb-8">
+        <h1 class="text-2xl font-bold text-prosegur-black mb-4 font-heading">Avaliação de Conhecimentos CRAS</h1>
+        <p class="text-prosegur-gray mb-2 font-body">Primeira etapa - Conhecimentos básicos em Assistência Social</p>
+        <div class="h-1 w-32 bg-prosegur-blue"></div>
+    </div>
+
+    <div id="info-box" class="bg-prosegur-blue p-4 mb-4 rounded-lg">
+        <div>
+            <h2 id="knowledge-title" class="text-lg font-semibold text-white mb-2 font-heading">1</h2>
+            <p id="info-content" class="text-white font-body">
+                O assistente social atua na proteção social, garantindo direitos e promovendo a cidadania. Trabalha com famílias em situação de vulnerabilidade, desenvolvendo ações que fortalecem vínculos familiares e comunitários através de programas sociais e encaminhamentos.
+            </p>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-lg p-4">
+        <form id="cac-questionario" class="flex flex-col min-h-[400px]">
+            <div id="question-container" class="flex-grow opacity-100 transition-opacity duration-300">
+                <!-- Questions will be dynamically inserted here -->
+            </div>
+
+            <div class="flex items-center justify-between pt-1 mt-1 border-t border-gray-200">
+                <button id="prev-button" class="bg-prosegur-blue hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-prosegur-blue transition-colors duration-200 font-body" type="button" style="display: none;">
+                    <i class="fa fa-arrow-left mr-2"></i>Voltar
+                </button>
+                <div class="flex-grow"></div>
+                <button id="next-button" class="bg-prosegur-blue hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-prosegur-blue transition-colors duration-200 font-body" type="button">
+                    <i class="fa fa-arrow-right mr-2"></i>Continuar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .checkbox-custom {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #d1d5db;
+        border-radius: 50%;
+        margin-right: 12px;
+        position: relative;
+        flex-shrink: 0;
+    }
+
+    .radio-button:checked + label .checkbox-custom::after {
+        content: '';
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        background-color: #044785;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .radio-button:checked + label {
+        background-color: #dbeafe;
+        border: 2px solid #1451B4;
+    }
+
+    .question-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .question-wrapper h2 {
+        flex-shrink: 0;
+        padding: 0;
+        margin-bottom: 0.25rem;
+    }
+
+    .question-wrapper > div {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 0;
+        gap: 0.125rem;
+    }
+
+    .option-button {
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        transition: all 0.2s;
+        min-height: 3.5rem; /* Fixed height for all options */
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+    }
+
+    .option-button:hover {
+        border-color: #9ca3af;
+        background-color: #f9fafb;
+    }
+
+    .radio-button:checked + .option-button {
+        border: 2px solid #1451B4;
+        background-color: #dbeafe;
+    }
+
+    :root {
+        --prosegur-blue: #044785;
+    }
+</style>
+
+<script>
+    // Conteúdos educativos simplificados sobre assistência social
+    const educationalContent = [
+        "O assistente social ajuda famílias em dificuldades. Ele conversa com as pessoas, entende seus problemas e oferece soluções como programas sociais e encaminhamentos para outros serviços.",
+        "O SUAS é o sistema que organiza a ajuda social no Brasil. Ele tem dois tipos: proteção básica (previne problemas) e proteção especial (ajuda quem já tem problemas graves).",
+        "O assistente social escreve relatórios sobre as famílias. Estes documentos são importantes para entender a situação das pessoas e decidir que tipo de ajuda elas precisam.",
+        "É importante conhecer o bairro onde as famílias moram. O assistente social precisa saber que recursos existem perto das casas das pessoas para poder ajudar melhor.",
+        "O trabalho com famílias busca torná-las mais fortes e unidas. O assistente social usa atividades que fazem as famílias participarem e resolverem seus próprios problemas.",
+        "Trabalhar junto com outros serviços é muito importante. O assistente social conversa com pessoas da saúde, educação e habitação para ajudar completamente as famílias.",
+        "Existem benefícios como o BPC e auxílios que as pessoas têm direito. O assistente social explica como conseguir esses benefícios e acompanha as famílias que recebem.",
+        "As pessoas devem participar dos conselhos e reuniões sobre seus direitos. O assistente social incentiva as famílias a participarem desses espaços importantes.",
+        "Os documentos do assistente social devem ser bem escritos e respeitosos. Ele anota as informações de forma clara e protege a privacidade das pessoas.",
+        "Trabalhar em equipe e receber orientação é fundamental. O assistente social participa de reuniões e treinamentos para sempre melhorar seu trabalho."
+    ];
+
+    const questions = [
+        {
+            question: "Qual a principal função do assistente social?",
+            options: [
+                "Controlar as famílias",
+                "Ajudar famílias em dificuldades",
+                "Dar dinheiro para as pessoas",
+                "Fiscalizar comportamentos"
+            ]
+        },
+        {
+            question: "O que é o SUAS?",
+            options: [
+                "Um tipo de benefício",
+                "Sistema que organiza a ajuda social",
+                "Um programa de habitação",
+                "Uma escola de assistentes sociais"
+            ]
+        },
+        {
+            question: "Para que servem os relatórios do assistente social?",
+            options: [
+                "Para controlar as pessoas",
+                "Para entender a situação das famílias",
+                "Para punir quem faz errado",
+                "Para ganhar dinheiro"
+            ]
+        },
+        {
+            question: "Por que é importante conhecer o bairro das famílias?",
+            options: [
+                "Para controlar onde elas moram",
+                "Para saber que recursos existem perto",
+                "Para cobrar impostos",
+                "Para mudá-las de lugar"
+            ]
+        },
+        {
+            question: "Como o assistente social trabalha com famílias?",
+            options: [
+                "Resolve tudo sozinho",
+                "Torna as famílias mais fortes e unidas",
+                "Separa as famílias",
+                "Dá ordens para todos"
+            ]
+        },
+        {
+            question: "Por que trabalhar com outros serviços é importante?",
+            options: [
+                "Para dividir o trabalho",
+                "Para ajudar completamente as famílias",
+                "Para economizar dinheiro",
+                "Para ter menos responsabilidade"
+            ]
+        },
+        {
+            question: "O que são benefícios como o BPC?",
+            options: [
+                "Punições para famílias",
+                "Direitos que as pessoas têm",
+                "Obrigações das famílias",
+                "Serviços pagos"
+            ]
+        },
+        {
+            question: "Como você lidaria com preconceitos pessoais durante o atendimento?",
+            options: [
+                "Deixaria claro minha opinião para educar o usuário",
+                "Fingiria concordar para manter boa relação",
+                "Buscaria autoreflexão e supervisão técnica",
+                "Transferiria o caso para outro profissional"
+            ]
+        },
+        {
+            question: "Sua reação ao receber ordens que considera questionáveis é:",
+            options: [
+                "Executo sem questionar para evitar problemas",
+                "Contesto abertamente a autoridade",
+                "Busco esclarecimentos de forma respeitosa",
+                "Avalia a situação e age conforme ética profissional"
+            ]
+        },
+        {
+            question: "Como você avalia sua capacidade de trabalhar em equipe sob pressão?",
+            options: [
+                "Tenho dificuldades em colaborar quando estou estressado",
+                "Consigo trabalhar em equipe, mas prefiro agir sozinho",
+                "Trabalho bem em equipe e contribuo de forma positiva",
+                "Sou um líder natural que inspira confiança na equipe"
+            ]
+        }
+    ];
+
+    let currentQuestion = 0;
+    const questionContainer = document.getElementById('question-container');
+    const prevButton = document.getElementById('prev-button');
+    const nextButton = document.getElementById('next-button');
+
+    async function displayQuestion(index) {
+        questionContainer.classList.remove('opacity-100');
+        questionContainer.classList.add('opacity-0');
+
+        await new Promise(resolve => setTimeout(resolve, 300));
+
+        const question = questions[index];
+        let html = `
+            <div class="question-wrapper">
+                <h2 class="text-lg font-semibold text-prosegur-black font-heading">${question.question}</h2>
+                <div>
+        `;
+        question.options.forEach((option, i) => {
+            html += `
+                <div class="flex items-center p-1">
+                    <input type="radio" id="q${index}_option${i}" name="q${index}" value="${option}" class="radio-button hidden">
+                    <label for="q${index}_option${i}" class="option-button flex items-center w-full cursor-pointer text-base">
+                        <div class="checkbox-custom"></div>
+                        <span class="flex-grow">${option}</span>
+                    </label>
+                </div>
+            `;
+        });
+        html += '</div></div>';
+        questionContainer.innerHTML = html;
+
+        // Update educational content and title for each question
+        const infoContent = document.getElementById('info-content');
+        const knowledgeTitle = document.getElementById('knowledge-title');
+        if (infoContent && educationalContent[index]) {
+            infoContent.textContent = educationalContent[index];
+        }
+        if (knowledgeTitle) {
+            knowledgeTitle.textContent = (index + 1).toString();
+        }
+
+        await new Promise(resolve => setTimeout(resolve, 100));
+        questionContainer.classList.remove('opacity-0');
+        questionContainer.classList.add('opacity-100');
+    }
+
+    function updateButtons() {
+        prevButton.style.display = currentQuestion > 0 ? 'block' : 'none';
+        nextButton.innerHTML = currentQuestion === questions.length - 1 ? 
+            '<i class="fa fa-check mr-2"></i>Finalizar' : 
+            '<i class="fa fa-arrow-right mr-2"></i>Continuar';
+    }
+
+    prevButton.addEventListener('click', () => {
+        if (currentQuestion > 0) {
+            currentQuestion--;
+            displayQuestion(currentQuestion);
+            updateButtons();
+        }
+    });
+
+    nextButton.addEventListener('click', () => {
+        const selectedOption = document.querySelector(`input[name="q${currentQuestion}"]:checked`);
+        if (selectedOption) {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                displayQuestion(currentQuestion);
+                updateButtons();
+            } else {
+                // Simplified submission - just redirect without processing exam data
+                fetch('/submit_exam', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({completed: true})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = data.redirect || '/';
+                    } else {
+                        window.location.href = '/psicotecnico';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    window.location.href = '/psicotecnico';
+                });
+            }
+        } else {
+            alert('Por favor, selecione uma opção antes de prosseguir.');
+        }
+    });
+
+    displayQuestion(currentQuestion);
+    updateButtons();
+</script>
+{% endblock %}

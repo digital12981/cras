@@ -1,0 +1,418 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<main class="container mx-auto px-4 py-2 mt-4 max-w-[1200px]">
+    <div class="bg-green-50 text-green-800 py-3 px-6 text-center rounded-md mb-6">
+        <h1 class="text-lg uppercase tracking-wide">Parabéns! Você foi aprovado para a vaga de Assistente Social do CRAS</h1>
+    </div>
+    
+    <!-- Ranking Information -->
+    <div class="mb-6">
+        <div class="text-center mb-4">
+            <h2 class="text-lg font-bold text-gray-800 mb-2">🏆 Classificação Final</h2>
+            <p class="text-gray-700 font-medium" id="ranking-info">Você ficou em <strong>2º lugar</strong> na seleção de vagas de <span id="user-city-display"></span></p>
+        </div>
+        
+        <!-- Ranking Table -->
+        <div class="overflow-x-auto">
+            <table class="w-full max-w-5xl mx-auto border border-gray-300 rounded-lg bg-white shadow-lg">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="border border-gray-300 px-1 py-2 text-center font-semibold w-12">Pos.</th>
+                        <th class="border border-gray-300 px-6 py-2 text-left font-semibold">Nome do Candidato</th>
+                        <th class="border border-gray-300 px-1 py-2 text-center font-semibold w-16">Nota</th>
+                    </tr>
+                </thead>
+                <tbody id="ranking-table-body">
+                    <!-- Rankings will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="mb-6">
+        <p class="mb-3 text-base">Informamos que você foi aprovado com sucesso nos exames online para a vaga de Assistente Social do CRAS. Seu processo de seleção foi avaliado e aprovado, estando liberado para realizar o curso de preparação.</p>
+    </div>
+
+    <!-- Informações da Vaga Section -->
+    <div class="m-0">
+        <div class="relative w-full min-h-[550px] p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
+            <!-- Informações da Vaga -->
+            <div class="mb-6">
+                <h2 class="text-xl font-bold text-prosegur-black mb-4">
+                    <i class="fas fa-briefcase text-prosegur-blue mr-2"></i>
+                    Informações da Vaga - Assistente Social
+                </h2>
+                
+                <div id="job-info" class="grid md:grid-cols-2 gap-6">
+                    <!-- Será preenchido via JavaScript com dados da unidade selecionada -->
+                </div>
+            </div>
+
+                    </div>
+
+
+
+    <!-- Requisitos e Documentação Section -->
+    <div class="container px-4 mt-4">
+        <div class="flex items-center gap-3 mb-6 bg-red-100 p-4 rounded-[4px]">
+            <div class="w-8 h-8 flex items-center justify-center">
+                <i class="fas fa-exclamation-triangle text-red-600"></i>
+            </div>
+            <h1 class="text-[18px] font-bold text-red-600">Para concluir o processo e garantir sua vaga no CRAS verifique os Requisitos abaixo:</h1>
+        </div>
+
+        <div class="relative">
+            <!-- Vertical bar -->
+            <div class="absolute left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-[#21C55D] to-[#21C55D]" style="background-size: 100% 45%;"></div>
+            <div class="absolute left-4 top-0 bottom-0 w-1 bg-gray-300" style="top: 45%;"></div>
+
+            <!-- Content -->
+            <div class="space-y-4 pl-11">
+                <!-- Approved items -->
+                <div class="bg-[#21C55D] bg-opacity-20 rounded-[4px] p-4 flex items-center -ml-1" style="margin-right: 20px;">
+                    <img src="https://png.pngtree.com/png-vector/20220812/ourmid/pngtree-check-3d-icon-png-image_6108005.png" alt="Check icon" class="w-10 h-10 mr-4 drop-shadow-md absolute -left-1">
+                    <span class="text-[16px] text-gray-800 font-medium">Aprovação no exame teórico</span>
+                </div>
+
+                <div class="bg-[#21C55D] bg-opacity-20 rounded-[4px] p-4 flex items-center -ml-1" style="margin-right: 20px;">
+                    <img src="https://png.pngtree.com/png-vector/20220812/ourmid/pngtree-check-3d-icon-png-image_6108005.png" alt="Check icon" class="w-10 h-10 mr-4 drop-shadow-md absolute -left-1">
+                    <span class="text-[16px] text-gray-800 font-medium">Avaliação técnica CRAS</span>
+                </div>
+
+                <div class="bg-[#21C55D] bg-opacity-20 rounded-[4px] p-4 flex items-center -ml-1" style="margin-right: 20px;">
+                    <img src="https://png.pngtree.com/png-vector/20220812/ourmid/pngtree-check-3d-icon-png-image_6108005.png" alt="Check icon" class="w-10 h-10 mr-4 drop-shadow-md absolute -left-1">
+                    <span class="text-[16px] text-gray-800 font-medium">Documentação básica</span>
+                </div>
+
+                <!-- Pending item -->
+                <div class="bg-red-100 rounded-[4px] p-4">
+                    <div class="flex items-center">
+                        <img src="https://static.vecteezy.com/system/resources/previews/017/209/854/non_2x/red-wrong-3d-ui-icon-free-png.png" alt="X icon" class="w-12 h-12 mr-4 drop-shadow-md absolute -left-2">
+                        <span class="text-[16px] text-gray-800 font-medium">Realizar exame médico de admissão</span>
+                    </div>
+                    <button class="bg-red-600 text-white font-bold py-2 px-4 rounded-[4px] mt-3 hover:bg-red-700 transition button-3d text-shadow animate-left-right" onclick="window.location.href='/chat'">
+                        AGENDAR AGORA
+                    </button>
+                </div>
+
+                <!-- Upcoming item -->
+                <div class="bg-gray-200 rounded-[4px] p-4 flex items-center -ml-1" style="margin-right: 20px;">
+                    <img src="https://icones.pro/wp-content/uploads/2021/02/icone-de-tique-ronde-grise.png" alt="Check icon" class="w-7 h-7 mr-4 drop-shadow-md absolute left-0">
+                    <span class="text-[16px] text-gray-800 font-medium">Efetivar Contratação</span>
+                </div>
+                <p class="text-[12px] text-gray-600 mt-1">
+                    Para garantir sua vaga de emprego no <strong>CRAS</strong> é obrigatório realizar o <strong>exame médico de admissão</strong> que é oferecido <strong>gratuitamente pelo CRAS</strong>. O exame garante que você está apto para exercer as funções de Assistente Social.
+                </p>
+                <p class="text-[12px] text-gray-600 mt-2">
+                    Após o exame de admissão, é necessário levar os <strong>documentos pessoais</strong>, <strong>resultado do exame médico</strong> e a <strong>carteira de trabalho</strong> na unidade do CRAS para efetivação da contratação.
+                </p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Recuperar dados da unidade CRAS selecionada
+        const selectedUnit = JSON.parse(localStorage.getItem('selectedCrasUnit') || '{}');
+        
+        // State vacancy mapping
+        const stateVacancies = {
+            'AC': 5, 'AL': 6, 'AP': 4, 'AM': 8, 'BA': 15, 'CE': 10, 'DF': 7, 'ES': 6,
+            'GO': 9, 'MA': 8, 'MT': 7, 'MS': 6, 'MG': 20, 'PA': 8, 'PB': 5, 'PR': 25,
+            'PE': 10, 'PI': 5, 'RJ': 30, 'RN': 6, 'RS': 20, 'RO': 5, 'RR': 4, 'SC': 12,
+            'SP': 50, 'SE': 5, 'TO': 5
+        };
+
+        // State name mapping for display
+        const stateNames = {
+            'AC': 'Acre', 'AL': 'Alagoas', 'AP': 'Amapá', 'AM': 'Amazonas', 'BA': 'Bahia', 
+            'CE': 'Ceará', 'DF': 'Distrito Federal', 'ES': 'Espírito Santo', 'GO': 'Goiás', 
+            'MA': 'Maranhão', 'MT': 'Mato Grosso', 'MS': 'Mato Grosso do Sul', 'MG': 'Minas Gerais', 
+            'PA': 'Pará', 'PB': 'Paraíba', 'PR': 'Paraná', 'PE': 'Pernambuco', 'PI': 'Piauí', 
+            'RJ': 'Rio de Janeiro', 'RN': 'Rio Grande do Norte', 'RS': 'Rio Grande do Sul', 
+            'RO': 'Rondônia', 'RR': 'Roraima', 'SC': 'Santa Catarina', 'SP': 'São Paulo', 
+            'SE': 'Sergipe', 'TO': 'Tocantins'
+        };
+
+        // Female names for generating candidates (maioria feminina)
+        const femaleNames = [
+            'MARIA SILVA SANTOS', 'ANA BEATRIZ COSTA', 'JULIANA FERREIRA SOUZA', 'CARLA CRISTINA RODRIGUES',
+            'FERNANDA MARIA BORGES', 'PATRICIA HELENA MARTINS', 'AMANDA CAROLINE DIAS', 'VIVIANE CRISTIANE NUNES',
+            'CLAUDIA REGINA ALVES', 'SIMONE APARECIDA CRUZ', 'DANIELA CRISTINE MOURA', 'LUCIANA TORRES SILVA',
+            'ROBERTA SANTOS LIMA', 'SANDRA CRISTINA ROCHA', 'MONICA APARECIDA LIMA', 'RENATA GOMES PEREIRA',
+            'CRISTINA MARIA OLIVEIRA', 'ELISANGELA JOSE SILVA', 'VANESSA CRISTINA ALMEIDA', 'KARINA SOUZA MACHADO'
+        ];
+
+        const maleNames = [
+            'JOÃO CARLOS OLIVEIRA', 'PEDRO HENRIQUE LIMA', 'RAFAEL AUGUSTO PEREIRA', 'LUCAS GABRIEL ALMEIDA',
+            'DIEGO ANTONIO BARBOSA', 'THIAGO EDUARDO ROCHA', 'BRUNO RAFAEL GOMES', 'CARLOS EDUARDO SILVA',
+            'MARCOS ANTONIO LIMA', 'ANDRE LUIS FERREIRA'
+        ];
+
+        // Debug localStorage
+        console.log('Selected Unit from localStorage:', selectedUnit);
+        
+        // Preencher informações da vaga se houver unidade selecionada
+        if (selectedUnit && selectedUnit.name) {
+            const jobInfoContainer = document.getElementById('job-info');
+            jobInfoContainer.innerHTML = `
+                <div>
+                    <h3 class="font-semibold text-prosegur-black mb-3">Local de Trabalho:</h3>
+                    <p class="text-prosegur-gray mb-2"><strong>Unidade:</strong> ${selectedUnit.name}</p>
+                    <p class="text-prosegur-gray mb-2"><strong>Endereço:</strong> ${selectedUnit.address}</p>
+                    <p class="text-prosegur-gray mb-2"><strong>Cidade:</strong> ${selectedUnit.city}</p>
+                    <p class="text-prosegur-gray mb-4"><strong>Vagas Disponíveis:</strong> ${selectedUnit.vacancies}</p>
+                    
+                    <h3 class="font-semibold text-prosegur-black mb-3">Condições de Trabalho:</h3>
+                    <p class="text-prosegur-gray mb-1"><strong>Carga Horária:</strong> 40 horas semanais</p>
+                    <p class="text-prosegur-gray mb-1"><strong>Horário:</strong> 08:00 às 17:00 (Segunda a Sexta)</p>
+                    <p class="text-prosegur-gray mb-1"><strong>Salário:</strong> R$ 4.500 - R$ 5.500</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-prosegur-black mb-3">Benefícios:</h3>
+                    <ul class="space-y-1 text-prosegur-gray mb-4">
+                        <li>• Vale transporte</li>
+                        <li>• Vale alimentação (R$ 1.320,00)</li>
+                        <li>• Plano de saúde básico</li>
+                        <li>• 13º salário</li>
+                        <li>• Férias remuneradas</li>
+                    </ul>
+                    
+                    <h3 class="font-semibold text-prosegur-black mb-3">Requisitos:</h3>
+                    <p class="text-prosegur-gray mb-2">✓ <strong>Não é necessário</strong> curso superior ou técnico</p>
+                    <p class="text-prosegur-gray mb-2">✓ Ensino médio completo</p>
+                    <p class="text-prosegur-gray mb-4">✓ O CRAS oferecerá <strong>curso gratuito</strong> de Serviço Social para sua preparação</p>
+                </div>
+            `;
+        } else {
+            // Fallback se não houver unidade selecionada
+            const jobInfoContainer = document.getElementById('job-info');
+            jobInfoContainer.innerHTML = `
+                <div>
+                    <h3 class="font-semibold text-prosegur-black mb-3">Local de Trabalho:</h3>
+                    <p class="text-prosegur-gray mb-2">Unidade CRAS será definida após seleção</p>
+                    
+                    <h3 class="font-semibold text-prosegur-black mb-3">Condições de Trabalho:</h3>
+                    <p class="text-prosegur-gray mb-1"><strong>Carga Horária:</strong> 40 horas semanais</p>
+                    <p class="text-prosegur-gray mb-1"><strong>Horário:</strong> 08:00 às 17:00 (Segunda a Sexta)</p>
+                    <p class="text-prosegur-gray mb-1"><strong>Salário:</strong> R$ 4.500 - R$ 5.500</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-prosegur-black mb-3">Benefícios:</h3>
+                    <ul class="space-y-1 text-prosegur-gray mb-4">
+                        <li>• Vale transporte</li>
+                        <li>• Vale alimentação (R$ 1.320,00)</li>
+                        <li>• Plano de saúde básico</li>
+                        <li>• 13º salário</li>
+                        <li>• Férias remuneradas</li>
+                    </ul>
+                    
+                    <h3 class="font-semibold text-prosegur-black mb-3">Requisitos:</h3>
+                    <p class="text-prosegur-gray mb-2">✓ <strong>Não é necessário</strong> curso superior ou técnico</p>
+                    <p class="text-prosegur-gray mb-2">✓ Ensino médio completo</p>
+                    <p class="text-prosegur-gray mb-4">✓ O CRAS oferecerá <strong>curso gratuito</strong> de Serviço Social para sua preparação</p>
+                </div>
+            `;
+        }
+
+        // Generate ranking based on user's state or selected unit
+        function generateRanking() {
+            const userState = localStorage.getItem('candidateState') || 'SP';
+            const userCity = localStorage.getItem('candidateCity') || 'São Paulo'; 
+            const userName = localStorage.getItem('candidateName') || localStorage.getItem('full_name') || 'CANDIDATO USUARIO';
+            
+            console.log('Debug - User state:', userState, 'User city:', userCity, 'User name:', userName);
+            
+            // Display user city and state name
+            const stateName = stateNames[userState] || userState;
+            document.getElementById('user-city-display').textContent = `${userCity} - ${stateName}`;
+            
+            // Get number of vacancies - use selected unit if available, otherwise state default
+            let vacancies;
+            if (selectedUnit && selectedUnit.vacancies) {
+                vacancies = parseInt(selectedUnit.vacancies);
+                console.log('Using unit vacancies:', vacancies);
+            } else {
+                vacancies = stateVacancies[userState] || 10;
+                console.log('Using state default vacancies:', vacancies);
+            }
+            
+            // Generate candidates with 70% female, 30% male
+            // Reserve 1 spot for user, so generate (vacancies - 1) other candidates
+            const otherCandidatesCount = vacancies - 1;
+            const femaleCount = Math.floor(otherCandidatesCount * 0.7);
+            const maleCount = otherCandidatesCount - femaleCount;
+            
+            const candidates = [];
+            
+            // Add female candidates
+            const shuffledFemales = [...femaleNames].sort(() => Math.random() - 0.5);
+            for (let i = 0; i < femaleCount; i++) {
+                candidates.push({
+                    name: shuffledFemales[i] || `CANDIDATA ${i + 1}`,
+                    score: 19 - (i * 0.5) - Math.random() * 2,
+                    isUser: false
+                });
+            }
+            
+            // Add male candidates
+            const shuffledMales = [...maleNames].sort(() => Math.random() - 0.5);
+            for (let i = 0; i < maleCount; i++) {
+                candidates.push({
+                    name: shuffledMales[i] || `CANDIDATO ${i + 1}`,
+                    score: 19 - ((femaleCount + i) * 0.5) - Math.random() * 2,
+                    isUser: false
+                });
+            }
+            
+            // Shuffle all candidates
+            candidates.sort(() => Math.random() - 0.5);
+            
+            // Sort by score descending first
+            candidates.sort((a, b) => b.score - a.score);
+            
+            // Add user as 2nd place candidate
+            if (candidates.length >= 1) {
+                // Set user score slightly lower than 1st place
+                const firstPlaceScore = candidates[0] ? candidates[0].score : 19;
+                
+                const userCandidate = {
+                    name: userName.toUpperCase(),
+                    score: firstPlaceScore - 0.5, // Garantir que fica em 2º lugar
+                    isUser: true
+                };
+                
+                // Insert user at position 1 (2nd place)
+                candidates.splice(1, 0, userCandidate);
+            } else {
+                // If somehow no other candidates, add user as first
+                candidates.push({
+                    name: userName.toUpperCase(),
+                    score: 19,
+                    isUser: true
+                });
+            }
+            
+            // Ensure we have exactly the number of vacancies
+            while (candidates.length > vacancies) {
+                candidates.pop();
+            }
+            
+            // Populate table
+            const tableBody = document.getElementById('ranking-table-body');
+            tableBody.innerHTML = '';
+            
+            // Store all candidate names in localStorage
+            const candidateNames = candidates.map(candidate => candidate.name);
+            localStorage.setItem('rankingCandidates', JSON.stringify(candidateNames));
+            
+            candidates.forEach((candidate, index) => {
+                const row = document.createElement('tr');
+                const position = index + 1;
+                
+                if (candidate.isUser) {
+                    row.className = 'bg-green-50 border-green-200';
+                }
+                
+                row.innerHTML = `
+                    <td class="border border-gray-300 px-1 py-2 font-bold text-center w-12">${position}º</td>
+                    <td class="border border-gray-300 px-6 py-2 ${candidate.isUser ? 'font-bold text-green-700' : ''}">${candidate.name}</td>
+                    <td class="border border-gray-300 px-1 py-2 text-center font-bold w-16">${candidate.score.toFixed(1)}/20</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Generate ranking immediately
+        generateRanking();
+
+        // Get user data and regenerate ranking with correct name
+        fetch('/get_user_data')
+            .then(response => response.json())
+            .then(data => {
+                // Store complete user data in localStorage
+                if (data.full_name) {
+                    localStorage.setItem('candidateName', data.full_name);
+                }
+                if (data.cpf) {
+                    localStorage.setItem('candidateCPF', data.cpf);
+                }
+                
+                // Also store the complete user data object
+                localStorage.setItem('userData', JSON.stringify(data));
+                
+                // Regenerate ranking with correct name
+                if (data.full_name) {
+                    generateRanking();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Fallback: try to get name from localStorage
+                const storedName = localStorage.getItem('candidateName');
+                if (storedName && storedName !== 'CANDIDATO USUARIO') {
+                    generateRanking();
+                }
+            });
+
+
+    });
+
+let experienceCount = 1;
+
+function toggleExperience(show) {
+    const experienceSection = document.getElementById('experience-section');
+    experienceSection.style.display = show ? 'block' : 'none';
+}
+
+function addExperience() {
+    experienceCount++;
+    const container = document.getElementById('experience-container');
+    
+    const newExperience = document.createElement('div');
+    newExperience.className = 'experience-item border p-4 rounded mb-4';
+    newExperience.innerHTML = `
+        <h4 class="font-semibold mb-3">Experiência Profissional ${experienceCount}</h4>
+        
+        <div class="grid md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-prosegur-black mb-1">
+                    Qual função você exercia/exerce?
+                </label>
+                <textarea name="job_function_${experienceCount}" rows="3" 
+                    class="w-full p-2 border rounded focus:ring-2 focus:ring-prosegur-blue"
+                    placeholder="Descreva suas principais atividades..."></textarea>
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-prosegur-black mb-1">
+                    Por quanto tempo trabalhou/trabalha?
+                </label>
+                <input type="text" name="job_duration_${experienceCount}" 
+                    class="w-full p-2 border rounded focus:ring-2 focus:ring-prosegur-blue"
+                    placeholder="Ex: 2 anos, 6 meses...">
+            </div>
+        </div>
+        
+        <button type="button" onclick="removeExperience(this)" 
+                class="mt-2 text-red-600 hover:text-red-800">
+            <i class="fas fa-trash mr-1"></i>Remover esta experiência
+        </button>
+    `;
+    
+    container.appendChild(newExperience);
+}
+
+function removeExperience(button) {
+    button.closest('.experience-item').remove();
+}
+
+document.getElementById('interview-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('Entrevista finalizada com sucesso! Entraremos em contato em breve.');
+});
+</script>
+{% endblock %}

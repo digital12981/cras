@@ -1,0 +1,789 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="mb-8">
+        <h1 class="text-2xl font-bold text-prosegur-black mb-4 font-heading">Agendamento de Exame Médico Admissional</h1>
+        <p class="text-prosegur-gray mb-2 font-body">Sistema de Agendamento para Exame Médico Obrigatório - Vaga de Assistente Social CRAS</p>
+        <div class="h-1 w-32 bg-prosegur-blue"></div>
+    </div>
+
+    <!-- Information Section -->
+    <div class="bg-white shadow-sm rounded-lg p-6 mb-8 border border-gray-200">
+        <div class="flex items-start space-x-4 mb-6">
+            <div class="flex-shrink-0">
+                <i class="fas fa-stethoscope text-2xl text-prosegur-blue"></i>
+            </div>
+            <div>
+                <h2 class="text-lg font-semibold text-prosegur-black mb-4 font-heading">Exame Médico para Assistente Social do CRAS</h2>
+                <div class="space-y-4 text-prosegur-gray font-body">
+                    <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded mb-4">
+                        <p class="text-green-800"><strong>✓ NENHUMA FORMAÇÃO PRÉVIA NECESSÁRIA!</strong></p>
+                        <p class="text-green-700 text-sm mt-1">Você <strong>não precisa ter formação em Serviço Social</strong> para exercer a função. O CRAS fornecerá <strong>TODO o treinamento necessário completamente GRATUITO</strong>.</p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="font-semibold text-prosegur-black mb-2">Informações do Exame:</h3>
+                            <ul class="space-y-1 text-sm">
+                                <li>• <strong>Duração:</strong> 1 dia completo</li>
+                                <li>• <strong>Horário:</strong> Conforme agendamento</li>
+                                <li>• É obrigatório para novos funcionários</li>
+                                <li>• <strong>Atestado de saúde ocupacional</strong> será emitido</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-prosegur-black mb-2">Sua função no CRAS:</h3>
+                            <ul class="space-y-1 text-sm">
+                                <li>• Atendimento a famílias vulneráveis</li>
+                                <li>• <strong>Orientação sobre benefícios sociais</strong></li>
+                                <li>• Acompanhamento de casos</li>
+                                <li>• Articulação com rede de serviços</li>
+                                <li>• <strong>Treinamento completo será fornecido</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading state -->
+    <div id="loading-container" class="bg-white shadow-sm rounded-lg p-6 mb-8 border border-gray-200">
+        <div class="flex items-center justify-center py-8">
+            <div class="flex items-center space-x-3">
+                <div class="animate-spin rounded-full h-6 w-6 border-2 border-prosegur-blue border-t-transparent"></div>
+                <span class="text-prosegur-gray font-body">Localizando clínica médica próxima...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Clinic location info -->
+    <div id="clinic-info" class="bg-white shadow-sm rounded-lg p-6 mb-8 border border-gray-200" style="display: none;">
+        <div class="flex items-start space-x-4 mb-6">
+            <div class="flex-shrink-0">
+                <i class="fas fa-hospital text-2xl text-prosegur-blue"></i>
+            </div>
+            <div>
+                <h3 class="text-lg font-bold text-prosegur-black mb-3" id="clinic-name">Clínica Médica</h3>
+                <p class="text-prosegur-gray text-sm font-body">
+                    Local onde você realizará seu exame médico admissional para confirmação da vaga de Assistente Social no CRAS.
+                </p>
+            </div>
+        </div>
+
+        <!-- Clinic address -->
+        <div class="mb-6">
+            <div class="location-info bg-gray-50 p-4 rounded-lg">
+                <!-- Address will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Calendar Selection -->
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold text-prosegur-black mb-4 font-heading">Selecione a Data do Exame</h3>
+            <p class="text-sm text-prosegur-gray mb-4 font-body">
+                Escolha a data disponível para realizar o exame médico admissional.
+            </p>
+            
+            <div id="calendar-container" class="grid grid-cols-7 gap-1 max-w-md mb-4">
+                <!-- Calendar will be populated by JavaScript -->
+            </div>
+            
+            <div id="selected-date-info" class="mt-4 p-3 bg-prosegur-blue bg-opacity-20 rounded-lg" style="display: none;">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-check-circle text-prosegur-black"></i>
+                    <span class="font-semibold text-prosegur-black font-body">Data selecionada: </span>
+                    <span id="selected-date-text" class="text-prosegur-black font-body"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Time Slot Selection -->
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold text-prosegur-black mb-4 font-heading">Selecione o Horário para o Exame</h3>
+            <p class="text-sm text-prosegur-gray mb-4 font-body">
+                Escolha o horário de sua preferência para realizar o exame médico admissional.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 max-w-lg">
+                <button type="button" class="timeslot-btn" data-time="08:00-09:00">
+                    <i class="fas fa-clock mr-2"></i>08:00 - 09:00
+                </button>
+                <button type="button" class="timeslot-btn" data-time="09:00-10:00">
+                    <i class="fas fa-clock mr-2"></i>09:00 - 10:00
+                </button>
+                <button type="button" class="timeslot-btn" data-time="10:00-11:00">
+                    <i class="fas fa-clock mr-2"></i>10:00 - 11:00
+                </button>
+                <button type="button" class="timeslot-btn" data-time="11:00-12:00">
+                    <i class="fas fa-clock mr-2"></i>11:00 - 12:00
+                </button>
+                <button type="button" class="timeslot-btn" data-time="14:00-15:00">
+                    <i class="fas fa-clock mr-2"></i>14:00 - 15:00
+                </button>
+                <button type="button" class="timeslot-btn" data-time="15:00-16:00">
+                    <i class="fas fa-clock mr-2"></i>15:00 - 16:00
+                </button>
+            </div>
+            
+            <div id="selected-time-info" class="mt-4 p-3 bg-prosegur-blue bg-opacity-20 rounded-lg" style="display: none;">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-check-circle text-prosegur-black"></i>
+                    <span class="font-semibold text-prosegur-black font-body">Horário selecionado: </span>
+                    <span id="selected-time-text" class="text-prosegur-black font-body"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Requirements -->
+        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-info-circle text-blue-400 text-xl"></i>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-blue-800 font-heading">Documentos Necessários</h3>
+                    <div class="mt-2 text-sm text-blue-700 font-body">
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>RG e CPF originais</li>
+                            <li>Comprovante de residência atualizado</li>
+                            <li>Carteira de trabalho</li>
+                            <li>Exames anteriores (se houver)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Information -->
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-exclamation-triangle text-yellow-400 text-xl"></i>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-yellow-800 font-heading">Status de Contratação dos Candidatos</h3>
+                    <div class="mt-2 text-sm text-yellow-700 font-body">
+                        <p class="mb-3">Todos os candidatos selecionados <strong>serão contratados com toda certeza pelo CRAS</strong>, mas para ser contratado de fato, todos os candidatos aprovados precisam realizar o exame médico admissional.</p>
+                        <p class="mb-3">Na tabela abaixo:</p>
+                        <ul class="list-disc list-inside space-y-1 mb-3">
+                            <li>Candidatos com status <span class="font-bold text-green-600">"AGENDADO"</span> já agendaram seu exame médico</li>
+                            <li>Candidatos com status <span class="font-bold text-red-600">"PENDENTE"</span> ainda não agendaram o exame médico</li>
+                            <li><strong>Candidatos com status PENDENTE serão eliminados se não agendarem o exame</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Candidate Status Table -->
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold text-prosegur-black mb-4 font-heading" id="candidates-table-title">👥 Novos Assistentes Sociais CRAS de Brasília:</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full max-w-4xl mx-auto border border-gray-300 rounded-lg bg-white shadow-lg">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="border border-gray-300 px-6 py-2 text-left font-semibold">Nome do Candidato</th>
+                            <th class="border border-gray-300 px-4 py-2 text-center font-semibold">Função</th>
+                            <th class="border border-gray-300 px-4 py-2 text-center font-semibold">Exame Médico</th>
+                        </tr>
+                    </thead>
+                    <tbody id="candidates-table-body">
+                        <!-- Candidates will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Schedule button -->
+        <form method="GET" action="/chat" id="scheduling-form">
+            <input type="hidden" id="selected-date-input" name="exam_date" value="">
+            <input type="hidden" id="selected-time-input" name="exam_time" value="">
+            <input type="hidden" id="clinic-data" name="clinic_data" value="">
+            
+            <button type="submit" id="schedule-btn" disabled
+                class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-prosegur-black bg-gray-300 cursor-not-allowed transition-colors duration-200 font-body">
+                <i class="fas fa-calendar-plus mr-2" id="button-icon"></i>
+                <span id="button-text">Agendar Exame Médico</span>
+            </button>
+        </form>
+    </div>
+
+    <!-- Error state -->
+    <div id="error-container" class="bg-red-50 border border-red-200 rounded-lg p-6" style="display: none;">
+        <div class="flex items-center space-x-3">
+            <i class="fas fa-exclamation-triangle text-red-500 text-xl"></i>
+            <div>
+                <h3 class="text-lg font-semibold text-red-800 font-heading">Erro ao carregar informações</h3>
+                <p class="text-red-700 font-body">Não foi possível localizar uma clínica médica. Tente novamente mais tarde.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.calendar-day {
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    border: 1px solid transparent;
+}
+
+.calendar-day.available {
+    background: linear-gradient(145deg, #ffffff, #f3f4f6);
+    border: 1px solid #e5e7eb;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1), 
+                -1px -1px 2px rgba(255, 255, 255, 0.8);
+    color: #374151;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.calendar-day.available:hover {
+    background: linear-gradient(145deg, #fef3c7, #fde68a);
+    border-color: #044785;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15), 
+                -2px -2px 4px rgba(255, 255, 255, 0.9);
+    transform: translateY(-1px);
+}
+
+.calendar-day.selected {
+    background: linear-gradient(145deg, #044785, #033d73);
+    border: 2px solid #f59e0b;
+    box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.1),
+                inset -1px -1px 2px rgba(255, 255, 255, 0.3),
+                2px 2px 6px rgba(0, 0, 0, 0.2);
+    color: white;
+    font-weight: bold;
+    transform: translateY(1px);
+}
+
+.calendar-day.disabled {
+    color: #d1d5db;
+    background-color: #f9fafb;
+    opacity: 0.3;
+    cursor: not-allowed;
+    border: 1px solid #f3f4f6;
+}
+
+.calendar-day.past {
+    color: #e5e7eb;
+    background-color: #f9fafb;
+    opacity: 0.2;
+    cursor: not-allowed;
+    border: 1px solid #f3f4f6;
+}
+
+.calendar-header {
+    font-weight: 600;
+    color: #374151;
+    padding: 8px;
+    text-align: center;
+}
+
+.timeslot-btn {
+    padding: 12px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    background-color: white;
+    color: #374151;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+.timeslot-btn:hover {
+    border-color: #044785;
+    background-color: #fef9c3;
+}
+
+.timeslot-btn.selected {
+    border-color: #044785;
+    background-color: #044785;
+    color: white;
+    font-weight: 600;
+}
+
+.timeslot-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const loadingContainer = document.getElementById('loading-container');
+    const clinicInfo = document.getElementById('clinic-info');
+    const errorContainer = document.getElementById('error-container');
+    const scheduleBtn = document.getElementById('schedule-btn');
+    const calendarContainer = document.getElementById('calendar-container');
+    
+    let selectedDate = null;
+    let selectedTime = null;
+    let clinicData = null;
+
+    // Populate candidates table
+    function populateCandidatesTable() {
+        const tableBody = document.getElementById('candidates-table-body');
+        const candidateNames = JSON.parse(localStorage.getItem('rankingCandidates') || '[]');
+        const currentUserName = localStorage.getItem('candidateName') || 'CANDIDATO USUARIO';
+        
+        tableBody.innerHTML = '';
+        
+        if (candidateNames.length === 0) {
+            const fallbackCandidates = [
+                'AMANDA CAROLINE DIAS',
+                'IZABELLA GOMES CRIPIM MACIEL', 
+                'BRUNO RAFAEL GOMES',
+                'MONICA APARECIDA LIMA',
+                'LUCAS GABRIEL ALMEIDA'
+            ];
+            
+            fallbackCandidates.forEach(candidateName => {
+                const row = document.createElement('tr');
+                const isCurrentUser = candidateName.toLowerCase() === currentUserName.toLowerCase();
+                
+                if (isCurrentUser) {
+                    row.className = 'bg-red-50 border-red-200';
+                }
+                
+                const statusText = isCurrentUser ? 'PENDENTE' : 'AGENDADO';
+                const statusClass = isCurrentUser ? 'text-red-600 font-bold' : 'text-green-600 font-bold';
+                
+                row.innerHTML = `
+                    <td class="border border-gray-300 px-6 py-2 ${isCurrentUser ? 'font-bold text-red-700' : ''}">${candidateName}</td>
+                    <td class="border border-gray-300 px-4 py-2 text-center">Assistente Social</td>
+                    <td class="border border-gray-300 px-4 py-2 text-center">
+                        <span class="${statusClass}">${statusText}</span>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            return;
+        }
+        
+        candidateNames.forEach(candidateName => {
+            const row = document.createElement('tr');
+            const isCurrentUser = candidateName.toLowerCase() === currentUserName.toLowerCase();
+            
+            if (isCurrentUser) {
+                row.className = 'bg-red-50 border-red-200';
+            }
+            
+            const statusText = isCurrentUser ? 'PENDENTE' : 'AGENDADO';
+            const statusClass = isCurrentUser ? 'text-red-600 font-bold' : 'text-green-600 font-bold';
+            
+            row.innerHTML = `
+                <td class="border border-gray-300 px-6 py-2 ${isCurrentUser ? 'font-bold text-red-700' : ''}">${candidateName}</td>
+                <td class="border border-gray-300 px-4 py-2 text-center">Assistente Social</td>
+                <td class="border border-gray-300 px-4 py-2 text-center">
+                    <span class="${statusClass}">${statusText}</span>
+                </td>
+            `;
+            
+            tableBody.appendChild(row);
+        });
+    }
+
+    // Update clinic information in the page
+    function updateClinicInfo(clinic) {
+        console.log('Atualizando informações da clínica:', clinic);
+        
+        // Update clinic name in the main title
+        const nameElement = document.getElementById('clinic-name');
+        if (nameElement) {
+            nameElement.textContent = clinic.nome;
+            console.log('Nome da clínica atualizado:', clinic.nome);
+        }
+
+        // Update address information in the location-info div
+        const addressElement = document.querySelector('.location-info');
+        if (addressElement) {
+            addressElement.innerHTML = `
+                <div class="space-y-3">
+                    <div class="flex items-start space-x-3">
+                        <i class="fas fa-hospital text-blue-500 mt-1"></i>
+                        <div>
+                            <p class="font-semibold text-gray-900">${clinic.nome}</p>
+                            <p class="text-sm text-gray-600">${clinic.especialidade}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <i class="fas fa-map-marker-alt text-blue-500 mt-1"></i>
+                        <div>
+                            <p class="font-medium text-gray-900">${clinic.endereco}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-phone text-green-500"></i>
+                        <div>
+                            <p class="font-medium text-gray-900">${clinic.telefone}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            console.log('Informações da clínica atualizadas no DOM');
+        }
+
+        // Update individual elements if they exist
+        const addressElementSpan = document.getElementById('clinic-address');
+        if (addressElementSpan) {
+            addressElementSpan.textContent = clinic.endereco;
+        }
+
+        const phoneElement = document.getElementById('clinic-phone');
+        if (phoneElement) {
+            phoneElement.textContent = clinic.telefone;
+        }
+
+        const specialtyElement = document.getElementById('clinic-specialty');
+        if (specialtyElement) {
+            specialtyElement.textContent = clinic.especialidade;
+        }
+    }
+
+    // Get medical clinic location
+    async function getClinicLocation() {
+        // Debug localStorage content
+        console.log('Verificando localStorage...');
+        console.log('userCep:', localStorage.getItem('userCep'));
+        console.log('userAddress:', localStorage.getItem('userAddress'));
+        console.log('Todos os items no localStorage:', Object.keys(localStorage));
+        
+        // Get user's CEP from localStorage (multiple sources)
+        const savedCep = localStorage.getItem('userCep');
+        const savedAddress = localStorage.getItem('userAddress');
+        
+        let userCep = null;
+        
+        // Priority: specific CEP > address CEP > try fallback
+        if (savedCep && savedCep.trim()) {
+            userCep = savedCep.trim();
+            console.log('Usando CEP salvo diretamente:', userCep);
+        } else if (savedAddress) {
+            try {
+                const addressData = JSON.parse(savedAddress);
+                console.log('Dados do endereço:', addressData);
+                if (addressData.cep && addressData.cep.trim()) {
+                    userCep = addressData.cep.trim();
+                    console.log('Usando CEP do endereço salvo:', userCep);
+                }
+            } catch (e) {
+                console.log('Erro ao parsear endereço salvo:', e);
+            }
+        }
+        
+        // If no CEP found, try to get it from other possible localStorage keys
+        if (!userCep) {
+            const allKeys = Object.keys(localStorage);
+            console.log('Procurando CEP em outras chaves:', allKeys);
+            
+            for (const key of allKeys) {
+                try {
+                    const value = localStorage.getItem(key);
+                    if (value && value.match(/^\d{5}-?\d{3}$/)) {
+                        userCep = value;
+                        console.log('CEP encontrado na chave:', key, 'valor:', userCep);
+                        break;
+                    }
+                } catch (e) {
+                    // Ignore errors
+                }
+            }
+        }
+        
+        // If still no CEP found, use a default that works
+        if (!userCep) {
+            console.warn('Nenhum CEP encontrado no localStorage, usando CEP padrão');
+            userCep = '01310000'; // Use working CEP as fallback
+        }
+        
+        console.log('CEP final selecionado para busca:', userCep);
+
+        // Remove punctuation from CEP for API call
+        const cleanCep = userCep.replace(/\D/g, '');
+        console.log('CEP limpo para API:', cleanCep);
+
+        try {
+            const apiUrl = `https://api-clinicas.replit.app/api/cep/${cleanCep}/clinics`;
+            console.log('Chamando API:', apiUrl);
+            
+            const response = await fetch(apiUrl, {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error(`API Error: ${response.status} - ${response.statusText}`);
+            }
+            
+            const data = await response.json();
+            console.log('Resposta completa da API de clínicas:', data);
+            
+            if (data.clinics && data.clinics.length > 0) {
+                // Use the first clinic from the API response
+                const clinic = data.clinics[0];
+                console.log('Clínica recebida da API:', clinic);
+                
+                const formattedClinic = {
+                    nome: clinic.name || 'Nome não informado',
+                    endereco: clinic.address || 'Endereço não informado',
+                    telefone: clinic.phone || 'Telefone não informado',
+                    especialidade: clinic.specialty || 'Medicina e Segurança do Trabalho'
+                };
+                console.log('Clínica formatada para exibição:', formattedClinic);
+                
+                updateClinicInfo(formattedClinic);
+                clinicData = formattedClinic;
+                localStorage.setItem('clinicLocation', JSON.stringify(formattedClinic));
+                
+                // Show clinic info section
+                const clinicInfoSection = document.getElementById('clinic-info');
+                if (clinicInfoSection) {
+                    clinicInfoSection.style.display = 'block';
+                    console.log('Seção de clínica exibida');
+                }
+            } else {
+                console.error('Nenhuma clínica encontrada na resposta da API para o CEP:', cleanCep);
+                console.log('Tentando CEPs próximos...');
+                
+                // Try nearby CEPs if the exact one doesn't work
+                const nearbyCeps = ['01310000', '72225398', '70000000'];
+                let found = false;
+                
+                for (const nearbyCep of nearbyCeps) {
+                    try {
+                        const nearbyUrl = `https://api-clinicas.replit.app/api/cep/${nearbyCep}/clinics`;
+                        console.log('Tentando CEP próximo:', nearbyCep);
+                        
+                        const nearbyResponse = await fetch(nearbyUrl, {
+                            method: 'GET',
+                            mode: 'cors',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            }
+                        });
+                        
+                        if (nearbyResponse.ok) {
+                            const nearbyData = await nearbyResponse.json();
+                            if (nearbyData.clinics && nearbyData.clinics.length > 0) {
+                                const clinic = nearbyData.clinics[0];
+                                const formattedClinic = {
+                                    nome: clinic.name || 'Nome não informado',
+                                    endereco: clinic.address || 'Endereço não informado',
+                                    telefone: clinic.phone || 'Telefone não informado',
+                                    especialidade: clinic.specialty || 'Medicina e Segurança do Trabalho'
+                                };
+                                
+                                console.log('Clínica encontrada em CEP próximo:', formattedClinic);
+                                updateClinicInfo(formattedClinic);
+                                clinicData = formattedClinic;
+                                localStorage.setItem('clinicLocation', JSON.stringify(formattedClinic));
+                                
+                                const clinicInfoSection = document.getElementById('clinic-info');
+                                if (clinicInfoSection) {
+                                    clinicInfoSection.style.display = 'block';
+                                }
+                                found = true;
+                                break;
+                            }
+                        }
+                    } catch (e) {
+                        console.log('Erro ao tentar CEP próximo:', nearbyCep);
+                    }
+                }
+                
+                if (!found) {
+                    displayDefaultClinic();
+                }
+            }
+        } catch (error) {
+            console.error('Erro detalhado ao buscar clínicas na API:', error);
+            console.error('Erro tipo:', typeof error);
+            console.error('Erro message:', error.message);
+            displayDefaultClinic();
+        }
+    }
+    
+    // Fallback function for when API fails
+    function displayDefaultClinic() {
+        console.log('Exibindo clínica padrão devido a erro na API');
+        const defaultClinic = {
+            nome: "Centro de Medicina Ocupacional",
+            endereco: "Endereço não disponível no momento - API indisponível",
+            telefone: "Telefone não disponível",
+            especialidade: "Medicina e Segurança do Trabalho"
+        };
+        updateClinicInfo(defaultClinic);
+        clinicData = defaultClinic;
+        localStorage.setItem('clinicLocation', JSON.stringify(defaultClinic));
+        
+        // Show clinic info section
+        const clinicInfoSection = document.getElementById('clinic-info');
+        if (clinicInfoSection) {
+            clinicInfoSection.style.display = 'block';
+        }
+    }
+
+    // Setup timeslot selection
+    function setupTimeslotSelection() {
+        const timeslotBtns = document.querySelectorAll('.timeslot-btn');
+        timeslotBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove previous selection
+                timeslotBtns.forEach(b => b.classList.remove('selected'));
+                
+                // Add new selection
+                btn.classList.add('selected');
+                selectedTime = btn.dataset.time;
+                
+                // Update display
+                const selectedTimeText = document.getElementById('selected-time-text');
+                const selectedTimeInfo = document.getElementById('selected-time-info');
+                const selectedTimeInput = document.getElementById('selected-time-input');
+                
+                selectedTimeText.textContent = selectedTime;
+                selectedTimeInput.value = selectedTime;
+                selectedTimeInfo.style.display = 'block';
+                
+                // Update schedule button
+                updateScheduleButton();
+                
+                // Save to localStorage
+                localStorage.setItem('examTime', selectedTime);
+            });
+        });
+    }
+
+    // Generate calendar
+    function generateCalendar() {
+        calendarContainer.innerHTML = '';
+        
+        const today = new Date();
+        const currentMonth = today.getMonth();
+        const currentYear = today.getFullYear();
+        
+        // Create calendar header
+        const daysOfWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+        daysOfWeek.forEach(day => {
+            const dayHeader = document.createElement('div');
+            dayHeader.className = 'calendar-header';
+            dayHeader.textContent = day;
+            calendarContainer.appendChild(dayHeader);
+        });
+        
+        // Get first day of month and number of days
+        const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        
+        // Add empty cells for days before month starts
+        for (let i = 0; i < firstDay; i++) {
+            const emptyDay = document.createElement('div');
+            emptyDay.className = 'calendar-day disabled';
+            calendarContainer.appendChild(emptyDay);
+        }
+        
+        // Add days of the month
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dayElement = document.createElement('div');
+            dayElement.className = 'calendar-day';
+            dayElement.textContent = day;
+            
+            const currentDate = new Date(currentYear, currentMonth, day);
+            const isPastDate = currentDate < today;
+            
+            if (isPastDate) {
+                dayElement.classList.add('past');
+            } else {
+                dayElement.classList.add('available');
+                dayElement.addEventListener('click', () => selectDate(currentDate, dayElement));
+            }
+            
+            calendarContainer.appendChild(dayElement);
+        }
+    }
+    
+    function selectDate(date, element) {
+        // Remove previous selection
+        document.querySelectorAll('.calendar-day.selected').forEach(el => {
+            el.classList.remove('selected');
+        });
+        
+        // Add selection to clicked element
+        element.classList.add('selected');
+        selectedDate = date;
+        
+        const formattedDate = date.toLocaleDateString('pt-BR');
+        const selectedDateText = document.getElementById('selected-date-text');
+        const selectedDateInfo = document.getElementById('selected-date-info');
+        const selectedDateInput = document.getElementById('selected-date-input');
+        
+        selectedDateText.textContent = formattedDate;
+        selectedDateInput.value = date.toISOString().split('T')[0];
+        selectedDateInfo.style.display = 'block';
+        
+        // Save to localStorage
+        localStorage.setItem('examDate', formattedDate);
+        localStorage.setItem('examDateISO', date.toISOString().split('T')[0]);
+        
+        updateScheduleButton();
+    }
+
+    function updateScheduleButton() {
+        if (selectedDate && selectedTime) {
+            scheduleBtn.disabled = false;
+            scheduleBtn.className = 'w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-prosegur-blue hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-prosegur-blue transition-colors duration-200 font-body';
+            scheduleBtn.innerHTML = '<i class="fas fa-calendar-plus mr-2"></i>Agendar Exame Médico';
+        } else {
+            scheduleBtn.disabled = true;
+            scheduleBtn.className = 'w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-prosegur-black bg-gray-300 cursor-not-allowed transition-colors duration-200 font-body';
+            
+            if (!selectedDate && !selectedTime) {
+                scheduleBtn.innerHTML = '<i class="fas fa-calendar-plus mr-2"></i>Selecione data e horário para continuar';
+            } else if (!selectedDate) {
+                scheduleBtn.innerHTML = '<i class="fas fa-calendar-plus mr-2"></i>Selecione uma data para continuar';
+            } else {
+                scheduleBtn.innerHTML = '<i class="fas fa-calendar-plus mr-2"></i>Selecione um horário para continuar';
+            }
+        }
+    }
+
+    // Initialize
+    populateCandidatesTable();
+    generateCalendar();
+    
+    // Load clinic location
+    getClinicLocation().then(() => {
+        loadingContainer.style.display = 'none';
+        clinicInfo.style.display = 'block';
+        setupTimeslotSelection();
+        
+        // Set clinic data in form
+        const clinicDataInput = document.getElementById('clinic-data');
+        if (clinicDataInput && clinicData) {
+            clinicDataInput.value = JSON.stringify(clinicData);
+        }
+    }).catch(error => {
+        console.error('Error:', error);
+        loadingContainer.style.display = 'none';
+        errorContainer.style.display = 'block';
+    });
+});
+</script>
+{% endblock %}

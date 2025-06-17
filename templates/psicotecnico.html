@@ -1,0 +1,333 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="max-w-[1800px] mx-auto px-2">
+    <div class="mb-8">
+        <h1 class="text-2xl font-bold text-prosegur-black mb-4 font-heading">Avaliação Técnica CRAS</h1>
+        <p class="text-prosegur-gray mb-2 font-body">Segunda etapa - Conhecimentos técnicos sobre trabalho no CRAS</p>
+        <div class="h-1 w-32 bg-prosegur-blue"></div>
+    </div>
+
+    <div id="info-box" class="bg-prosegur-blue p-4 mb-4 rounded-lg">
+        <div>
+            <h2 id="knowledge-title" class="text-lg font-semibold text-white mb-2 font-heading">1</h2>
+            <p id="info-content" class="text-white font-body">
+                O CRAS é a porta de entrada do SUAS e oferece serviços de proteção básica. Atende famílias em situação de vulnerabilidade social, desenvolvendo atividades preventivas e fortalecendo vínculos comunitários.
+            </p>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-lg p-4">
+        <form id="cac-questionario" class="flex flex-col min-h-[400px]">
+            <div id="question-container" class="flex-grow opacity-100 transition-opacity duration-300">
+                <!-- Questions will be dynamically inserted here -->
+            </div>
+
+            <div class="flex items-center justify-between pt-1 mt-1 border-t border-gray-200">
+                <button id="prev-button" class="bg-prosegur-blue hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-prosegur-blue transition-colors duration-200 font-body" type="button" style="display: none;">
+                    <i class="fa fa-arrow-left mr-2"></i>Voltar
+                </button>
+                <div class="flex-grow"></div>
+                <button id="next-button" class="bg-prosegur-blue hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-prosegur-blue transition-colors duration-200 font-body" type="button" disabled>
+                    <i class="fa fa-arrow-right mr-2"></i>Continuar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .checkbox-custom {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #d1d5db;
+        border-radius: 50%;
+        margin-right: 12px;
+        position: relative;
+        flex-shrink: 0;
+    }
+
+    .radio-button:checked + label .checkbox-custom::after {
+        content: '';
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        background-color: #044785;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .radio-button:checked + label {
+        background-color: #dbeafe;
+        border: 2px solid #1451B4;
+    }
+
+    .question-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .question-wrapper h2 {
+        flex-shrink: 0;
+        padding: 0;
+        margin-bottom: 0.25rem;
+    }
+
+    .question-wrapper > div {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 0;
+        gap: 0.125rem;
+    }
+
+    .option-button {
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        transition: all 0.2s;
+        min-height: 3.5rem; /* Fixed height for all options */
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+    }
+
+    .option-button:hover {
+        border-color: #9ca3af;
+        background-color: #f9fafb;
+    }
+
+    .radio-button:checked + .option-button {
+        border: 2px solid #1451B4;
+        background-color: #dbeafe;
+    }
+
+    :root {
+        --prosegur-blue: #044785;
+    }
+</style>
+
+<script>
+    // Conteúdos técnicos sobre trabalho no CRAS
+    const educationalContent = [
+        "O CRAS é a porta de entrada do SUAS e oferece serviços de proteção básica. Atende famílias em situação de vulnerabilidade social, desenvolvendo atividades preventivas e fortalecendo vínculos comunitários.",
+        "O território de abrangência do CRAS deve ter até 1.000 famílias referenciadas. Cada técnico deve conhecer as características socioeconômicas, demográficas e culturais do seu território de atuação.",
+        "O PAIF (Serviço de Proteção e Atendimento Integral à Família) é o principal serviço do CRAS. Desenvolve trabalho social com famílias através de atendimentos individuais, grupais e comunitários.",
+        "A matricialidade sociofamiliar é um dos princípios organizativos do SUAS. Significa que a família é a unidade de referência para o planejamento e execução das ações de assistência social.",
+        "O diagnóstico socioterritorial é fundamental para o planejamento das ações do CRAS. Identifica situações de vulnerabilidade, recursos e potencialidades do território.",
+        "A busca ativa é uma estratégia para identificar e incluir famílias em situação de vulnerabilidade nos serviços. Envolve mapeamento do território e articulação com outros equipamentos.",
+        "O prontuário familiar é o principal instrumento de registro no CRAS. Deve conter histórico familiar, plano de acompanhamento e evolução do trabalho social desenvolvido.",
+        "A articulação intersetorial é essencial no trabalho do CRAS. O assistente social deve conhecer e articular com equipamentos de saúde, educação, habitação e trabalho.",
+        "O acompanhamento familiar deve ser sistematizado com objetivos claros, metas estabelecidas e avaliação periódica dos resultados alcançados com cada família.",
+        "A participação social é promovida através de grupos de convivência, atividades comunitárias e estímulo à participação em instâncias de controle social como conselhos e conferências."
+    ];
+
+    const questions = [
+        {
+            question: "O que é o CRAS e qual seu papel no SUAS?",
+            options: [
+                "É a porta de entrada do SUAS com serviços de proteção básica",
+                "É um centro de acolhimento para idosos",
+                "É apenas um posto de saúde",
+                "É um centro educacional"
+            ]
+        },
+        {
+            question: "Quantas famílias deve ter o território de um CRAS?",
+            options: [
+                "Até 500 famílias",
+                "Até 1.000 famílias",
+                "Até 1.500 famílias", 
+                "Até 2.000 famílias"
+            ]
+        },
+        {
+            question: "Qual é o principal serviço do CRAS?",
+            options: [
+                "Centro de Convivência",
+                "Cadastro Único",
+                "PAIF - Proteção e Atendimento Integral à Família",
+                "Distribuição de cestas básicas"
+            ]
+        },
+        {
+            question: "O que significa matricialidade sociofamiliar?",
+            options: [
+                "Trabalhar apenas com crianças",
+                "Atender apenas mulheres",
+                "Focar só nos problemas individuais",
+                "A família é a unidade de referência"
+            ]
+        },
+        {
+            question: "Para que serve o diagnóstico socioterritorial?",
+            options: [
+                "Para identificar vulnerabilidades e recursos do território",
+                "Para controlar as pessoas",
+                "Para cobrar impostos",
+                "Para fazer estatísticas"
+            ]
+        },
+        {
+            question: "O que é busca ativa no CRAS?",
+            options: [
+                "Procurar pessoas perdidas",
+                "Estratégia para identificar famílias vulneráveis",
+                "Buscar documentos",
+                "Encontrar trabalho para as pessoas"
+            ]
+        },
+        {
+            question: "Qual o principal instrumento de registro no CRAS?",
+            options: [
+                "Ficha de cadastro simples",
+                "Lista de presença",
+                "Prontuário familiar",
+                "Caderno de anotações"
+            ]
+        },
+        {
+            question: "Por que articular com outros serviços é importante?",
+            options: [
+                "Para dividir o trabalho",
+                "Para economizar dinheiro",
+                "Para ter menos responsabilidade",
+                "Para conhecer e articular com saúde, educação e outros"
+            ]
+        },
+        {
+            question: "Como deve ser o acompanhamento das famílias?",
+            options: [
+                "Sistematizado com objetivos e avaliação",
+                "Apenas quando elas pedem",
+                "Informal sem planejamento",
+                "Só para dar benefícios"
+            ]
+        },
+        {
+            question: "Como o CRAS promove participação social?",
+            options: [
+                "Só com palestras obrigatórias",
+                "Com grupos de convivência e atividades comunitárias",
+                "Apenas reuniões formais",
+                "Somente atendimento individual"
+            ]
+        }
+    ];
+
+    let currentQuestion = 0;
+    const questionContainer = document.getElementById('question-container');
+    const prevButton = document.getElementById('prev-button');
+    const nextButton = document.getElementById('next-button');
+
+    async function displayQuestion(index) {
+        questionContainer.classList.remove('opacity-100');
+        questionContainer.classList.add('opacity-0');
+
+        await new Promise(resolve => setTimeout(resolve, 300));
+
+        const question = questions[index];
+        
+        // Update educational content and title for each question
+        const infoContent = document.getElementById('info-content');
+        const knowledgeTitle = document.getElementById('knowledge-title');
+        if (infoContent && educationalContent[index]) {
+            infoContent.textContent = educationalContent[index];
+        }
+        if (knowledgeTitle) {
+            knowledgeTitle.textContent = (index + 1).toString();
+        }
+        
+        let html = `
+            <div class="question-wrapper">
+                <h2 class="text-lg font-semibold text-prosegur-black font-heading">${question.question}</h2>
+                <div>
+        `;
+        question.options.forEach((option, i) => {
+            html += `
+                <div class="flex items-center p-1">
+                    <input type="radio" id="q${index}_option${i}" name="q${index}" value="${option}" class="radio-button hidden">
+                    <label for="q${index}_option${i}" class="option-button flex items-center w-full cursor-pointer text-base">
+                        <div class="checkbox-custom"></div>
+                        <span class="flex-grow">${option}</span>
+                    </label>
+                </div>
+            `;
+        });
+        html += '</div></div>';
+        questionContainer.innerHTML = html;
+
+        // Desabilita o botão inicialmente
+        nextButton.disabled = true;
+        nextButton.style.opacity = '0.5';
+
+        // Adiciona listeners para habilitar o botão quando uma opção for selecionada
+        const radioButtons = questionContainer.querySelectorAll('input[type="radio"]');
+        radioButtons.forEach(radio => {
+            radio.addEventListener('change', () => {
+                nextButton.disabled = false;
+                nextButton.style.opacity = '1';
+            });
+        });
+
+        await new Promise(resolve => setTimeout(resolve, 100));
+        questionContainer.classList.remove('opacity-0');
+        questionContainer.classList.add('opacity-100');
+    }
+
+    function updateButtons() {
+        prevButton.style.display = currentQuestion > 0 ? 'block' : 'none';
+        nextButton.innerHTML = currentQuestion === questions.length - 1 ?
+            '<i class="fa fa-check mr-2"></i>Finalizar' :
+            '<i class="fa fa-arrow-right mr-2"></i>Continuar';
+    }
+
+    prevButton.addEventListener('click', () => {
+        if (currentQuestion > 0) {
+            currentQuestion--;
+            displayQuestion(currentQuestion);
+            updateButtons();
+        }
+    });
+
+    nextButton.addEventListener('click', () => {
+        const selectedOption = document.querySelector(`input[name="q${currentQuestion}"]:checked`);
+        if (selectedOption) {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                displayQuestion(currentQuestion);
+                updateButtons();
+            } else {
+                // Simplified submission - just redirect
+                fetch('/submit_psicotecnico', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({completed: true})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = data.redirect || '/';
+                    } else {
+                        window.location.href = '/aprovado';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    window.location.href = '/aprovado';
+                });
+            }
+        } else {
+            alert('Por favor, selecione uma opção antes de prosseguir.');
+        }
+    });
+
+    // Initialize
+    displayQuestion(currentQuestion);
+    updateButtons();
+</script>
+{% endblock %}
