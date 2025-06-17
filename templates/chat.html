@@ -613,9 +613,28 @@ const startWorkResponses = {
         },
         {
             message: function() {
-                const trainingDate = localStorage.getItem('trainingDate') || 'data não informada';
-                const trainingTime = localStorage.getItem('trainingTime') || 'horário não informado';
-                return `Conforme seu agendamento, seu exame médico admissional será em ${trainingDate} no horário ${trainingTime}.`;
+                // Get URL parameters for exam date and time
+                const urlParams = new URLSearchParams(window.location.search);
+                const examDate = urlParams.get('exam_date');
+                const examTime = urlParams.get('exam_time');
+                
+                // Format date for display (convert from YYYY-MM-DD to DD/MM/YYYY)
+                let formattedDate = localStorage.getItem('trainingDate') || localStorage.getItem('examDate') || 'data não informada';
+                let formattedTime = localStorage.getItem('trainingTime') || localStorage.getItem('examTime') || 'horário não informado';
+                
+                if (examDate) {
+                    const dateObj = new Date(examDate + 'T00:00:00');
+                    formattedDate = dateObj.toLocaleDateString('pt-BR');
+                }
+                
+                if (examTime) {
+                    formattedTime = decodeURIComponent(examTime);
+                }
+                
+                console.log('Chat - URL exam_date:', examDate, '-> formatted:', formattedDate);
+                console.log('Chat - URL exam_time:', examTime, '-> formatted:', formattedTime);
+                
+                return `Conforme seu agendamento, seu exame médico admissional será em ${formattedDate} no horário ${formattedTime}.`;
             },
             delay: 3800
         },
