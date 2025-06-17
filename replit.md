@@ -100,15 +100,14 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
 
 ## Changelog
 
-- June 16, 2025: Real Clinic API Integration - PRODUCTION VERSION ✅ WORKING
+- June 17, 2025: Real Clinic API Integration + Navigation Fix - PRODUCTION VERSION ✅ WORKING
   - Integrated with external clinic API: https://api-clinicas.replit.app/api/cep/{cep}/clinics
-  - System fetches real clinics based on user's CEP from localStorage
+  - System fetches real clinics based on user's CEP from localStorage (candidateZipCode)
   - API returns authentic clinic data: name, specialty, address, phone
-  - Removed clinic photos since API doesn't provide images
-  - Added specialty field display for clinic information
-  - Fallback system for when API is unavailable
-  - Real-time clinic search based on user's exact location
-  - Production-ready with authentic external clinic data
+  - Fallback system tries nearby CEPs when exact CEP has no clinics
+  - Successfully finding clinics: CEP 72760136 → São Paulo clinic via fallback
+  - Changed /aprovado "AGENDAR AGORA" button to redirect to /agendamento instead of /chat
+  - Real-time clinic search working with comprehensive debug logging
 
 - June 14, 2025: Real CRAS API Integration + Auto-Fill Enhancement - PRODUCTION VERSION ✅ WORKING
   - Successfully integrated with external CRAS API (api-cras.replit.app)
