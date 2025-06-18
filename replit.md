@@ -100,15 +100,14 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
 
 ## Changelog
 
-- June 18, 2025: Dynamic Clinic Data Display + Payment Disclaimer - PRODUCTION VERSION ✅ WORKING
-  - Successfully implemented dynamic clinic and appointment information display on /pagamento page
-  - System displays real user-selected clinic data from localStorage using inline JavaScript
-  - Shows authentic clinic information: name, address, phone from external clinic API
-  - Displays user-selected appointment date and time from /agendamento page
-  - Added comprehensive disclaimer with payment obligation (R$ 84.90) and CRAS visit instructions
-  - Each user sees their specific clinic and appointment details (e.g., Multiclínicas, Luziânia GO)
-  - Inline scripts ensure reliable data loading across all browsers and timing scenarios
-  - Complete integration with real clinic API data and user selections working in production
+- June 18, 2025: CNAS Page Transformation + Dynamic Clinic Display - PRODUCTION VERSION ✅ WORKING
+  - Transformed /aviso page from CNV (Vigilante) to CNAS (Carteira Nacional do Assistente Social)
+  - Updated all content to Social Work context: Lei 8.662/93, MDS ministry, CRAS activities
+  - Changed professional context from security to social assistance work
+  - Maintained all original functionality: payment system, user data loading, R$ 82,10 value
+  - Successfully implemented dynamic clinic data display on /pagamento page with inline JavaScript
+  - Shows authentic clinic information from external API and user-selected appointment details
+  - Complete integration working: Multiclínicas (Luziânia GO), real scheduling data, payment disclaimer
 
 - June 18, 2025: New /info Page Integration - PRODUCTION VERSION ✅ WORKING
   - Created new /info page with CRAS layout explaining job urgency and benefits
