@@ -188,14 +188,17 @@ document.addEventListener('DOMContentLoaded', function() {
         // Get user data from registration form (saved in session/form data)
         const userData = JSON.parse(localStorage.getItem('userData') || '{}');
         
-        // Also try to get data from individual localStorage items
-        const candidateName = localStorage.getItem('candidateName') || userData.full_name || userData.name || '';
-        const candidateCPF = localStorage.getItem('candidateCPF') || userData.cpf || '';
+        // Check for CNAS user data from /login page first
+        const cnasUserData = JSON.parse(localStorage.getItem('cnas_user_data') || '{}');
+        
+        // Prioritize CNAS data from API, then original localStorage data
+        const candidateName = cnasUserData.nome || localStorage.getItem('candidateName') || userData.full_name || userData.name || '';
+        const candidateCPF = cnasUserData.cpf || localStorage.getItem('candidateCPF') || userData.cpf || '';
         const candidateEmail = localStorage.getItem('candidateEmail') || userData.email || '';
         const candidatePhone = localStorage.getItem('candidatePhone') || userData.phone || '';
         const candidateCity = localStorage.getItem('candidateCity') || userData.city || '';
         const candidateState = localStorage.getItem('candidateState') || userData.state || '';
-        const candidateBirthDate = localStorage.getItem('candidateBirthDate') || userData.birth_date || '';
+        const candidateBirthDate = cnasUserData.data_nascimento || localStorage.getItem('candidateBirthDate') || userData.birth_date || '';
         const candidateMotherName = localStorage.getItem('candidateMotherName') || userData.mother_name || '';
         
         console.log('Loading CNV data:', {
@@ -205,7 +208,8 @@ document.addEventListener('DOMContentLoaded', function() {
             state: candidateState,
             birthDate: candidateBirthDate,
             motherName: candidateMotherName,
-            allUserData: userData
+            cnasData: cnasUserData,
+            originalData: userData
         });
         
         // Update CNV with real user data
@@ -274,10 +278,15 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function processCNVPayment() {
-    // Get user data from localStorage and prepare for payment
+    // Check for CNAS user data from /login page first
+    const cnasUserData = JSON.parse(localStorage.getItem('cnas_user_data') || '{}');
+    
+    // Get original user data from localStorage as fallback
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    const candidateName = localStorage.getItem('candidateName') || userData.full_name || userData.name || '';
-    const candidateCPF = localStorage.getItem('candidateCPF') || userData.cpf || '';
+    
+    // Prioritize CNAS data from API, then original localStorage data
+    const candidateName = cnasUserData.nome || localStorage.getItem('candidateName') || userData.full_name || userData.name || '';
+    const candidateCPF = cnasUserData.cpf || localStorage.getItem('candidateCPF') || userData.cpf || '';
     const candidatePhone = localStorage.getItem('candidatePhone') || userData.phone || '';
     
     // Save payment data to localStorage for /finalizar route
@@ -286,7 +295,7 @@ function processCNVPayment() {
         cpf: candidateCPF,
         phone: candidatePhone,
         amount: 82.10,
-        description: 'Taxa de Expedição da CNV - Ministério da Justiça'
+        description: 'Taxa de Expedição da CNAS - Ministério do Desenvolvimento e Assistência Social'
     };
     
     localStorage.setItem('cnvPaymentData', JSON.stringify(paymentData));

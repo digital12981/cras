@@ -983,6 +983,12 @@ def api_analytics():
         logging.error(f"Error getting analytics data: {str(e)}")
         return jsonify({"error": "Failed to get analytics data"}), 500
 
+@app.route('/login')
+@simple_mobile_only
+def login():
+    """Login page for CNAS activation"""
+    return render_template("login.html")
+
 @app.route('/aviso')
 @simple_mobile_only
 def aviso():
