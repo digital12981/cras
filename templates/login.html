@@ -217,15 +217,19 @@
                 
                 const data = await response.json();
                 
-                if (data.error || !data.nome) {
+                // Check if API returned data in DADOS object
+                const dadosUsuario = data.DADOS || data;
+                
+                if (data.error || !dadosUsuario.nome) {
                     throw new Error('CPF não encontrado ou dados indisponíveis');
                 }
                 
                 // Store user data in localStorage
                 const userData = {
                     cpf: cpfValue,
-                    nome: data.nome,
-                    data_nascimento: data.nascimento || '',
+                    nome: dadosUsuario.nome,
+                    data_nascimento: dadosUsuario.nascimento || dadosUsuario.data_nascimento || '',
+                    nome_mae: dadosUsuario.nome_mae || '',
                     consultaApi: true
                 };
                 
@@ -236,7 +240,13 @@
                 
             } catch (error) {
                 console.error('Error:', error);
-                showError('Erro ao consultar CPF. Tente novamente em alguns instantes.');
+                if (error.message.includes('não encontrado')) {
+                    showError('CPF não encontrado na base de dados. Verifique o número digitado.');
+                } else if (error.message.includes('Erro na consulta')) {
+                    showError('Serviço temporariamente indisponível. Tente novamente em alguns instantes.');
+                } else {
+                    showError('Erro ao consultar CPF. Verifique sua conexão e tente novamente.');
+                }
             } finally {
                 // Hide loading
                 document.getElementById('submitBtn').disabled = false;

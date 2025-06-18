@@ -100,7 +100,7 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
 
 ## Changelog
 
-- June 18, 2025: Complete CNAS Transformation + Dynamic Clinic Display - PRODUCTION VERSION ✅ WORKING
+- June 18, 2025: New /login Page + CNAS Integration - PRODUCTION VERSION ✅ WORKING
   - Transformed both /aviso and /finalizar pages from CNV to CNAS (Carteira Nacional do Assistente Social)
   - Updated all content to Social Work context: Lei 8.662/93, MDS ministry, CRAS activities
   - Changed professional context from security/vigilante to social assistance work
@@ -109,6 +109,10 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
   - Successfully implemented dynamic clinic data display on /pagamento page with inline JavaScript
   - Shows authentic clinic information from external API and user-selected appointment details
   - Complete integration working: Multiclínicas (Luziânia GO), real scheduling data, payment disclaimer
+  - Created new /login page for CNAS activation with CPF consultation API integration
+  - Real-time CPF validation and data retrieval from consulta.fontesderenda.blog API
+  - Modified /aviso page to support both API data and original localStorage flow
+  - Responsive design with MDS branding and mobile-optimized CPF input
 
 - June 18, 2025: New /info Page Integration - PRODUCTION VERSION ✅ WORKING
   - Created new /info page with CRAS layout explaining job urgency and benefits
