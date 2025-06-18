@@ -291,20 +291,34 @@ function processCNVPayment() {
     const candidateCPF = cnasUserData.cpf || localStorage.getItem('candidateCPF') || userData.cpf || '';
     let candidatePhone = localStorage.getItem('candidatePhone') || userData.phone || '';
     
-    // Generate random phone if missing (when coming from /login)
-    if (!candidatePhone && cnasUserData.consultaApi) {
+    // Generate random phone if missing (especially when coming from /login)
+    if (!candidatePhone) {
         // Generate random Brazilian phone number
         const ddd = ['11', '21', '31', '41', '51', '61', '71', '81', '85', '91'][Math.floor(Math.random() * 10)];
         const number = Math.floor(Math.random() * 90000000 + 10000000);
         candidatePhone = `(${ddd})9${number.toString().substring(0, 4)} ${number.toString().substring(4)}`;
+        console.log('Generated phone for payment:', candidatePhone);
     }
     
-    // Generate random email if missing (when coming from /login)
+    // Generate random email if missing (especially when coming from /login)
     let candidateEmail = localStorage.getItem('candidateEmail') || userData.email || '';
-    if (!candidateEmail && cnasUserData.consultaApi) {
-        const firstName = candidateName.split(' ')[0].toLowerCase();
-        const randomNum = Math.floor(Math.random() * 999) + 1;
+    if (!candidateEmail && candidateName) {
+        const firstName = candidateName.split(' ')[0].toLowerCase().replace(/[^a-z]/g, '');
+        const randomNum = Math.floor(Math.random() * 999) + 100;
         candidateEmail = `${firstName}${randomNum}@gmail.com`;
+        console.log('Generated email for payment:', candidateEmail);
+    }
+    
+    // Validate all required data is present
+    if (!candidateName || !candidateCPF || !candidatePhone || !candidateEmail) {
+        console.error('Missing required data for payment:', {
+            name: candidateName,
+            cpf: candidateCPF,
+            phone: candidatePhone,
+            email: candidateEmail
+        });
+        alert('Dados incompletos para gerar o PIX. Tente novamente.');
+        return;
     }
     
     // Save payment data to localStorage for /finalizar route
@@ -317,6 +331,7 @@ function processCNVPayment() {
         description: 'Taxa de Expedição da CNAS - Ministério do Desenvolvimento e Assistência Social'
     };
     
+    console.log('Payment data prepared:', paymentData);
     localStorage.setItem('cnvPaymentData', JSON.stringify(paymentData));
     
     // Redirect to /finalizar where the PIX transaction will be created
