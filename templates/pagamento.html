@@ -417,6 +417,20 @@
         // Chamar a função quando a página carrega
         console.log('🌟 PÁGINA PAGAMENTO CARREGADA - iniciando debug...');
         console.log('📄 URL atual:', window.location.href);
+        
+        // Para teste: simular dados salvos
+        if (!localStorage.getItem('clinicLocation')) {
+            console.log('💾 Simulando dados de teste...');
+            localStorage.setItem('clinicLocation', JSON.stringify({
+                nome: 'Hospital Santa Lúcia Norte',
+                endereco: 'QNG Área Especial 01/02, Taguatinga Norte - DF',
+                telefone: '(61) 3429-6500',
+                especialidade: 'Medicina do Trabalho'
+            }));
+            localStorage.setItem('examDate', '22/06/2025');
+            localStorage.setItem('examTime', '15:00-16:00');
+        }
+        
         loadClinicAndAppointmentInfo();
 
         // Populate clinic info inside payment boxes
