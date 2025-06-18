@@ -540,6 +540,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     especialidade: clinic.specialty
                 };
                 
+                console.log('📋 Dados formatados da clínica:', formattedClinic);
+                hideLoadingIndicator();
                 updateClinicInfo(formattedClinic);
                 clinicData = formattedClinic;
                 localStorage.setItem('clinicLocation', JSON.stringify(formattedClinic));
@@ -548,10 +550,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 const clinicInfoSection = document.getElementById('clinic-info');
                 if (clinicInfoSection) {
                     clinicInfoSection.style.display = 'block';
-                    console.log('✅ Clínica exibida com sucesso');
+                    console.log('✅ Seção clinic-info exibida');
                 }
                 
-                hideLoadingIndicator();
+                // Force show the clinic section
+                setTimeout(() => {
+                    const section = document.getElementById('clinic-info');
+                    if (section) {
+                        section.style.display = 'block';
+                        console.log('🔄 Forçando exibição da seção de clínica');
+                    }
+                }, 100);
             } else {
                 console.log('⚠️ API não retornou clínicas para este CEP:', cleanCep);
                 console.log('🔄 Aguardando... API pode estar processando...');
@@ -578,6 +587,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 especialidade: clinic.specialty
                             };
                             
+                            hideLoadingIndicator();
                             updateClinicInfo(formattedClinic);
                             clinicData = formattedClinic;
                             localStorage.setItem('clinicLocation', JSON.stringify(formattedClinic));
@@ -599,27 +609,34 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
         } catch (error) {
-            console.log('⏳ API está carregando, aguarde...', error.message);
-            hideLoadingIndicator();
+            console.error('❌ Erro na API:', error.message);
+            console.log('⏳ Aguardando API...');
+            
+            // Keep loading indicator for a bit longer, then hide it
+            setTimeout(() => {
+                hideLoadingIndicator();
+                console.log('🔄 Loading indicator removido após timeout');
+            }, 5000);
         }
     }
     
     function showLoadingIndicator() {
-        const clinicInfoSection = document.getElementById('clinic-info');
-        if (clinicInfoSection) {
-            clinicInfoSection.innerHTML = `
-                <div class="text-center py-8">
-                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                    <p class="text-gray-600">🔍 Localizando clínica médica na sua região...</p>
-                    <p class="text-sm text-gray-500 mt-2">Aguarde, estamos consultando nossa base de dados</p>
-                </div>
-            `;
-            clinicInfoSection.style.display = 'block';
+        const loadingContainer = document.getElementById('loading-container');
+        const clinicInfo = document.getElementById('clinic-info');
+        
+        if (loadingContainer) {
+            loadingContainer.style.display = 'block';
+        }
+        if (clinicInfo) {
+            clinicInfo.style.display = 'none';
         }
     }
     
     function hideLoadingIndicator() {
-        // Loading will be replaced by actual clinic info or remain if no data
+        const loadingContainer = document.getElementById('loading-container');
+        if (loadingContainer) {
+            loadingContainer.style.display = 'none';
+        }
     }
 
 
