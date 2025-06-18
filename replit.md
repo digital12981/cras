@@ -100,14 +100,14 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
 
 ## Changelog
 
-- June 18, 2025: Final API Integration Fix + Layout Optimization - PRODUCTION VERSION ✅ WORKING
-  - Fixed loading indicator duplication issue on /agendamento page
-  - System correctly hides loading and displays authentic clinic data from API
-  - Verified working with real data: Gescon Ocupacional in Luziânia, GO
-  - Removed all fallback synthetic data to maintain geographic accuracy
-  - Loading system uses original page elements without conflicts
-  - Enhanced text block layout with improved spacing and font consistency
-  - Complete national coverage with authentic clinic data for all Brazilian states
+- June 18, 2025: Payment Page Clinic Info Integration - PRODUCTION VERSION ✅ WORKING
+  - Added clinic and appointment information display on /pagamento page
+  - System shows clinic name, address, phone from API data in localStorage
+  - Displays selected appointment date and time from user scheduling
+  - Information appears both in dedicated section and inside payment boxes
+  - Left-aligned layout as requested, positioned above payment instructions
+  - Data automatically populated from /agendamento page localStorage
+  - Complete integration working with Hospital Santa Lúcia Norte example
 
 - June 18, 2025: New /info Page Integration - PRODUCTION VERSION ✅ WORKING
   - Created new /info page with CRAS layout explaining job urgency and benefits
