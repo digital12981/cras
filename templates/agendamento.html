@@ -451,48 +451,44 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Get medical clinic location
+    // Get medical clinic location - ONLY using real API data
     async function getClinicLocation() {
-        // Debug localStorage content
-        console.log('Verificando localStorage...');
-        console.log('userCep:', localStorage.getItem('userCep'));
-        console.log('userAddress:', localStorage.getItem('userAddress'));
-        console.log('Todos os items no localStorage:', Object.keys(localStorage));
+        console.log('🔍 Iniciando busca de clínicas...');
         
-        // Get user's CEP from localStorage (multiple sources)
+        // Show loading indicator
+        showLoadingIndicator();
+        
+        // Get user's CEP from localStorage
+        let userCep = null;
+        
+        // Check multiple possible CEP sources
         const savedCep = localStorage.getItem('userCep');
         const savedAddress = localStorage.getItem('userAddress');
         
-        let userCep = null;
-        
-        // Priority: specific CEP > address CEP > try fallback
         if (savedCep && savedCep.trim()) {
             userCep = savedCep.trim();
-            console.log('Usando CEP salvo diretamente:', userCep);
+            console.log('📍 CEP encontrado:', userCep);
         } else if (savedAddress) {
             try {
                 const addressData = JSON.parse(savedAddress);
-                console.log('Dados do endereço:', addressData);
                 if (addressData.cep && addressData.cep.trim()) {
                     userCep = addressData.cep.trim();
-                    console.log('Usando CEP do endereço salvo:', userCep);
+                    console.log('📍 CEP do endereço:', userCep);
                 }
             } catch (e) {
-                console.log('Erro ao parsear endereço salvo:', e);
+                console.log('Erro ao parsear endereço:', e);
             }
         }
         
-        // If no CEP found, try to get it from other possible localStorage keys
+        // Search in all localStorage keys for CEP pattern
         if (!userCep) {
             const allKeys = Object.keys(localStorage);
-            console.log('Procurando CEP em outras chaves:', allKeys);
-            
             for (const key of allKeys) {
                 try {
                     const value = localStorage.getItem(key);
                     if (value && value.match(/^\d{5}-?\d{3}$/)) {
                         userCep = value;
-                        console.log('CEP encontrado na chave:', key, 'valor:', userCep);
+                        console.log('📍 CEP encontrado em', key, ':', userCep);
                         break;
                     }
                 } catch (e) {
@@ -501,34 +497,19 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        // If still no CEP found, show location-based message
         if (!userCep) {
-            console.error('ERRO: Nenhum CEP encontrado no localStorage');
-            const noLocationClinic = {
-                nome: "Localização necessária",
-                endereco: "Por favor, informe seu CEP para encontrar a clínica mais próxima",
-                telefone: "Será informado após localização",
-                especialidade: "Medicina e Segurança do Trabalho"
-            };
-            updateClinicInfo(noLocationClinic);
-            clinicData = noLocationClinic;
-            
-            const clinicInfoSection = document.getElementById('clinic-info');
-            if (clinicInfoSection) {
-                clinicInfoSection.style.display = 'block';
-            }
+            hideLoadingIndicator();
+            console.error('❌ Nenhum CEP encontrado no localStorage');
             return;
         }
         
-        console.log('CEP final selecionado para busca:', userCep);
-
-        // Remove punctuation from CEP for API call
+        // Clean CEP for API call
         const cleanCep = userCep.replace(/\D/g, '');
-        console.log('CEP limpo para API:', cleanCep);
+        console.log('🌐 Buscando clínicas para CEP:', cleanCep);
 
         try {
             const apiUrl = `https://api-clinicas.replit.app/api/cep/${cleanCep}/clinics`;
-            console.log('Chamando API:', apiUrl);
+            console.log('🔗 API URL:', apiUrl);
             
             const response = await fetch(apiUrl, {
                 method: 'GET',
@@ -536,28 +517,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
-                }
+                },
+                // Timeout after 30 seconds
+                signal: AbortSignal.timeout(30000)
             });
             
             if (!response.ok) {
-                throw new Error(`API Error: ${response.status} - ${response.statusText}`);
+                throw new Error(`API retornou erro: ${response.status} - ${response.statusText}`);
             }
             
             const data = await response.json();
-            console.log('Resposta completa da API de clínicas:', data);
+            console.log('📋 Resposta da API:', data);
             
             if (data.clinics && data.clinics.length > 0) {
-                // Use the first clinic from the API response
                 const clinic = data.clinics[0];
-                console.log('Clínica recebida da API:', clinic);
+                console.log('🏥 Clínica encontrada:', clinic.name);
                 
                 const formattedClinic = {
-                    nome: clinic.name || 'Nome não informado',
-                    endereco: clinic.address || 'Endereço não informado',
+                    nome: clinic.name,
+                    endereco: clinic.address,
                     telefone: clinic.phone || 'Telefone não informado',
-                    especialidade: clinic.specialty || 'Medicina e Segurança do Trabalho'
+                    especialidade: clinic.specialty
                 };
-                console.log('Clínica formatada para exibição:', formattedClinic);
                 
                 updateClinicInfo(formattedClinic);
                 clinicData = formattedClinic;
@@ -567,58 +548,80 @@ document.addEventListener('DOMContentLoaded', function() {
                 const clinicInfoSection = document.getElementById('clinic-info');
                 if (clinicInfoSection) {
                     clinicInfoSection.style.display = 'block';
-                    console.log('Seção de clínica exibida');
+                    console.log('✅ Clínica exibida com sucesso');
                 }
+                
+                hideLoadingIndicator();
             } else {
-                console.error('Nenhuma clínica encontrada na resposta da API para o CEP:', cleanCep);
+                console.log('⚠️ API não retornou clínicas para este CEP:', cleanCep);
+                console.log('🔄 Aguardando... API pode estar processando...');
                 
-                // Show message that clinic will be assigned based on location
-                const locationBasedClinic = {
-                    nome: "Clínica será designada conforme sua localização",
-                    endereco: `Será informado endereço da clínica mais próxima ao CEP ${userCep}`,
-                    telefone: "Será informado após designação",
-                    especialidade: "Medicina e Segurança do Trabalho"
-                };
-                
-                console.log('Exibindo mensagem de clínica por localização para CEP:', userCep);
-                updateClinicInfo(locationBasedClinic);
-                clinicData = locationBasedClinic;
-                localStorage.setItem('clinicLocation', JSON.stringify(locationBasedClinic));
-                
-                const clinicInfoSection = document.getElementById('clinic-info');
-                if (clinicInfoSection) {
-                    clinicInfoSection.style.display = 'block';
-                }
+                // Wait a bit more and try again once
+                setTimeout(async () => {
+                    try {
+                        const retryResponse = await fetch(apiUrl, {
+                            method: 'GET',
+                            mode: 'cors',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            }
+                        });
+                        
+                        const retryData = await retryResponse.json();
+                        if (retryData.clinics && retryData.clinics.length > 0) {
+                            const clinic = retryData.clinics[0];
+                            const formattedClinic = {
+                                nome: clinic.name,
+                                endereco: clinic.address,
+                                telefone: clinic.phone || 'Telefone não informado',
+                                especialidade: clinic.specialty
+                            };
+                            
+                            updateClinicInfo(formattedClinic);
+                            clinicData = formattedClinic;
+                            localStorage.setItem('clinicLocation', JSON.stringify(formattedClinic));
+                            
+                            const clinicInfoSection = document.getElementById('clinic-info');
+                            if (clinicInfoSection) {
+                                clinicInfoSection.style.display = 'block';
+                            }
+                            console.log('✅ Clínica encontrada na segunda tentativa');
+                        } else {
+                            console.log('⏳ API ainda processando para CEP:', cleanCep);
+                        }
+                        hideLoadingIndicator();
+                    } catch (retryError) {
+                        console.log('⏳ API ainda carregando...');
+                        hideLoadingIndicator();
+                    }
+                }, 3000);
             }
+            
         } catch (error) {
-            console.error('Erro detalhado ao buscar clínicas na API:', error);
-            console.error('Erro tipo:', typeof error);
-            console.error('Erro message:', error.message);
-            displayDefaultClinic();
+            console.log('⏳ API está carregando, aguarde...', error.message);
+            hideLoadingIndicator();
         }
     }
     
-    // Fallback function for when API fails
-    function displayDefaultClinic() {
-        console.log('API de clínicas temporariamente indisponível');
-        const savedCep = localStorage.getItem('candidateZipCode') || 'não informado';
-        
-        const defaultClinic = {
-            nome: "Clínica Médica Ocupacional",
-            endereco: `Clínica mais próxima ao seu CEP ${savedCep} será designada`,
-            telefone: "Será informado por SMS",
-            especialidade: "Medicina e Segurança do Trabalho"
-        };
-        updateClinicInfo(defaultClinic);
-        clinicData = defaultClinic;
-        localStorage.setItem('clinicLocation', JSON.stringify(defaultClinic));
-        
-        // Show clinic info section
+    function showLoadingIndicator() {
         const clinicInfoSection = document.getElementById('clinic-info');
         if (clinicInfoSection) {
+            clinicInfoSection.innerHTML = `
+                <div class="text-center py-8">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <p class="text-gray-600">🔍 Localizando clínica médica na sua região...</p>
+                    <p class="text-sm text-gray-500 mt-2">Aguarde, estamos consultando nossa base de dados</p>
+                </div>
+            `;
             clinicInfoSection.style.display = 'block';
         }
     }
+    
+    function hideLoadingIndicator() {
+        // Loading will be replaced by actual clinic info or remain if no data
+    }
+
 
     // Setup timeslot selection
     function setupTimeslotSelection() {

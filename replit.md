@@ -100,13 +100,14 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
 
 ## Changelog
 
-- June 18, 2025: Enhanced /agendamento Layout + /info Page Footer Fix - PRODUCTION VERSION ✅ WORKING
-  - Fixed /info page footer width issues by completely rebuilding HTML structure
-  - Enhanced /agendamento page text blocks with increased width (max-w-5xl)
-  - Expanded text font sizes from text-sm to text-lg throughout /agendamento
-  - Improved spacing and padding in content blocks (p-6, space-y-3)
-  - Title sizes increased to text-xl for better readability
-  - All DIV tags properly balanced in /info page (42 open = 42 closed)
+- June 18, 2025: API-Only Medical Clinic System + Layout Improvements - PRODUCTION VERSION ✅ WORKING
+  - Implemented API-only clinic search system without fallbacks for national coverage
+  - System uses exclusively https://api-clinicas.replit.app/api/cep/{cep}/clinics
+  - Added loading indicator and retry logic for API response delays
+  - Removed all synthetic data to ensure geographic accuracy across Brazil
+  - Enhanced /agendamento page layout with improved text block spacing and fonts
+  - Fixed /info page footer width issues with complete HTML structure rebuild
+  - All systems now provide authentic data for users from all Brazilian states
 
 - June 18, 2025: New /info Page Integration - PRODUCTION VERSION ✅ WORKING
   - Created new /info page with CRAS layout explaining job urgency and benefits
