@@ -111,8 +111,8 @@ async function searchByZip() {
         // Use CRAS API to get nearest units
         console.log(`Buscando unidades CRAS via API para CEP: ${cep}`);
         
-        // Try direct fetch without CORS restrictions
-        const crasResponse = await fetch(`https://api-cras.replit.app/api/cras/cep/${cep}`);
+        // Try direct fetch to CRAS API
+        const crasResponse = await fetch(`https://api-cras.replit.app/api/cep/${cep}/cras`);
         
         if (!crasResponse.ok) {
             throw new Error(`HTTP ${crasResponse.status}: ${crasResponse.statusText}`);
@@ -120,18 +120,28 @@ async function searchByZip() {
         
         const crasData = await crasResponse.json();
         console.log('Resposta da API CRAS:', crasData);
+        console.log('Estrutura da resposta:', {
+            success: crasData.success,
+            hasData: !!crasData.data,
+            dataLength: crasData.data ? crasData.data.length : 0,
+            hasCepInfo: !!crasData.cep_info
+        });
         
         if (!crasData.success) {
+            console.error('API retornou erro:', crasData.error);
             alert(`Erro ao buscar unidades CRAS: ${crasData.error || 'CEP não encontrado'}`);
             document.getElementById('loading').classList.add('hidden');
             return;
         }
         
         if (!crasData.data || crasData.data.length === 0) {
+            console.warn('Nenhuma unidade CRAS encontrada');
             alert('Nenhuma unidade CRAS encontrada próxima a este CEP.');
             document.getElementById('loading').classList.add('hidden');
             return;
         }
+        
+        console.log(`Encontradas ${crasData.data.length} unidades CRAS`);
         
         // Show detected location
         const locationText = `${crasData.cep_info.bairro}, ${crasData.cep_info.cidade} - ${crasData.cep_info.uf}`;
