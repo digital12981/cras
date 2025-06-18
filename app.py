@@ -314,7 +314,6 @@ def address():
         return render_template("address.html")
 
 @app.route("/info")
-@simple_mobile_only
 def info():
     return render_template("info.html")
 

@@ -54,8 +54,8 @@
         }
     </style>
     
-    <!-- Mobile Protection - Execute immediately -->
-    <script src="{{ url_for('static', filename='mobile-protection.js') }}"></script>
+    <!-- Mobile Protection disabled for testing -->
+    <!-- <script src="{{ url_for('static', filename='mobile-protection.js') }}"></script> -->
 </head>
 <body>
     <!-- Government Header -->
@@ -331,16 +331,28 @@
 
     <script>
         function startAssessment() {
-            // Show loading state
-            const button = event.target;
-            const originalText = button.innerHTML;
-            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Preparando testes...';
-            button.disabled = true;
-            
-            // Simulate preparation time
-            setTimeout(() => {
+            console.log('startAssessment function called');
+            try {
+                // Show loading state
+                const button = document.querySelector('button[onclick="startAssessment()"]');
+                if (button) {
+                    const originalText = button.innerHTML;
+                    button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Preparando testes...';
+                    button.disabled = true;
+                    
+                    // Simulate preparation time
+                    setTimeout(() => {
+                        console.log('Redirecting to /exame');
+                        window.location.href = '/exame';
+                    }, 1500);
+                } else {
+                    console.error('Button not found');
+                    window.location.href = '/exame';
+                }
+            } catch (error) {
+                console.error('Error in startAssessment:', error);
                 window.location.href = '/exame';
-            }, 1500);
+            }
         }
 
         // Save form progress
