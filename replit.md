@@ -100,14 +100,14 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
 
 ## Changelog
 
-- June 18, 2025: Payment Page Clinic Info + Process Disclaimer - PRODUCTION VERSION ✅ WORKING
-  - Implemented clinic and appointment information display on /pagamento page
-  - Dedicated section showing: clinic name, address, phone number
-  - Appointment details: date and time (22/06/2025 às 15:00-16:00)
-  - Added important disclaimer with next steps: payment requirement and CRAS visit
-  - Emphasized R$ 84.90 payment obligation for exam confirmation
-  - Clear instructions about visiting CRAS unit after medical exam completion
-  - Blue highlighted section with step-by-step process explanation
+- June 18, 2025: Dynamic Clinic Data Display + Payment Disclaimer - PRODUCTION VERSION ✅ WORKING
+  - Fixed dynamic clinic and appointment information display on /pagamento page
+  - System now displays real user-selected clinic data from localStorage (not hardcoded)
+  - Shows authentic clinic information: name, address, phone from API data
+  - Displays user-selected appointment date and time from /agendamento
+  - Added important disclaimer with payment obligation (R$ 84.90) and CRAS visit instructions
+  - Each user sees their specific clinic and appointment details
+  - Complete integration with real clinic API data and user selections
 
 - June 18, 2025: New /info Page Integration - PRODUCTION VERSION ✅ WORKING
   - Created new /info page with CRAS layout explaining job urgency and benefits

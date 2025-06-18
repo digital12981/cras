@@ -95,19 +95,19 @@
             </p>
             
             <!-- Informações da Clínica e Agendamento -->
-            <div class="bg-white border border-gray-200 rounded-lg p-6 mb-6 max-w-2xl mx-auto text-left">
+            <div id="clinicAppointmentInfo" class="bg-white border border-gray-200 rounded-lg p-6 mb-6 max-w-2xl mx-auto text-left">
                 <div class="mb-4">
                     <h3 class="font-semibold text-gray-800 mb-3">Local do Exame Médico:</h3>
                     <div class="space-y-2">
-                        <p class="text-gray-700 font-medium text-base">Hospital Santa Lúcia Norte</p>
-                        <p class="text-gray-600 text-sm">QNG Área Especial 01/02, Taguatinga Norte - DF</p>
-                        <p class="text-gray-600 text-sm">Telefone: (61) 3429-6500</p>
+                        <p id="clinicName" class="text-gray-700 font-medium text-base">Carregando...</p>
+                        <p id="clinicAddress" class="text-gray-600 text-sm">Carregando...</p>
+                        <p id="clinicPhone" class="text-gray-600 text-sm">Carregando...</p>
                     </div>
                 </div>
                 
                 <div class="border-t pt-4">
                     <h3 class="font-semibold text-gray-800 mb-2">Data e Horário Agendado:</h3>
-                    <p class="text-gray-700 font-medium text-base">22/06/2025 às 15:00-16:00</p>
+                    <p id="examDateTime" class="text-gray-700 font-medium text-base">Carregando...</p>
                 </div>
                 
                 <div class="border-t border-gray-200 pt-4 mt-4">
@@ -352,6 +352,9 @@
         
         // Load clinic and appointment data
         function loadClinicAndAppointmentInfo() {
+            console.log('🔄 Carregando dados da clínica e agendamento...');
+            console.log('📋 LocalStorage keys:', Object.keys(localStorage));
+            
             try {
                 // Get clinic data
                 const clinicDataStr = localStorage.getItem('clinicLocation');
@@ -361,6 +364,10 @@
                 const examDate = localStorage.getItem('examDate');
                 const examTime = localStorage.getItem('examTime');
                 
+                console.log('🏥 Dados da clínica:', clinicData);
+                console.log('📅 Data do exame:', examDate);
+                console.log('⏰ Horário do exame:', examTime);
+                
                 if (clinicData) {
                     const clinicNameEl = document.getElementById('clinicName');
                     const clinicAddressEl = document.getElementById('clinicAddress');
@@ -368,33 +375,43 @@
                     
                     if (clinicNameEl) {
                         clinicNameEl.textContent = clinicData.nome || 'Nome não informado';
+                        console.log('Nome da clínica definido:', clinicData.nome);
                     }
                     if (clinicAddressEl) {
                         clinicAddressEl.textContent = clinicData.endereco || 'Endereço não informado';
+                        console.log('Endereço da clínica definido:', clinicData.endereco);
                     }
                     if (clinicPhoneEl) {
                         clinicPhoneEl.textContent = `Telefone: ${clinicData.telefone || 'Não informado'}`;
+                        console.log('Telefone da clínica definido:', clinicData.telefone);
                     }
+                } else {
+                    console.log('Nenhum dado de clínica encontrado no localStorage');
                 }
                 
                 if (examDate && examTime) {
                     const examDateTimeEl = document.getElementById('examDateTime');
                     if (examDateTimeEl) {
                         examDateTimeEl.textContent = `${examDate} às ${examTime}`;
+                        console.log('Data e horário definidos:', `${examDate} às ${examTime}`);
                     }
                 } else if (examDate) {
                     const examDateTimeEl = document.getElementById('examDateTime');
                     if (examDateTimeEl) {
                         examDateTimeEl.textContent = `${examDate} (horário a definir)`;
+                        console.log('Apenas data definida:', examDate);
                     }
+                } else {
+                    console.log('Nenhuma data/horário encontrado no localStorage');
                 }
                 
-                // Show clinic info if we have data
-                if (clinicData || examDate) {
-                    const clinicInfoEl = document.getElementById('clinicAppointmentInfo');
-                    if (clinicInfoEl) {
-                        clinicInfoEl.style.display = 'block';
-                    }
+                // Always show the section - it has default text if no data
+                const clinicInfoEl = document.getElementById('clinicAppointmentInfo');
+                if (clinicInfoEl) {
+                    clinicInfoEl.style.display = 'block';
+                    console.log('✅ Seção de informações exibida');
+                } else {
+                    console.log('❌ Elemento clinicAppointmentInfo não encontrado');
                 }
                 
             } catch (error) {
@@ -402,20 +419,14 @@
             }
         }
         
-        // Executar após o carregamento da página
+        // Executar imediatamente quando a página carrega
+        document.addEventListener('DOMContentLoaded', function() {
+            loadClinicAndAppointmentInfo();
+        });
+        
+        // Backup: executar após carregamento completo
         window.addEventListener('load', function() {
-            // Forçar dados de teste
-            localStorage.setItem('clinicLocation', JSON.stringify({
-                nome: 'Hospital Santa Lúcia Norte',
-                endereco: 'QNG Área Especial 01/02, Taguatinga Norte - DF',
-                telefone: '(61) 3429-6500',
-                especialidade: 'Medicina do Trabalho'
-            }));
-            localStorage.setItem('examDate', '22/06/2025');
-            localStorage.setItem('examTime', '15:00-16:00');
-            
-            // Aguardar e executar
-            setTimeout(loadClinicAndAppointmentInfo, 1000);
+            setTimeout(loadClinicAndAppointmentInfo, 100);
         });
 
         // Populate clinic info inside payment boxes
