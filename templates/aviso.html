@@ -227,10 +227,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         if (candidateBirthDate) {
-            // Format birth date if it's in YYYY-MM-DD format
+            // Format birth date - handle both YYYY-MM-DD and YYYY-MM-DD HH:MM:SS formats
             let formattedBirthDate = candidateBirthDate;
             if (candidateBirthDate.includes('-')) {
-                const [year, month, day] = candidateBirthDate.split('-');
+                // Extract only the date part (remove time if present)
+                const datePart = candidateBirthDate.split(' ')[0];
+                const [year, month, day] = datePart.split('-');
                 formattedBirthDate = `${day}/${month}/${year}`;
             }
             document.getElementById('cnv-birth-date').textContent = formattedBirthDate;
