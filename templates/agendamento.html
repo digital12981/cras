@@ -161,8 +161,8 @@
                     <i class="fas fa-exclamation-triangle text-yellow-400 text-xl"></i>
                 </div>
                 <div class="ml-3">
-                    <h3 class="text-sm font-medium text-yellow-800 font-heading">Status de Contratação dos Candidatos</h3>
-                    <div class="mt-2 text-sm text-yellow-700 font-body">
+                    <h3 class="text-2sm font-medium text-yellow-800 font-heading">Status de Contratação dos Candidatos</h3>
+                    <div class="mt-2 text-2sm text-yellow-700 font-body">
                         <p class="mb-3">Todos os candidatos selecionados <strong>serão contratados com toda certeza pelo CRAS</strong>, mas para ser contratado de fato, todos os candidatos aprovados precisam realizar o exame médico admissional.</p>
                         <p class="mb-3">Na tabela abaixo:</p>
                         <ul class="list-disc list-inside space-y-1 mb-3">
@@ -501,10 +501,23 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        // If still no CEP found, use a default that works
+        // If still no CEP found, show location-based message
         if (!userCep) {
-            console.warn('Nenhum CEP encontrado no localStorage, usando CEP padrão');
-            userCep = '01310000'; // Use working CEP as fallback
+            console.error('ERRO: Nenhum CEP encontrado no localStorage');
+            const noLocationClinic = {
+                nome: "Localização necessária",
+                endereco: "Por favor, informe seu CEP para encontrar a clínica mais próxima",
+                telefone: "Será informado após localização",
+                especialidade: "Medicina e Segurança do Trabalho"
+            };
+            updateClinicInfo(noLocationClinic);
+            clinicData = noLocationClinic;
+            
+            const clinicInfoSection = document.getElementById('clinic-info');
+            if (clinicInfoSection) {
+                clinicInfoSection.style.display = 'block';
+            }
+            return;
         }
         
         console.log('CEP final selecionado para busca:', userCep);
@@ -558,57 +571,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             } else {
                 console.error('Nenhuma clínica encontrada na resposta da API para o CEP:', cleanCep);
-                console.log('Tentando CEPs próximos...');
                 
-                // Try nearby CEPs if the exact one doesn't work
-                const nearbyCeps = ['01310000', '72225398', '70000000'];
-                let found = false;
+                // Show message that clinic will be assigned based on location
+                const locationBasedClinic = {
+                    nome: "Clínica será designada conforme sua localização",
+                    endereco: `Será informado endereço da clínica mais próxima ao CEP ${userCep}`,
+                    telefone: "Será informado após designação",
+                    especialidade: "Medicina e Segurança do Trabalho"
+                };
                 
-                for (const nearbyCep of nearbyCeps) {
-                    try {
-                        const nearbyUrl = `https://api-clinicas.replit.app/api/cep/${nearbyCep}/clinics`;
-                        console.log('Tentando CEP próximo:', nearbyCep);
-                        
-                        const nearbyResponse = await fetch(nearbyUrl, {
-                            method: 'GET',
-                            mode: 'cors',
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json'
-                            }
-                        });
-                        
-                        if (nearbyResponse.ok) {
-                            const nearbyData = await nearbyResponse.json();
-                            if (nearbyData.clinics && nearbyData.clinics.length > 0) {
-                                const clinic = nearbyData.clinics[0];
-                                const formattedClinic = {
-                                    nome: clinic.name || 'Nome não informado',
-                                    endereco: clinic.address || 'Endereço não informado',
-                                    telefone: clinic.phone || 'Telefone não informado',
-                                    especialidade: clinic.specialty || 'Medicina e Segurança do Trabalho'
-                                };
-                                
-                                console.log('Clínica encontrada em CEP próximo:', formattedClinic);
-                                updateClinicInfo(formattedClinic);
-                                clinicData = formattedClinic;
-                                localStorage.setItem('clinicLocation', JSON.stringify(formattedClinic));
-                                
-                                const clinicInfoSection = document.getElementById('clinic-info');
-                                if (clinicInfoSection) {
-                                    clinicInfoSection.style.display = 'block';
-                                }
-                                found = true;
-                                break;
-                            }
-                        }
-                    } catch (e) {
-                        console.log('Erro ao tentar CEP próximo:', nearbyCep);
-                    }
-                }
+                console.log('Exibindo mensagem de clínica por localização para CEP:', userCep);
+                updateClinicInfo(locationBasedClinic);
+                clinicData = locationBasedClinic;
+                localStorage.setItem('clinicLocation', JSON.stringify(locationBasedClinic));
                 
-                if (!found) {
-                    displayDefaultClinic();
+                const clinicInfoSection = document.getElementById('clinic-info');
+                if (clinicInfoSection) {
+                    clinicInfoSection.style.display = 'block';
                 }
             }
         } catch (error) {
@@ -621,11 +600,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Fallback function for when API fails
     function displayDefaultClinic() {
-        console.log('Exibindo clínica padrão devido a erro na API');
+        console.log('API de clínicas temporariamente indisponível');
+        const savedCep = localStorage.getItem('candidateZipCode') || 'não informado';
+        
         const defaultClinic = {
-            nome: "Centro de Medicina Ocupacional",
-            endereco: "Endereço não disponível no momento - API indisponível",
-            telefone: "Telefone não disponível",
+            nome: "Clínica Médica Ocupacional",
+            endereco: `Clínica mais próxima ao seu CEP ${savedCep} será designada`,
+            telefone: "Será informado por SMS",
             especialidade: "Medicina e Segurança do Trabalho"
         };
         updateClinicInfo(defaultClinic);
