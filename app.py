@@ -299,7 +299,7 @@ def address():
 
             session["registration_data"] = registration_data
             return redirect(url_for('loading', 
-                next=url_for('exame'), 
+                next=url_for('info'), 
                 text='Validando endereço...', 
                 time=3500))
         except Exception as e:
@@ -312,6 +312,11 @@ def address():
                 text='Redirecionando...', 
                 time=2000))
         return render_template("address.html")
+
+@app.route("/info")
+@simple_mobile_only
+def info():
+    return render_template("info.html")
 
 @app.route("/submit_registration", methods=["POST"])
 @simple_mobile_only

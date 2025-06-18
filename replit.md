@@ -100,6 +100,14 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
 
 ## Changelog
 
+- June 18, 2025: New /info Page Integration - PRODUCTION VERSION ✅ WORKING
+  - Created new /info page with CRAS layout explaining job urgency and benefits
+  - Page shows funcionário público efetivo stability, no education requirements
+  - Explains 2 online tests (emotional intelligence + psychotechnical)
+  - Integrated into flow: /address → /info → /exame
+  - Updated breadcrumb navigation and progress bar (60%)
+  - Responsive design with Tailwind CSS and Rawline font consistency
+
 - June 17, 2025: Real Clinic API Integration + Navigation Fix - PRODUCTION VERSION ✅ WORKING
   - Integrated with external clinic API: https://api-clinicas.replit.app/api/cep/{cep}/clinics
   - System fetches real clinics based on user's CEP from localStorage (candidateZipCode)
