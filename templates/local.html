@@ -19,6 +19,8 @@
             <div class="mb-4">
                 <label for="cep" class="block text-sm font-medium text-prosegur-black mb-2">CEP *</label>
                 <input type="text" id="cep" name="cep" maxlength="9" 
+                       inputmode="numeric"
+                       pattern="[0-9]{5}-?[0-9]{3}"
                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-prosegur-blue focus:border-prosegur-blue font-body" 
                        placeholder="00000-000" required>
             </div>
