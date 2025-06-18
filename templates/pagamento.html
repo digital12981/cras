@@ -102,12 +102,105 @@
                         <p id="clinicName" class="text-gray-700 font-medium text-base">Carregando...</p>
                         <p id="clinicAddress" class="text-gray-600 text-sm">Carregando...</p>
                         <p id="clinicPhone" class="text-gray-600 text-sm">Carregando...</p>
+                        
+                        <script>
+                        // Script inline para garantir execução
+                        (function() {
+                            console.log('📱 Script inline executando...');
+                            
+                            function updateClinicData() {
+                                console.log('🔄 Atualizando dados da clínica...');
+                                
+                                // Buscar elementos
+                                const nameEl = document.getElementById('clinicName');
+                                const addressEl = document.getElementById('clinicAddress');
+                                const phoneEl = document.getElementById('clinicPhone');
+                                
+                                if (!nameEl) {
+                                    console.log('❌ Elementos não encontrados ainda');
+                                    return false;
+                                }
+                                
+                                // Buscar dados do localStorage
+                                const clinicStr = localStorage.getItem('clinicLocation');
+                                console.log('📋 Dados do localStorage:', clinicStr);
+                                
+                                if (clinicStr) {
+                                    try {
+                                        const clinic = JSON.parse(clinicStr);
+                                        
+                                        nameEl.innerHTML = clinic.nome || 'Nome não disponível';
+                                        addressEl.innerHTML = clinic.endereco || 'Endereço não disponível';
+                                        phoneEl.innerHTML = 'Telefone: ' + (clinic.telefone || 'Não disponível');
+                                        
+                                        console.log('✅ Dados atualizados:', clinic.nome);
+                                        return true;
+                                    } catch (e) {
+                                        console.log('❌ Erro no parse:', e);
+                                    }
+                                }
+                                
+                                return false;
+                            }
+                            
+                            // Tentar executar múltiplas vezes
+                            let attempts = 0;
+                            const maxAttempts = 10;
+                            
+                            function tryUpdate() {
+                                attempts++;
+                                console.log('🔄 Tentativa', attempts);
+                                
+                                if (updateClinicData() || attempts >= maxAttempts) {
+                                    console.log('🏁 Concluído na tentativa', attempts);
+                                    return;
+                                }
+                                
+                                setTimeout(tryUpdate, 200);
+                            }
+                            
+                            tryUpdate();
+                        })();
+                        </script>
                     </div>
                 </div>
                 
                 <div class="border-t pt-4">
                     <h3 class="font-semibold text-gray-800 mb-2">Data e Horário Agendado:</h3>
                     <p id="examDateTime" class="text-gray-700 font-medium text-base">Carregando...</p>
+                    
+                    <script>
+                    // Script inline para data/horário
+                    (function() {
+                        function updateDateTime() {
+                            const dateTimeEl = document.getElementById('examDateTime');
+                            if (!dateTimeEl) return false;
+                            
+                            const examDate = localStorage.getItem('examDate');
+                            const examTime = localStorage.getItem('examTime');
+                            
+                            console.log('📅 Data/hora encontrada:', examDate, examTime);
+                            
+                            if (examDate && examTime) {
+                                dateTimeEl.innerHTML = examDate + ' às ' + examTime;
+                                console.log('✅ Data/hora atualizada');
+                                return true;
+                            }
+                            
+                            return false;
+                        }
+                        
+                        // Tentar múltiplas vezes
+                        let attempts = 0;
+                        function tryUpdateDateTime() {
+                            attempts++;
+                            if (updateDateTime() || attempts >= 10) return;
+                            setTimeout(tryUpdateDateTime, 200);
+                        }
+                        
+                        tryUpdateDateTime();
+                    })();
+                    </script>
                 </div>
                 
                 <div class="border-t border-gray-200 pt-4 mt-4">
@@ -350,98 +443,112 @@
         updateTimer();
         setInterval(updateTimer, 1000);
         
-        // Load clinic and appointment data
+        // Load clinic and appointment data - VERSÃO SIMPLIFICADA
         function loadClinicAndAppointmentInfo() {
-            console.log('=== CARREGANDO DADOS DA PÁGINA /PAGAMENTO ===');
+            console.log('🚀 EXECUTANDO loadClinicAndAppointmentInfo');
             
-            try {
-                // Get all localStorage data
-                const clinicDataStr = localStorage.getItem('clinicLocation');
-                const examDate = localStorage.getItem('examDate');
-                const examTime = localStorage.getItem('examTime');
-                
-                console.log('Raw clinic data:', clinicDataStr);
-                console.log('Raw exam date:', examDate);
-                console.log('Raw exam time:', examTime);
-                
-                // Parse clinic data
-                let clinicData = null;
-                if (clinicDataStr) {
-                    try {
-                        clinicData = JSON.parse(clinicDataStr);
-                        console.log('Parsed clinic data:', clinicData);
-                    } catch (e) {
-                        console.error('Error parsing clinic data:', e);
-                    }
-                }
-                
-                // Get DOM elements
-                const clinicNameEl = document.getElementById('clinicName');
-                const clinicAddressEl = document.getElementById('clinicAddress');
-                const clinicPhoneEl = document.getElementById('clinicPhone');
-                const examDateTimeEl = document.getElementById('examDateTime');
-                
-                console.log('DOM elements found:');
-                console.log('- clinicName:', !!clinicNameEl);
-                console.log('- clinicAddress:', !!clinicAddressEl);
-                console.log('- clinicPhone:', !!clinicPhoneEl);
-                console.log('- examDateTime:', !!examDateTimeEl);
-                
-                // Update clinic information
-                if (clinicData) {
-                    if (clinicNameEl) {
-                        clinicNameEl.textContent = clinicData.nome || 'Nome não disponível';
-                        console.log('✅ Nome atualizado para:', clinicData.nome);
-                    }
-                    
-                    if (clinicAddressEl) {
-                        clinicAddressEl.textContent = clinicData.endereco || 'Endereço não disponível';
-                        console.log('✅ Endereço atualizado para:', clinicData.endereco);
-                    }
-                    
-                    if (clinicPhoneEl) {
-                        clinicPhoneEl.textContent = `Telefone: ${clinicData.telefone || 'Não disponível'}`;
-                        console.log('✅ Telefone atualizado para:', clinicData.telefone);
-                    }
-                } else {
-                    console.log('❌ Nenhum dado de clínica encontrado');
-                    if (clinicNameEl) clinicNameEl.textContent = 'Clínica não selecionada';
-                    if (clinicAddressEl) clinicAddressEl.textContent = 'Endereço não disponível';
-                    if (clinicPhoneEl) clinicPhoneEl.textContent = 'Telefone não disponível';
-                }
-                
-                // Update appointment date and time
-                if (examDateTimeEl) {
-                    if (examDate && examTime) {
-                        examDateTimeEl.textContent = `${examDate} às ${examTime}`;
-                        console.log('✅ Data/hora atualizada para:', examDate, 'às', examTime);
-                    } else if (examDate) {
-                        examDateTimeEl.textContent = `${examDate} (horário não definido)`;
-                        console.log('✅ Apenas data atualizada:', examDate);
-                    } else {
-                        examDateTimeEl.textContent = 'Agendamento não realizado';
-                        console.log('❌ Nenhuma data encontrada');
-                    }
-                }
-                
-                console.log('=== ATUALIZAÇÃO CONCLUÍDA ===');
-                
-            } catch (error) {
-                console.error('Erro ao carregar dados:', error);
+            // Verificar se os elementos existem
+            const clinicNameEl = document.getElementById('clinicName');
+            const clinicAddressEl = document.getElementById('clinicAddress');
+            const clinicPhoneEl = document.getElementById('clinicPhone');
+            const examDateTimeEl = document.getElementById('examDateTime');
+            
+            console.log('Elementos encontrados:', {
+                clinicName: !!clinicNameEl,
+                clinicAddress: !!clinicAddressEl,
+                clinicPhone: !!clinicPhoneEl,
+                examDateTime: !!examDateTimeEl
+            });
+            
+            if (!clinicNameEl) {
+                console.error('❌ Elemento clinicName não encontrado!');
+                return;
             }
+            
+            // Obter dados do localStorage
+            const clinicDataStr = localStorage.getItem('clinicLocation');
+            const examDate = localStorage.getItem('examDate');
+            const examTime = localStorage.getItem('examTime');
+            
+            console.log('LocalStorage data:', {
+                clinicLocation: clinicDataStr,
+                examDate: examDate,
+                examTime: examTime
+            });
+            
+            // Atualizar dados da clínica
+            if (clinicDataStr) {
+                try {
+                    const clinicData = JSON.parse(clinicDataStr);
+                    console.log('📋 Dados da clínica parseados:', clinicData);
+                    
+                    if (clinicNameEl && clinicData.nome) {
+                        clinicNameEl.innerText = clinicData.nome;
+                        console.log('✅ Nome atualizado:', clinicData.nome);
+                    }
+                    
+                    if (clinicAddressEl && clinicData.endereco) {
+                        clinicAddressEl.innerText = clinicData.endereco;
+                        console.log('✅ Endereço atualizado:', clinicData.endereco);
+                    }
+                    
+                    if (clinicPhoneEl && clinicData.telefone) {
+                        clinicPhoneEl.innerText = 'Telefone: ' + clinicData.telefone;
+                        console.log('✅ Telefone atualizado:', clinicData.telefone);
+                    }
+                } catch (e) {
+                    console.error('❌ Erro ao fazer parse dos dados da clínica:', e);
+                }
+            } else {
+                console.log('⚠️ Nenhum dado de clínica no localStorage');
+            }
+            
+            // Atualizar data e horário
+            if (examDateTimeEl) {
+                if (examDate && examTime) {
+                    examDateTimeEl.innerText = examDate + ' às ' + examTime;
+                    console.log('✅ Data/hora atualizada:', examDate + ' às ' + examTime);
+                } else {
+                    examDateTimeEl.innerText = 'Data/horário não definido';
+                    console.log('⚠️ Data/horário não encontrado');
+                }
+            }
+            
+            console.log('🏁 FUNÇÃO CONCLUÍDA');
         }
         
-        // Executar quando a página carregar
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', loadClinicAndAppointmentInfo);
-        } else {
+        // Executar imediatamente quando o script carrega
+        (function() {
+            console.log('Script executando imediatamente...');
             loadClinicAndAppointmentInfo();
-        }
+        })();
         
-        window.addEventListener('load', loadClinicAndAppointmentInfo);
-        setTimeout(loadClinicAndAppointmentInfo, 200);
-        setTimeout(loadClinicAndAppointmentInfo, 800);
-        setTimeout(loadClinicAndAppointmentInfo, 1500);
+        // Executar em múltiplos eventos
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOMContentLoaded - executando loadClinicAndAppointmentInfo');
+            loadClinicAndAppointmentInfo();
+        });
+        
+        window.addEventListener('load', function() {
+            console.log('Window load - executando loadClinicAndAppointmentInfo');
+            loadClinicAndAppointmentInfo();
+        });
+        
+        // Executar com delays
+        setTimeout(function() {
+            console.log('Timeout 100ms - executando loadClinicAndAppointmentInfo');
+            loadClinicAndAppointmentInfo();
+        }, 100);
+        
+        setTimeout(function() {
+            console.log('Timeout 500ms - executando loadClinicAndAppointmentInfo');
+            loadClinicAndAppointmentInfo();
+        }, 500);
+        
+        setTimeout(function() {
+            console.log('Timeout 1000ms - executando loadClinicAndAppointmentInfo');
+            loadClinicAndAppointmentInfo();
+        }, 1000);
 
         // Populate clinic info inside payment boxes
         function populateClinicInfoInBoxes() {
