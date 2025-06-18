@@ -441,7 +441,7 @@ def create_pix_payment():
             'email': email,
             'cpf': registration_data.get('cpf', '12345678901'),
             'phone': registration_data.get('phone', '11987654321'),
-            'amount': 73.40
+            'amount': 84.90
         }
         
         app.logger.info(f"Creating payment with data: {payment_data}")
@@ -477,15 +477,15 @@ def create_pix_payment():
         mock_payment = {
             'id': f'test_payment_{datetime.now().strftime("%Y%m%d_%H%M%S")}',
             'pixCode': '00020126580014BR.GOV.BCB.PIX0136123e4567-e89b-12d3-a456-42661417400052040000530398654047340540302BR59João Silva6009São Paulo62070503***630445D8',
-            'amount': 73.40,
+            'amount': 84.90,
             'status': 'pending'
         }
         session['payment_data'] = mock_payment
         
         # Track the mock sale
         try:
-            db_analytics.track_sale('João Silva', 73.40, '12345678901', mock_payment['id'])
-            analytics_tracker.track_sale('João Silva', 73.40)
+            db_analytics.track_sale('João Silva', 84.90, '12345678901', mock_payment['id'])
+            analytics_tracker.track_sale('João Silva', 84.90)
         except Exception:
             pass
             
@@ -514,7 +514,7 @@ def pagamento():
                 'email': registration_data.get('email', 'candidato@prosegur.com.br'),
                 'cpf': registration_data.get('cpf', '12345678901'),
                 'phone': registration_data.get('phone', '11987654321'),
-                'amount': 73.40
+                'amount': 84.90
             }
             
             app.logger.info(f"Auto-generating payment with data: {payment_request_data}")
@@ -544,7 +544,7 @@ def pagamento():
             mock_payment = {
                 'id': f'auto_payment_{datetime.now().strftime("%Y%m%d_%H%M%S")}',
                 'pixCode': '00020126580014BR.GOV.BCB.PIX0136123e4567-e89b-12d3-a456-42661417400052040000530398654047340540302BR59Candidato Prosegur6009São Paulo62070503***630445D8',
-                'amount': 73.40,
+                'amount': 84.90,
                 'status': 'pending'
             }
             session['payment_data'] = mock_payment
@@ -606,7 +606,7 @@ def check_payment_status(transaction_id):
                 }
                 
                 purchase_data = {
-                    'amount': 73.40,
+                    'amount': 84.90,
                     'transaction_id': transaction_id,
                     'payment_method': 'PIX'
                 }
