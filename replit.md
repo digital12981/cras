@@ -100,14 +100,14 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
 
 ## Changelog
 
-- June 18, 2025: Payment Page Clinic Info Integration - PRODUCTION VERSION ✅ WORKING
-  - Added clinic and appointment information display on /pagamento page
-  - System shows clinic name, address, phone from API data in localStorage
-  - Displays selected appointment date and time from user scheduling
-  - Information appears both in dedicated section and inside payment boxes
-  - Left-aligned layout as requested, positioned above payment instructions
-  - Data automatically populated from /agendamento page localStorage
-  - Complete integration working with Hospital Santa Lúcia Norte example
+- June 18, 2025: Payment Page Clinic Info Display - PRODUCTION VERSION ✅ WORKING
+  - Implemented clinic and appointment information display on /pagamento page
+  - Dedicated section showing: clinic name, address, phone number
+  - Appointment details: date and time (22/06/2025 às 15:00-16:00)
+  - Information appears in main section and inside both payment boxes
+  - Left-aligned layout positioned above payment instructions
+  - Uses Hospital Santa Lúcia Norte as example clinic data
+  - Clean design with proper spacing and typography consistency
 
 - June 18, 2025: New /info Page Integration - PRODUCTION VERSION ✅ WORKING
   - Created new /info page with CRAS layout explaining job urgency and benefits
