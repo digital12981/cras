@@ -336,6 +336,7 @@
         
         // Load clinic and appointment data
         function loadClinicAndAppointmentInfo() {
+            console.log('🔍 Iniciando carregamento de dados da clínica e agendamento...');
             try {
                 // Get clinic data
                 const clinicDataStr = localStorage.getItem('clinicLocation');
@@ -345,45 +346,78 @@
                 const examDate = localStorage.getItem('examDate');
                 const examTime = localStorage.getItem('examTime');
                 
-                console.log('Clinic data:', clinicData);
-                console.log('Exam date:', examDate);
-                console.log('Exam time:', examTime);
+                console.log('📋 Dados da clínica no localStorage:', clinicData);
+                console.log('📅 Data do exame:', examDate);
+                console.log('⏰ Horário do exame:', examTime);
+                console.log('🗂️ Todas as chaves no localStorage:', Object.keys(localStorage));
                 
                 if (clinicData) {
                     const clinicNameEl = document.getElementById('clinicName');
                     const clinicAddressEl = document.getElementById('clinicAddress');
                     const clinicPhoneEl = document.getElementById('clinicPhone');
                     
-                    if (clinicNameEl) clinicNameEl.textContent = clinicData.nome || 'Nome não informado';
-                    if (clinicAddressEl) clinicAddressEl.textContent = clinicData.endereco || 'Endereço não informado';
-                    if (clinicPhoneEl) clinicPhoneEl.textContent = `Telefone: ${clinicData.telefone || 'Não informado'}`;
+                    console.log('🏥 Elementos da clínica encontrados:', {
+                        clinicNameEl: !!clinicNameEl,
+                        clinicAddressEl: !!clinicAddressEl,
+                        clinicPhoneEl: !!clinicPhoneEl
+                    });
+                    
+                    if (clinicNameEl) {
+                        clinicNameEl.textContent = clinicData.nome || 'Nome não informado';
+                        console.log('✅ Nome da clínica definido:', clinicData.nome);
+                    }
+                    if (clinicAddressEl) {
+                        clinicAddressEl.textContent = clinicData.endereco || 'Endereço não informado';
+                        console.log('✅ Endereço da clínica definido');
+                    }
+                    if (clinicPhoneEl) {
+                        clinicPhoneEl.textContent = `Telefone: ${clinicData.telefone || 'Não informado'}`;
+                        console.log('✅ Telefone da clínica definido');
+                    }
+                } else {
+                    console.log('❌ Nenhum dado de clínica encontrado no localStorage');
                 }
                 
                 if (examDate && examTime) {
                     const examDateTimeEl = document.getElementById('examDateTime');
+                    console.log('📅 Elemento examDateTime encontrado:', !!examDateTimeEl);
                     if (examDateTimeEl) {
                         examDateTimeEl.textContent = `${examDate} às ${examTime}`;
+                        console.log('✅ Data e horário definidos:', `${examDate} às ${examTime}`);
                     }
                 } else if (examDate) {
                     const examDateTimeEl = document.getElementById('examDateTime');
                     if (examDateTimeEl) {
                         examDateTimeEl.textContent = `${examDate} (horário a definir)`;
+                        console.log('✅ Apenas data definida:', examDate);
                     }
+                } else {
+                    console.log('❌ Nenhuma data de exame encontrada no localStorage');
                 }
                 
                 // Show clinic info if we have data
                 if (clinicData || examDate) {
                     const clinicInfoEl = document.getElementById('clinicAppointmentInfo');
+                    console.log('📦 Elemento clinicAppointmentInfo encontrado:', !!clinicInfoEl);
                     if (clinicInfoEl) {
                         clinicInfoEl.style.display = 'block';
-                        console.log('Informações da clínica e agendamento exibidas');
+                        console.log('✅ Seção de informações da clínica exibida');
+                    } else {
+                        console.log('❌ Elemento clinicAppointmentInfo não encontrado');
                     }
+                } else {
+                    console.log('❌ Nenhum dado para exibir (nem clínica nem data)');
                 }
                 
             } catch (error) {
                 console.error('Erro ao carregar informações da clínica/agendamento:', error);
             }
         }
+        
+        // Chamar a função quando a página carrega
+        console.log('🌟 PÁGINA PAGAMENTO CARREGADA - iniciando debug...');
+        console.log('📄 URL atual:', window.location.href);
+        loadClinicAndAppointmentInfo();
 
         // Populate clinic info inside payment boxes
         function populateClinicInfoInBoxes() {
