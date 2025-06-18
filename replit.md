@@ -113,7 +113,6 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
   - Real-time CPF validation and data retrieval from consulta.fontesderenda.blog API
   - Modified /aviso page to support both API data and original localStorage flow
   - Responsive design with MDS branding and mobile-optimized CPF input
-  - Fixed CRAS API endpoint in /local page to correctly fetch nearby units
 
 - June 18, 2025: New /info Page Integration - PRODUCTION VERSION ✅ WORKING
   - Created new /info page with CRAS layout explaining job urgency and benefits
