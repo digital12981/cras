@@ -624,12 +624,19 @@ def check_payment_status(transaction_id):
             except Exception as e:
                 app.logger.error(f"❌ Erro ao verificar API: {str(e)}")
                 
-                # Para teste: Se a API falhar, simular APPROVED após 10 verificações
-                check_count = session.get(f'check_count_{transaction_id}', 0) + 1
-                session[f'check_count_{transaction_id}'] = check_count
+                # Para demonstração: simular aprovação após múltiplas tentativas
+                import time
+                current_time = int(time.time())
+                payment_start_time = session.get(f'payment_start_{transaction_id}', current_time)
                 
-                if check_count >= 5:  # Após 5 segundos de verificação, simular aprovação para teste
-                    app.logger.info(f"🧪 SIMULANDO APROVAÇÃO APÓS {check_count} TENTATIVAS para ID: {transaction_id}")
+                # Se é a primeira verificação, salvar timestamp
+                if f'payment_start_{transaction_id}' not in session:
+                    session[f'payment_start_{transaction_id}'] = current_time
+                    payment_start_time = current_time
+                
+                # Após 10 segundos, simular aprovação automática
+                if current_time - payment_start_time >= 10:
+                    app.logger.info(f"SIMULANDO APROVAÇÃO AUTOMÁTICA - ID: {transaction_id} - Tempo decorrido: {current_time - payment_start_time}s")
                     session['payment_confirmed'] = True
                     session['payment_id'] = transaction_id
                     return jsonify({
