@@ -506,6 +506,11 @@ def create_pix_payment():
         else:
             return redirect(url_for('pagamento'))
 
+@app.route("/redirect_payment")
+def redirect_payment():
+    """Manual redirect for confirmed payments"""
+    return render_template("payment_redirect.html")
+
 @app.route("/pagamento")
 def pagamento():
     # Check if payment data already exists in session
