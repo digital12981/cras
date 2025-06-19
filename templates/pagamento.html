@@ -544,10 +544,25 @@
                             clearInterval(window.statusCheckInterval);
                         }
                         
-                        // Start checking the NEW payment ID immediately
-                        checkPaymentStatus(data.payment_data.id);
-                        window.statusCheckInterval = setInterval(() => {
-                            checkPaymentStatus(data.payment_data.id);
+                        // USAR SEMPRE O NOVO ID DE PAGAMENTO CRIADO
+                        const newPaymentId = data.payment_data.id;
+                        console.log('INICIANDO VERIFICAÇÃO COM NOVO ID:', newPaymentId);
+                        
+                        // Limpar TODAS as verificações anteriores
+                        try {
+                            if (window.currentStatusInterval) clearInterval(window.currentStatusInterval);
+                            if (window.statusCheckInterval) clearInterval(window.statusCheckInterval);
+                            if (statusCheckInterval) clearInterval(statusCheckInterval);
+                            if (currentStatusInterval) clearInterval(currentStatusInterval);
+                        } catch (e) {
+                            console.log('Intervalos limpos');
+                        }
+                        
+                        // Começar verificação IMEDIATA com o ID CORRETO
+                        checkPaymentStatus(newPaymentId);
+                        window.activePaymentCheck = setInterval(() => {
+                            console.log('Verificando pagamento:', newPaymentId);
+                            checkPaymentStatus(newPaymentId);
                         }, 1000);
                     }, 1000);
                 } else {
@@ -783,8 +798,9 @@
             }, 2000);
         }
 
-        // Automatic payment status checking for R$ 73.40 payments
+        // Global variables for payment status checking
         let statusCheckInterval = null;
+        let currentStatusInterval = null;
         
         function startPaymentStatusCheck() {
             // Get transaction ID from template variable first, then fallback to other sources
@@ -848,25 +864,19 @@
                     if (data.success && data.redirect) {
                         console.log('PAGAMENTO CONFIRMADO! Redirecionando automaticamente...');
                         
-                        // Stop all status checking immediately
+                        // Stop all payment checking
                         try {
-                            if (window.statusCheckInterval) {
-                                clearInterval(window.statusCheckInterval);
-                            }
+                            if (window.activePaymentCheck) clearInterval(window.activePaymentCheck);
+                            if (window.statusCheckInterval) clearInterval(window.statusCheckInterval);
+                            if (window.currentStatusInterval) clearInterval(window.currentStatusInterval);
                         } catch (e) {
-                            console.log('Interval cleanup done');
+                            console.log('Payment checks stopped');
                         }
                         
-                        // Use redirect_url if provided, otherwise default to /aviso
+                        // Immediate redirect to CNV activation
                         const redirectUrl = data.redirect_url || '/aviso';
                         console.log('Payment confirmed - redirecting to:', redirectUrl);
-                        
-                        // Immediate redirect with fallback
-                        try {
-                            window.location.replace(redirectUrl);
-                        } catch (e) {
-                            window.location.href = redirectUrl;
-                        }
+                        window.location.href = redirectUrl;
                     }
                 })
                 .catch(error => {
