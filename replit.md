@@ -116,6 +116,7 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
   - Corrected JavaScript element handling to prevent DOM errors and ensure smooth PIX code copying
   - Validated complete flow: Index form → localStorage → PIX API → Official QR code + copy-paste code display
   - Removed duplicate QR code from /pagamento page, keeping only the official For4Payments API QR code
+  - Enhanced PIX payment UI: reduced QR code size, green 3D button with hover effects, step-by-step guide with green circular numbered badges
 
 - June 18, 2025: New /login Page + CNAS Integration - PRODUCTION VERSION ✅ WORKING
   - Transformed both /aviso and /finalizar pages from CNV to CNAS (Carteira Nacional do Assistente Social)
