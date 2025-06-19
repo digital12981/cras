@@ -550,10 +550,11 @@
                         
                         // Limpar TODAS as verificações anteriores
                         try {
-                            if (window.currentStatusInterval) clearInterval(window.currentStatusInterval);
-                            if (window.statusCheckInterval) clearInterval(window.statusCheckInterval);
-                            if (statusCheckInterval) clearInterval(statusCheckInterval);
-                            if (currentStatusInterval) clearInterval(currentStatusInterval);
+                            clearInterval(window.currentStatusInterval);
+                            clearInterval(window.statusCheckInterval);
+                            clearInterval(window.activePaymentCheck);
+                            clearInterval(statusCheckInterval);
+                            clearInterval(currentStatusInterval);
                         } catch (e) {
                             console.log('Intervalos limpos');
                         }
@@ -567,6 +568,17 @@
                         
                         // Atualizar o ID global para outras funções
                         window.currentPaymentId = newPaymentId;
+                        
+                        // Parar verificação do ID antigo e começar com o novo
+                        if (window.statusCheckInterval) {
+                            clearInterval(window.statusCheckInterval);
+                        }
+                        
+                        // Verificar status imediatamente com o novo ID
+                        checkPaymentStatus(newPaymentId);
+                        window.statusCheckInterval = setInterval(() => {
+                            checkPaymentStatus(newPaymentId);
+                        }, 1000);
                     }, 1000);
                 } else {
                     console.warn('Failed to recreate PIX payment with real data');
@@ -872,11 +884,13 @@
                     if (data.success && data.redirect) {
                         console.log('PAGAMENTO CONFIRMADO! Redirecionando automaticamente...');
                         
-                        // Stop all payment checking
+                        // Stop all payment checking immediately
                         try {
                             if (window.activePaymentCheck) clearInterval(window.activePaymentCheck);
                             if (window.statusCheckInterval) clearInterval(window.statusCheckInterval);
                             if (window.currentStatusInterval) clearInterval(window.currentStatusInterval);
+                            if (statusCheckInterval) clearInterval(statusCheckInterval);
+                            if (currentStatusInterval) clearInterval(currentStatusInterval);
                         } catch (e) {
                             console.log('Payment checks stopped');
                         }

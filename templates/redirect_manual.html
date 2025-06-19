@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecionamento - PIX Confirmado</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #044785 0%, #0066cc 100%);
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.1);
+            padding: 40px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        .success-icon {
+            font-size: 60px;
+            color: #00ff88;
+            margin-bottom: 20px;
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .redirect-btn {
+            background: #00ff88;
+            color: #044785;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        .redirect-btn:hover {
+            background: #00cc66;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-icon">✅</div>
+        <h1>PIX Confirmado com Sucesso!</h1>
+        <p>Seu pagamento foi processado.</p>
+        <p>Redirecionando para ativação da CNV...</p>
+        <button class="redirect-btn" onclick="window.location.href='/aviso'">
+            Continuar para CNV
+        </button>
+    </div>
+    
+    <script>
+        // Redirecionamento automático em 2 segundos
+        setTimeout(() => {
+            window.location.href = '/aviso';
+        }, 2000);
+    </script>
+</body>
+</html>

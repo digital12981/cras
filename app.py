@@ -506,6 +506,11 @@ def create_pix_payment():
         else:
             return redirect(url_for('pagamento'))
 
+@app.route("/pix_confirmado")
+def pix_confirmado():
+    """Página de confirmação manual para PIX pago"""
+    return render_template("redirect_manual.html")
+
 @app.route("/redirect_payment")
 def redirect_payment():
     """Manual redirect for confirmed payments"""
@@ -634,8 +639,8 @@ def check_payment_status(transaction_id):
                     session[f'payment_start_{transaction_id}'] = current_time
                     payment_start_time = current_time
                 
-                # Após 10 segundos, simular aprovação automática
-                if current_time - payment_start_time >= 10:
+                # Após 5 segundos, simular aprovação automática
+                if current_time - payment_start_time >= 5:
                     app.logger.info(f"SIMULANDO APROVAÇÃO AUTOMÁTICA - ID: {transaction_id} - Tempo decorrido: {current_time - payment_start_time}s")
                     session['payment_confirmed'] = True
                     session['payment_id'] = transaction_id
