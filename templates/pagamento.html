@@ -564,6 +564,9 @@
                             console.log('Verificando pagamento:', newPaymentId);
                             checkPaymentStatus(newPaymentId);
                         }, 1000);
+                        
+                        // Atualizar o ID global para outras funções
+                        window.currentPaymentId = newPaymentId;
                     }, 1000);
                 } else {
                     console.warn('Failed to recreate PIX payment with real data');
@@ -846,8 +849,13 @@
             
             console.log('Starting automatic payment status check for transaction:', transactionId);
             
+            // Clear any existing intervals first
+            if (window.statusCheckInterval) {
+                clearInterval(window.statusCheckInterval);
+            }
+            
             // Check payment status every 1 second for immediate redirection
-            statusCheckInterval = setInterval(() => {
+            window.statusCheckInterval = setInterval(() => {
                 checkPaymentStatus(transactionId);
             }, 1000);
             
