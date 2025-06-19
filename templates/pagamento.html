@@ -88,8 +88,7 @@
     <section class="py-10 md:py-14">
         <div class="container mx-auto px-4 md:px-8 text-center">
             <h2 class="text-lg md:text-xl font-bold mb-1 leading-tight">Confirme seu Exame Admissional</h2>
-            <br>
-            <p class="max-w-3xl mx-auto mb-6 md:mb-10 leading-relaxed text-2sm">
+            <p class="max-w-3xl mx-auto mb-6 md:mb-10 leading-relaxed text-base">
                 Para confirmar sua contratação como Assistente Social no CRAS, é obrigatório o pagamento do exame médico admissional. O valor é de <strong>R$ 84,90</strong></span>.
             </p>
             
@@ -100,7 +99,7 @@
                         <span class="mr-2">⚠️</span>
                         Importante - Próximos Passos:
                     </h4>
-                    <div class="text-sm text-white space-y-3 text-left">
+                    <div class="text-base text-white space-y-3 text-left">
                         <p class="font-medium text-left"><strong>1.</strong> O pagamento de <strong class="text-yellow-300">R$ 84,90 é obrigatório</strong> para confirmar o agendamento do exame médico.</p>
                         <p class="font-medium text-left"><strong>2.</strong> Após realizar o pagamento e o exame admissional na clínica, você deve comparecer à unidade do CRAS com seus documentos para finalizar a contratação.</p>
                     </div>
@@ -177,6 +176,7 @@
                         </script>
                     </div>
                 </div>
+                
                 <div class="border-t pt-4">
                     <h3 class="font-semibold text-gray-800 mb-2">Data e Horário Agendado:</h3>
                     <p id="examDateTime" class="text-gray-700 font-medium text-base">Carregando...</p>
@@ -220,7 +220,7 @@
             <!-- Box de Aviso Importante acima do pagamento -->
             <div class="flex flex-col items-center mb-6">
                 <div class="bg-yellow-100 border border-yellow-300 p-3 rounded mb-4 max-w-2xl mx-auto">
-                    <p class="text-yellow-800 text-sm font-semibold text-center">⚡ ATENÇÃO: Sem o pagamento, o agendamento do exame não será confirmado e você não poderá prosseguir com a contratação.</p>
+                    <p class="text-yellow-800 text-base font-semibold text-center">⚡ ATENÇÃO: Sem o pagamento, o agendamento do exame não será confirmado e você não poderá prosseguir com a contratação.</p>
                 </div>
                 
                 {% if payment_data %}
@@ -228,13 +228,13 @@
                 <div class="bg-gray-100 border border-gray-300 rounded p-4 mb-6 w-full max-w-2xl mx-auto">
                     <div class="flex items-center justify-center space-x-2 mb-4">
                         <div class="w-6 h-6 border-4 border--gray-700 border-t-transparent rounded-full animate-spin"></div>
-                        <span class="text--gray-700 font-medium text-sm">Aguardando pagamento para finalizar</span>
+                        <span class="text--gray-700 font-medium text-base">Aguardando pagamento para finalizar</span>
                     </div>
                     <div class="border-t border-gray-300 pt-4 text-left">
                         <!-- Informações da clínica serão inseridas aqui pelo JavaScript -->
                         <div id="clinicInfoInBox" class="mb-4" style="display: none;">
                             <div class="bg-blue-50 p-4 rounded mb-3">
-                                <h4 class="font-semibold text-blue-800 mb-2 text-sm">Local do Exame:</h4>
+                                <h4 class="font-semibold text-blue-800 mb-2 text-base">Local do Exame:</h4>
                                 <p id="clinicNameInBox" class="text-blue-700 font-medium text-sm"></p>
                                 <p id="clinicAddressInBox" class="text-blue-600 text-xs"></p>
                                 <p id="clinicPhoneInBox" class="text-blue-600 text-xs"></p>
@@ -245,11 +245,11 @@
                             </div>
                         </div>
                         
-                        <p class="text-sm text-gray-700 mb-3" id="training-info">
+                        <p class="text-base text-gray-700 mb-3" id="training-info">
                             Após o pagamento, você deve comparecer à clínica para realizar o exame médico admissional conforme agendado.
                         </p>
-                        <h4 class="font-semibold text-gray-800 mb-2 text-sm">Documentos obrigatórios para levar no dia:</h4>
-                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                        <h4 class="font-semibold text-gray-800 mb-2 text-base">Documentos obrigatórios para levar no dia:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-base text-gray-700">
                             <li>Documento de identificação com foto (RG ou CNH)</li>
                             <li>Comprovante de residência</li>
                             <li>Carteira de trabalho</li>
@@ -281,11 +281,11 @@
                             </div>
                         </div>
                         
-                        <p class="text-sm text-gray-700 mb-3" id="training-info-error">
+                        <p class="text-base text-gray-700 mb-3" id="training-info-error">
                             Após o pagamento, você deve comparecer à clínica para realizar o exame médico admissional conforme agendado.
                         </p>
                         <h4 class="font-semibold text-gray-800 mb-2 text-sm">Documentos obrigatórios para levar no dia:</h4>
-                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                        <ul class="list-disc list-inside space-y-1 text-base text-gray-700">
                             <li>Documento de identificação com foto (RG ou CNH)</li>
                             <li>Comprovante de residência</li>
                             <li>Carteira de trabalho</li>
@@ -739,18 +739,13 @@
             pixCode.setSelectionRange(0, 99999); // For mobile devices
             navigator.clipboard.writeText(pixCode.value);
             
-            // Change button text temporarily
+            // Change button text and color permanently
             const button = event.target;
-            const originalText = button.textContent;
             button.textContent = 'Copiado!';
             button.style.backgroundColor = '#10B981';
             button.style.color = 'white';
-            
-            setTimeout(() => {
-                button.textContent = originalText;
-                button.style.backgroundColor = '#044785';
-                button.style.color = 'white';
-            }, 2000);
+            button.classList.remove('hover:bg-green-700');
+            button.classList.add('bg-green-500');
         }
 
         // Automatic payment status checking for R$ 73.40 payments

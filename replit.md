@@ -122,6 +122,7 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
   - Applied 4px rounded borders (rounded) to all boxes on /pagamento page for consistent design
   - Moved "Importante - Próximos Passos" box to top of page, above clinic information section
   - Applied left text alignment to numbered steps within important information box
+  - Modified PIX copy button to permanently show "Copiado!" in green after clicking (no revert to blue)
 
 - June 18, 2025: New /login Page + CNAS Integration - PRODUCTION VERSION ✅ WORKING
   - Transformed both /aviso and /finalizar pages from CNV to CNAS (Carteira Nacional do Assistente Social)
