@@ -511,6 +511,11 @@
                 if (data.success && data.payment_data) {
                     console.log('PIX payment recreated with real user data:', data.payment_data);
                     
+                    // Store payment ID globally for status checking
+                    window.currentPixPaymentId = data.payment_data.id;
+                    localStorage.setItem('currentPaymentId', data.payment_data.id);
+                    console.log('Stored payment ID for status checking:', data.payment_data.id);
+                    
                     // Update PIX code on the page if elements exist
                     const pixCodeInput = document.getElementById('pixCodeInput');
                     const pixQrCode = document.getElementById('pixQrCode');
@@ -524,6 +529,11 @@
                         pixQrCode.src = data.payment_data.pixQrCode;
                         console.log('QR code updated with official API image');
                     }
+                    
+                    // Start payment status checking immediately after payment creation
+                    setTimeout(() => {
+                        startPaymentStatusCheck();
+                    }, 2000);
                 } else {
                     console.warn('Failed to recreate PIX payment with real data');
                 }
@@ -754,7 +764,7 @@
         }
 
         // Automatic payment status checking for R$ 73.40 payments
-        let statusCheckInterval;
+        let statusCheckInterval = null;
         
         function startPaymentStatusCheck() {
             // Get transaction ID from template variable first, then fallback to other sources
@@ -777,10 +787,24 @@
                         console.log('Error parsing payment data from localStorage');
                     }
                 }
+                
+                // Check for current payment ID in localStorage
+                if (!transactionId) {
+                    transactionId = localStorage.getItem('currentPaymentId');
+                }
+                
+                // Check if we have a global PIX payment ID from the page
+                if (!transactionId && window.currentPixPaymentId) {
+                    transactionId = window.currentPixPaymentId;
+                    console.log('Using global PIX payment ID:', transactionId);
+                }
             }
             
             if (!transactionId || transactionId === 'None') {
-                console.log('No transaction ID found for status checking');
+                console.log('No transaction ID found for status checking - retrying in 2 seconds...');
+                setTimeout(() => {
+                    startPaymentStatusCheck();
+                }, 2000);
                 return;
             }
             
