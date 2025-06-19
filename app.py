@@ -442,12 +442,17 @@ def create_pix_payment():
         # Create payment API instance
         payment_api = create_payment_api()
         
-        # Use localStorage data first, then session data, then defaults
+        # OBRIGATORIAMENTE usar dados da página index - SEM FALLBACKS
+        if not user_data.get('name') or not user_data.get('cpf'):
+            app.logger.error("ERRO: Dados obrigatórios da página index não encontrados!")
+            app.logger.error(f"user_data recebido: {user_data}")
+            raise ValueError("Dados do formulário index são obrigatórios")
+        
         payment_data = {
-            'name': user_data.get('name') or registration_data.get('full_name') or registration_data.get('name', 'João Silva'),
-            'email': user_data.get('email') or registration_data.get('email') or f"candidato{user_data.get('cpf', '12345678901')[-4:]}@prosegur.com.br",
-            'cpf': user_data.get('cpf') or registration_data.get('cpf', '12345678901'),
-            'phone': user_data.get('phone') or registration_data.get('phone', '11987654321'),
+            'name': user_data.get('name'),  # OBRIGATÓRIO do index
+            'email': user_data.get('email') or f"{user_data.get('name', '').lower().replace(' ', '')}@candidato.com.br",
+            'cpf': user_data.get('cpf'),    # OBRIGATÓRIO do index  
+            'phone': user_data.get('phone') or '11999999999',  # OBRIGATÓRIO do index
             'amount': 84.90
         }
         
@@ -515,14 +520,16 @@ def pagamento():
             # Create payment with For4Payments API
             payment_api = create_payment_api()
             
-            # IMPORTANT: For /pagamento route, we cannot access localStorage directly
-            # So we need to rely on session data that should be populated from previous pages
-            # If session data is empty, we'll use minimal fallback data
+            # PAGAMENTO SEM DADOS REAIS - NÃO DEVE ACONTECER
+            # Usuário deve vir do fluxo correto com dados do localStorage
+            app.logger.warning("AVISO: Pagamento sendo gerado sem dados reais do localStorage!")
+            app.logger.warning("Usuário deve preencher formulário index primeiro!")
+            
             payment_request_data = {
-                'name': registration_data.get('full_name') or registration_data.get('name', 'Candidato'),
-                'email': registration_data.get('email', 'candidato@email.com'),
-                'cpf': registration_data.get('cpf', '12345678901'),
-                'phone': registration_data.get('phone', '11987654321'),
+                'name': 'DADOS_PENDENTES',
+                'email': 'pendente@aguardando.dados', 
+                'cpf': '00000000000',
+                'phone': '00000000000',
                 'amount': 84.90
             }
             

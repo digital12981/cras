@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const birthDate = birthDateInput.value;
             const motherName = motherNameInput.value;
             
-            // Save to localStorage
+            // Save to localStorage - FORÇA O SALVAMENTO DO EMAIL
             if (cpf) {
                 localStorage.setItem('candidateCPF', cpf);
                 console.log('Saved CPF:', cpf);
@@ -179,10 +179,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.setItem('candidatePhone', phone);
                 console.log('Saved phone:', phone);
             }
-            if (email) {
-                localStorage.setItem('candidateEmail', email);
-                console.log('Saved email:', email);
-            }
+            
+            // SEMPRE salva o email, mesmo se vazio, para debug
+            localStorage.setItem('candidateEmail', email || '');
+            console.log('FORÇANDO salvamento do email:', email);
+            console.log('Email field element found:', !!document.getElementById('email'));
+            console.log('Email input value:', document.getElementById('email') ? document.getElementById('email').value : 'ELEMENT NOT FOUND');
             if (birthDate) {
                 localStorage.setItem('candidateBirthDate', birthDate);
                 console.log('Saved birth date:', birthDate);
@@ -192,17 +194,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('Saved mother name:', motherName);
             }
             
-            // Save complete user data object
+            // Save complete user data object - GARANTINDO EMAIL
             const userData = {
                 cpf: cpf,
                 full_name: fullName,
                 phone: phone,
-                email: email,
+                email: email || '',
                 birth_date: birthDate,
                 mother_name: motherName
             };
             localStorage.setItem('userData', JSON.stringify(userData));
             console.log('Complete user data saved:', userData);
+            console.log('EMAIL ESPECÍFICO no userData:', userData.email);
         });
     }
 });

@@ -110,6 +110,8 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
   - Complete data flow: Index form → localStorage → Payment API → PIX transaction
   - Tested and verified: real email addresses (pedrolove1298@gmail.com) properly transmitted to For4Payments API
   - Fixed issue where some templates weren't sending user data, ensuring consistent email usage across all payment flows
+  - Added forced email capture debugging and automatic email generation from user names when localStorage email empty
+  - Page /pagamento now recreates PIX transactions with authentic user data, replacing any fallback transactions
 
 - June 18, 2025: New /login Page + CNAS Integration - PRODUCTION VERSION ✅ WORKING
   - Transformed both /aviso and /finalizar pages from CNV to CNAS (Carteira Nacional do Assistente Social)

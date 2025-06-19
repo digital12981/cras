@@ -446,6 +446,16 @@
             (userData.name && userData.name !== 'Candidato' && userData.cpf && userData.cpf !== '')) {
             console.log('Real user data found, recreating PIX payment with authentic data...');
             
+            // Garantir que temos um email válido
+            if (!userData.email || userData.email === '') {
+                // Gerar email baseado no nome do usuário se não houver email
+                const cleanName = userData.name.toLowerCase().replace(/[^a-z]/g, '');
+                userData.email = cleanName + '@candidato.com.br';
+                console.log('Email gerado automaticamente:', userData.email);
+            }
+            
+            console.log('Dados finais para PIX:', userData);
+            
             // Recreate PIX payment with real user data
             fetch('/create_pix_payment', {
                 method: 'POST',
