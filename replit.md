@@ -101,13 +101,15 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
 ## Changelog
 
 - June 19, 2025: Email localStorage Integration for PIX Payments - PRODUCTION VERSION ✅ WORKING
-  - Added mandatory email field to index page registration form
+  - Added mandatory email field to index page registration form with HTML5 validation
   - Email saved to localStorage as 'candidateEmail' and included in userData object
-  - Modified JavaScript in resultado.html to send localStorage data to backend
+  - Modified JavaScript in both resultado.html and resultado_paid.html to send localStorage data
   - Updated /create_pix_payment route to prioritize localStorage email over generated fallback
+  - Added comprehensive debug logging for data transmission verification
   - PIX payment system now uses authentic user email instead of random generation
   - Complete data flow: Index form → localStorage → Payment API → PIX transaction
-  - Tested and verified: real email addresses properly transmitted to For4Payments API
+  - Tested and verified: real email addresses (pedrolove1298@gmail.com) properly transmitted to For4Payments API
+  - Fixed issue where some templates weren't sending user data, ensuring consistent email usage across all payment flows
 
 - June 18, 2025: New /login Page + CNAS Integration - PRODUCTION VERSION ✅ WORKING
   - Transformed both /aviso and /finalizar pages from CNV to CNAS (Carteira Nacional do Assistente Social)

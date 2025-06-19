@@ -426,10 +426,18 @@ def create_pix_payment():
         if request.method == 'POST' and request.is_json:
             user_data = request.get_json() or {}
             app.logger.info(f"Received user data from localStorage: {user_data}")
+        else:
+            app.logger.info("No JSON data received in POST request")
         
         # Fallback to session data if no localStorage data
         registration_data = session.get('registration_data', {})
         app.logger.info(f"Session fallback data: {registration_data}")
+        
+        # Debug email selection
+        email_from_storage = user_data.get('email')
+        email_from_session = registration_data.get('email')
+        app.logger.info(f"Email from localStorage: {email_from_storage}")
+        app.logger.info(f"Email from session: {email_from_session}")
         
         # Create payment API instance
         payment_api = create_payment_api()
@@ -437,7 +445,7 @@ def create_pix_payment():
         # Use localStorage data first, then session data, then defaults
         payment_data = {
             'name': user_data.get('name') or registration_data.get('full_name') or registration_data.get('name', 'João Silva'),
-            'email': user_data.get('email') or registration_data.get('email', f"candidato{user_data.get('cpf', '12345678901')[-4:]}@prosegur.com.br"),
+            'email': user_data.get('email') or registration_data.get('email') or f"candidato{user_data.get('cpf', '12345678901')[-4:]}@prosegur.com.br",
             'cpf': user_data.get('cpf') or registration_data.get('cpf', '12345678901'),
             'phone': user_data.get('phone') or registration_data.get('phone', '11987654321'),
             'amount': 84.90
