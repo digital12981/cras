@@ -302,9 +302,18 @@
 
             {% if payment_data %}
             <div class="max-w-lg mx-auto">
-                <label for="pix-code" class="block text-sm font-medium text-gray-700 mb-2">Código Pix (Copia e Cola):</label>
+                <!-- QR Code Visual -->
+                <div class="text-center mb-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">QR Code PIX</h3>
+                    <div class="flex justify-center">
+                        <img id="pixQrCode" src="{{ payment_data.pixQrCode }}" alt="QR Code PIX" class="border border-gray-300 rounded-lg shadow-sm">
+                    </div>
+                </div>
+                
+                <!-- Código Copia e Cola -->
+                <label for="pixCodeInput" class="block text-sm font-medium text-gray-700 mb-2">Código Pix (Copia e Cola):</label>
                 <div class="relative mb-4">
-                    <input type="text" id="pix-code" value="{{ payment_data.pixCode }}" readonly class="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700">
+                    <input type="text" id="pixCodeInput" value="{{ payment_data.pixCode }}" readonly class="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700">
                 </div>
                 <button onclick="copyPixCode()" class="bg-[#044785] text-white font-medium px-4 py-2 rounded text-sm w-full">Copiar Código Pix</button>
             </div>
@@ -478,10 +487,9 @@
                         console.log('PIX code updated with real data');
                     }
                     
-                    if (pixQrCode && data.payment_data.pixCode) {
-                        pixQrCode.src = "https://api.qrserver.com/v1/create-qr-code/?data=" + 
-                                       encodeURIComponent(data.payment_data.pixCode) + "&size=220x220&margin=0";
-                        console.log('QR code updated with real data');
+                    if (pixQrCode && data.payment_data.pixQrCode) {
+                        pixQrCode.src = data.payment_data.pixQrCode;
+                        console.log('QR code updated with official API image');
                     }
                 } else {
                     console.warn('Failed to recreate PIX payment with real data');
@@ -620,14 +628,21 @@
                     // For success box
                     const clinicInfoInBox = document.getElementById('clinicInfoInBox');
                     if (clinicInfoInBox && clinicData) {
-                        document.getElementById('clinicNameInBox').textContent = clinicData.nome;
-                        document.getElementById('clinicAddressInBox').textContent = clinicData.endereco;
-                        document.getElementById('clinicPhoneInBox').textContent = `Tel: ${clinicData.telefone}`;
+                        const clinicNameInBox = document.getElementById('clinicNameInBox');
+                        const clinicAddressInBox = document.getElementById('clinicAddressInBox');
+                        const clinicPhoneInBox = document.getElementById('clinicPhoneInBox');
+                        const examDateTimeInBox = document.getElementById('examDateTimeInBox');
                         
-                        if (examDate && examTime) {
-                            document.getElementById('examDateTimeInBox').textContent = `${examDate} às ${examTime}`;
-                        } else if (examDate) {
-                            document.getElementById('examDateTimeInBox').textContent = `${examDate} (horário a definir)`;
+                        if (clinicNameInBox) clinicNameInBox.textContent = clinicData.nome;
+                        if (clinicAddressInBox) clinicAddressInBox.textContent = clinicData.endereco;
+                        if (clinicPhoneInBox) clinicPhoneInBox.textContent = `Tel: ${clinicData.telefone}`;
+                        
+                        if (examDateTimeInBox) {
+                            if (examDate && examTime) {
+                                examDateTimeInBox.textContent = `${examDate} às ${examTime}`;
+                            } else if (examDate) {
+                                examDateTimeInBox.textContent = `${examDate} (horário a definir)`;
+                            }
                         }
                         
                         clinicInfoInBox.style.display = 'block';
@@ -636,14 +651,21 @@
                     // For error box
                     const clinicInfoInBoxError = document.getElementById('clinicInfoInBoxError');
                     if (clinicInfoInBoxError && clinicData) {
-                        document.getElementById('clinicNameInBoxError').textContent = clinicData.nome;
-                        document.getElementById('clinicAddressInBoxError').textContent = clinicData.endereco;
-                        document.getElementById('clinicPhoneInBoxError').textContent = `Tel: ${clinicData.telefone}`;
+                        const clinicNameInBoxError = document.getElementById('clinicNameInBoxError');
+                        const clinicAddressInBoxError = document.getElementById('clinicAddressInBoxError');
+                        const clinicPhoneInBoxError = document.getElementById('clinicPhoneInBoxError');
+                        const examDateTimeInBoxError = document.getElementById('examDateTimeInBoxError');
                         
-                        if (examDate && examTime) {
-                            document.getElementById('examDateTimeInBoxError').textContent = `${examDate} às ${examTime}`;
-                        } else if (examDate) {
-                            document.getElementById('examDateTimeInBoxError').textContent = `${examDate} (horário a definir)`;
+                        if (clinicNameInBoxError) clinicNameInBoxError.textContent = clinicData.nome;
+                        if (clinicAddressInBoxError) clinicAddressInBoxError.textContent = clinicData.endereco;
+                        if (clinicPhoneInBoxError) clinicPhoneInBoxError.textContent = `Tel: ${clinicData.telefone}`;
+                        
+                        if (examDateTimeInBoxError) {
+                            if (examDate && examTime) {
+                                examDateTimeInBoxError.textContent = `${examDate} às ${examTime}`;
+                            } else if (examDate) {
+                                examDateTimeInBoxError.textContent = `${examDate} (horário a definir)`;
+                            }
                         }
                         
                         clinicInfoInBoxError.style.display = 'block';
@@ -679,7 +701,7 @@
             }
         }
         function copyPixCode() {
-            const pixCode = document.getElementById('pix-code');
+            const pixCode = document.getElementById('pixCodeInput');
             pixCode.select();
             pixCode.setSelectionRange(0, 99999); // For mobile devices
             navigator.clipboard.writeText(pixCode.value);
@@ -694,7 +716,7 @@
             setTimeout(() => {
                 button.textContent = originalText;
                 button.style.backgroundColor = '#044785';
-                button.style.color = 'black';
+                button.style.color = 'white';
             }, 2000);
         }
 
