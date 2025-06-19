@@ -355,7 +355,7 @@
             {% endif %}
 
 
-
+<br>
             <p class="max-w-3xl mx-auto mb-6 md:mb-10 leading-relaxed text-sm">
                 Após o pagamento, o exame médico admissional será confirmado e você poderá prosseguir com sua contratação no CRAS. Certifique-se de clicar no botão abaixo após realizar o pagamento.
             </p>
@@ -739,13 +739,18 @@
             pixCode.setSelectionRange(0, 99999); // For mobile devices
             navigator.clipboard.writeText(pixCode.value);
             
-            // Change button text and color permanently
+            // Change button text temporarily
             const button = event.target;
+            const originalText = button.textContent;
             button.textContent = 'Copiado!';
             button.style.backgroundColor = '#10B981';
             button.style.color = 'white';
-            button.classList.remove('hover:bg-green-700');
-            button.classList.add('bg-green-500');
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.backgroundColor = '#044785';
+                button.style.color = 'white';
+            }, 2000);
         }
 
         // Automatic payment status checking for R$ 73.40 payments
