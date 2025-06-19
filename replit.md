@@ -119,6 +119,8 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
   - Enhanced PIX payment UI: reduced QR code size, green 3D button with hover effects, step-by-step guide with green circular numbered badges
   - Added official PIX logo from Banco Central above QR code, replacing generic "QR Code PIX" text for professional branding
   - Repositioned yellow warning box above "Aguardando pagamento" section, maintaining original yellow color scheme for visibility
+  - Applied 4px rounded borders (rounded) to all boxes on /pagamento page for consistent design
+  - Moved "Importante - Próximos Passos" box to top of page, above clinic information section
 
 - June 18, 2025: New /login Page + CNAS Integration - PRODUCTION VERSION ✅ WORKING
   - Transformed both /aviso and /finalizar pages from CNV to CNAS (Carteira Nacional do Assistente Social)
