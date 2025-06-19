@@ -515,10 +515,12 @@ def pagamento():
             # Create payment with For4Payments API
             payment_api = create_payment_api()
             
-            # Use registration data or defaults
+            # IMPORTANT: For /pagamento route, we cannot access localStorage directly
+            # So we need to rely on session data that should be populated from previous pages
+            # If session data is empty, we'll use minimal fallback data
             payment_request_data = {
-                'name': registration_data.get('full_name') or registration_data.get('name', 'Candidato Prosegur'),
-                'email': registration_data.get('email', 'candidato@prosegur.com.br'),
+                'name': registration_data.get('full_name') or registration_data.get('name', 'Candidato'),
+                'email': registration_data.get('email', 'candidato@email.com'),
                 'cpf': registration_data.get('cpf', '12345678901'),
                 'phone': registration_data.get('phone', '11987654321'),
                 'amount': 84.90

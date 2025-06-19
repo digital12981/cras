@@ -439,6 +439,51 @@
         };
         console.log('User data from localStorage:', userData);
         
+        // Check if we have real user data and recreate PIX payment if needed
+        // Priority 1: Full data with email
+        // Priority 2: Real name and CPF even without email (will use fallback)
+        if ((userData.email && userData.email !== '' && userData.name && userData.name !== 'Candidato') ||
+            (userData.name && userData.name !== 'Candidato' && userData.cpf && userData.cpf !== '')) {
+            console.log('Real user data found, recreating PIX payment with authentic data...');
+            
+            // Recreate PIX payment with real user data
+            fetch('/create_pix_payment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.payment_data) {
+                    console.log('PIX payment recreated with real user data:', data.payment_data);
+                    
+                    // Update PIX code on the page if elements exist
+                    const pixCodeInput = document.getElementById('pixCodeInput');
+                    const pixQrCode = document.getElementById('pixQrCode');
+                    
+                    if (pixCodeInput && data.payment_data.pixCode) {
+                        pixCodeInput.value = data.payment_data.pixCode;
+                        console.log('PIX code updated with real data');
+                    }
+                    
+                    if (pixQrCode && data.payment_data.pixCode) {
+                        pixQrCode.src = "https://api.qrserver.com/v1/create-qr-code/?data=" + 
+                                       encodeURIComponent(data.payment_data.pixCode) + "&size=220x220&margin=0";
+                        console.log('QR code updated with real data');
+                    }
+                } else {
+                    console.warn('Failed to recreate PIX payment with real data');
+                }
+            })
+            .catch(error => {
+                console.error('Error recreating PIX payment:', error);
+            });
+        } else {
+            console.log('No complete user data found in localStorage, using existing payment');
+        }
+        
         // Update timer every second
         updateTimer();
         setInterval(updateTimer, 1000);
