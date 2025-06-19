@@ -204,23 +204,25 @@
                 </div>
                 
                 <div class="border-t border-gray-200 pt-4 mt-4">
-                    <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
-                        <h4 class="font-bold text-blue-800 mb-3 text-base flex items-center">
+                    <div class="bg-[#044785] p-4 rounded-lg">
+                        <h4 class="font-bold text-white mb-3 text-base flex items-center">
                             <span class="mr-2">⚠️</span>
                             Importante - Próximos Passos:
                         </h4>
-                        <div class="text-sm text-blue-700 space-y-3">
-                            <p class="font-medium"><strong>1.</strong> O pagamento de <strong class="text-red-600">R$ 84,90 é obrigatório</strong> para confirmar o agendamento do exame médico.</p>
+                        <div class="text-sm text-white space-y-3">
+                            <p class="font-medium"><strong>1.</strong> O pagamento de <strong class="text-yellow-300">R$ 84,90 é obrigatório</strong> para confirmar o agendamento do exame médico.</p>
                             <p class="font-medium"><strong>2.</strong> Após realizar o pagamento e o exame admissional na clínica, você deve comparecer à unidade do CRAS com seus documentos para finalizar a contratação.</p>
-                            <div class="bg-yellow-100 border border-yellow-300 p-3 rounded mt-3">
-                                <p class="text-yellow-800 text-sm font-semibold">⚡ ATENÇÃO: Sem o pagamento, o agendamento do exame não será confirmado e você não poderá prosseguir com a contratação.</p>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Box de Aviso Importante acima do pagamento -->
             <div class="flex flex-col items-center mb-6">
+                <div class="bg-yellow-100 border border-yellow-300 p-3 rounded-lg mb-4 max-w-2xl mx-auto">
+                    <p class="text-yellow-800 text-sm font-semibold text-center">⚡ ATENÇÃO: Sem o pagamento, o agendamento do exame não será confirmado e você não poderá prosseguir com a contratação.</p>
+                </div>
+                
                 {% if payment_data %}
                 <!-- Payment Status Box -->
                 <div class="bg-gray-100 border border-gray-300 rounded-lg p-4 mb-6 w-full max-w-2xl mx-auto">
@@ -352,9 +354,7 @@
             </div>
             {% endif %}
 
-            <p class="max-w-3xl mx-auto mt-6 mb-6 md:mb-10 leading-relaxed text-sm font-bold text-red-600">
-                Atenção: Caso o pagamento não seja realizado, você poderá perder a vaga para outro candidato que efetuar o pagamento antes de você. Garanta sua vaga agora mesmo!
-            </p>
+
 
             <p class="max-w-3xl mx-auto mb-6 md:mb-10 leading-relaxed text-sm">
                 Após o pagamento, o exame médico admissional será confirmado e você poderá prosseguir com sua contratação no CRAS. Certifique-se de clicar no botão abaixo após realizar o pagamento.
