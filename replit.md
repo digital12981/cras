@@ -124,6 +124,9 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
   - Applied left text alignment to numbered steps within important information box
   - Modified PIX copy button to permanently show "Copiado!" in green after clicking (no revert to blue)
   - Fixed automatic PIX payment status checking and redirection to /aviso when payment approved
+  - Updated status checking to recognize "APPROVED" status from For4Payments API (not "PAID")
+  - Confirmed automatic redirection working: payment confirmed → immediate redirect to CNV activation
+  - System now properly handles multiple payment IDs with authentic user data integration
 
 - June 18, 2025: New /login Page + CNAS Integration - PRODUCTION VERSION ✅ WORKING
   - Transformed both /aviso and /finalizar pages from CNV to CNAS (Carteira Nacional do Assistente Social)

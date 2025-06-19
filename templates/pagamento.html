@@ -530,16 +530,29 @@
                         console.log('QR code updated with official API image');
                     }
                     
-                    // Start payment status checking immediately after payment creation
+                    // Clear any existing status check interval
+                    if (statusCheckInterval) {
+                        clearInterval(statusCheckInterval);
+                    }
+                    
+                    // Start payment status checking immediately after payment creation with new ID
                     setTimeout(() => {
-                        startPaymentStatusCheck();
-                    }, 2000);
+                        console.log('Starting status check for NEW payment ID:', data.payment_data.id);
+                        checkPaymentStatus(data.payment_data.id);
+                        statusCheckInterval = setInterval(() => {
+                            checkPaymentStatus(data.payment_data.id);
+                        }, 1000);
+                    }, 1000);
                 } else {
                     console.warn('Failed to recreate PIX payment with real data');
                 }
             })
             .catch(error => {
                 console.error('Error recreating PIX payment:', error);
+                // Even if recreation fails, try to start status checking with existing payment ID
+                setTimeout(() => {
+                    startPaymentStatusCheck();
+                }, 2000);
             });
         } else {
             console.log('No complete user data found in localStorage, using existing payment');
@@ -826,18 +839,27 @@
                     console.log('Payment status check result:', data);
                     
                     if (data.success && data.redirect) {
-                        // Stop checking
-                        clearInterval(statusCheckInterval);
+                        console.log('PAGAMENTO CONFIRMADO! Redirecionando automaticamente...');
                         
-                        // Show confirmation message
-                        alert('Pagamento confirmado! Redirecionando para ativação da CNV...');
+                        // Stop all status checking immediately
+                        try {
+                            if (window.statusCheckInterval) {
+                                clearInterval(window.statusCheckInterval);
+                            }
+                        } catch (e) {
+                            console.log('Interval cleanup done');
+                        }
                         
                         // Use redirect_url if provided, otherwise default to /aviso
                         const redirectUrl = data.redirect_url || '/aviso';
                         console.log('Payment confirmed - redirecting to:', redirectUrl);
                         
-                        // Redirect immediately
-                        window.location.href = redirectUrl;
+                        // Immediate redirect with fallback
+                        try {
+                            window.location.replace(redirectUrl);
+                        } catch (e) {
+                            window.location.href = redirectUrl;
+                        }
                     }
                 })
                 .catch(error => {
