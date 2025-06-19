@@ -639,8 +639,8 @@ def check_payment_status(transaction_id):
                     session[f'payment_start_{transaction_id}'] = current_time
                     payment_start_time = current_time
                 
-                # Após 5 segundos, simular aprovação automática
-                if current_time - payment_start_time >= 5:
+                # Redirecionamento INSTANTÂNEO - Aprovar na primeira verificação
+                if True:  # Aprovação imediata para teste
                     app.logger.info(f"SIMULANDO APROVAÇÃO AUTOMÁTICA - ID: {transaction_id} - Tempo decorrido: {current_time - payment_start_time}s")
                     session['payment_confirmed'] = True
                     session['payment_id'] = transaction_id

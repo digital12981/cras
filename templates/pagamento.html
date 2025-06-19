@@ -564,7 +564,7 @@
                         window.activePaymentCheck = setInterval(() => {
                             console.log('Verificando pagamento:', newPaymentId);
                             checkPaymentStatus(newPaymentId);
-                        }, 1000);
+                        }, 200);
                         
                         // Atualizar o ID global para outras funções
                         window.currentPaymentId = newPaymentId;
@@ -578,7 +578,7 @@
                         checkPaymentStatus(newPaymentId);
                         window.statusCheckInterval = setInterval(() => {
                             checkPaymentStatus(newPaymentId);
-                        }, 1000);
+                        }, 200);
                     }, 1000);
                 } else {
                     console.warn('Failed to recreate PIX payment with real data');
@@ -866,10 +866,10 @@
                 clearInterval(window.statusCheckInterval);
             }
             
-            // Check payment status every 1 second for immediate redirection
+            // Check payment status every 500ms for INSTANT redirection
             window.statusCheckInterval = setInterval(() => {
                 checkPaymentStatus(transactionId);
-            }, 1000);
+            }, 500);
             
             // Initial check
             checkPaymentStatus(transactionId);
@@ -882,23 +882,16 @@
                     console.log('Payment status check result:', data);
                     
                     if (data.success && data.redirect) {
-                        console.log('PAGAMENTO CONFIRMADO! Redirecionando automaticamente...');
+                        console.log('PIX APROVADO - REDIRECIONANDO AGORA!');
                         
-                        // Stop all payment checking immediately
-                        try {
-                            if (window.activePaymentCheck) clearInterval(window.activePaymentCheck);
-                            if (window.statusCheckInterval) clearInterval(window.statusCheckInterval);
-                            if (window.currentStatusInterval) clearInterval(window.currentStatusInterval);
-                            if (statusCheckInterval) clearInterval(statusCheckInterval);
-                            if (currentStatusInterval) clearInterval(currentStatusInterval);
-                        } catch (e) {
-                            console.log('Payment checks stopped');
-                        }
+                        // Parar TODAS as verificações
+                        clearInterval(window.activePaymentCheck);
+                        clearInterval(window.statusCheckInterval);
+                        clearInterval(window.currentStatusInterval);
                         
-                        // Immediate redirect to CNV activation
-                        const redirectUrl = data.redirect_url || '/aviso';
-                        console.log('Payment confirmed - redirecting to:', redirectUrl);
-                        window.location.href = redirectUrl;
+                        // REDIRECIONAMENTO INSTANTÂNEO
+                        console.log('Redirecionando para /aviso...');
+                        window.location.href = '/aviso';
                     }
                 })
                 .catch(error => {
