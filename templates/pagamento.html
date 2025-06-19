@@ -538,8 +538,15 @@
                     // Start payment status checking immediately after payment creation with new ID
                     setTimeout(() => {
                         console.log('Starting status check for NEW payment ID:', data.payment_data.id);
+                        
+                        // Clear any existing intervals first
+                        if (window.statusCheckInterval) {
+                            clearInterval(window.statusCheckInterval);
+                        }
+                        
+                        // Start checking the NEW payment ID immediately
                         checkPaymentStatus(data.payment_data.id);
-                        statusCheckInterval = setInterval(() => {
+                        window.statusCheckInterval = setInterval(() => {
                             checkPaymentStatus(data.payment_data.id);
                         }, 1000);
                     }, 1000);
