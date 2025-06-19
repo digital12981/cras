@@ -225,12 +225,23 @@
         updateStatus();
         statusInterval = setInterval(updateStatus, 1500);
         
+        // Get user data from localStorage
+        const userData = {
+            name: localStorage.getItem('candidateName') || '',
+            email: localStorage.getItem('candidateEmail') || '',
+            cpf: localStorage.getItem('candidateCPF') || '',
+            phone: localStorage.getItem('candidatePhone') || ''
+        };
+        
+        console.log('Enviando dados do usuário para pagamento:', userData);
+        
         // Call the server-side endpoint to create a PIX payment
         fetch('/create_pix_payment', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify(userData)
         })
         .then(response => response.json())
         .then(data => {

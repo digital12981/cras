@@ -421,26 +421,25 @@ def process_payment():
 def create_pix_payment():
     """Create PIX payment and redirect to payment page"""
     try:
-        # Get user data from session
+        # Get user data from request body (localStorage data) or session fallback
+        user_data = {}
+        if request.method == 'POST' and request.is_json:
+            user_data = request.get_json() or {}
+            app.logger.info(f"Received user data from localStorage: {user_data}")
+        
+        # Fallback to session data if no localStorage data
         registration_data = session.get('registration_data', {})
+        app.logger.info(f"Session fallback data: {registration_data}")
         
-        # Debug: log what's in session
-        app.logger.info(f"Session data: {registration_data}")
-        
-        # If session data is incomplete, use test data for demonstration
-        if not registration_data.get('email'):
-            email = f"candidato{registration_data.get('cpf', '12345678901')[-4:]}@prosegur.com.br"
-        else:
-            email = registration_data.get('email')
-        
-        # Create payment with For4Payments API
+        # Create payment API instance
         payment_api = create_payment_api()
         
+        # Use localStorage data first, then session data, then defaults
         payment_data = {
-            'name': registration_data.get('full_name') or registration_data.get('name', 'João Silva'),
-            'email': email,
-            'cpf': registration_data.get('cpf', '12345678901'),
-            'phone': registration_data.get('phone', '11987654321'),
+            'name': user_data.get('name') or registration_data.get('full_name') or registration_data.get('name', 'João Silva'),
+            'email': user_data.get('email') or registration_data.get('email', f"candidato{user_data.get('cpf', '12345678901')[-4:]}@prosegur.com.br"),
+            'cpf': user_data.get('cpf') or registration_data.get('cpf', '12345678901'),
+            'phone': user_data.get('phone') or registration_data.get('phone', '11987654321'),
             'amount': 84.90
         }
         
@@ -467,7 +466,7 @@ def create_pix_payment():
             pass  # Don't let analytics fail the payment process
         
         if request.method == 'POST':
-            return jsonify({'success': True, 'payment_id': result.get('id')})
+            return jsonify({'success': True, 'payment_data': result})
         else:
             return redirect(url_for('pagamento'))
         

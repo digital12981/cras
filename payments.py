@@ -96,13 +96,15 @@ class For4PaymentsAPI:
             else:
                 current_app.logger.info(f"CPF validado: {cpf[:3]}...{cpf[-2:]}")
 
-            # Validação e geração de email se necessário
+            # Validação de email - prioriza o email fornecido
             email = data.get('email')
             if not email or '@' not in email:
+                current_app.logger.warning(f"Email não fornecido ou inválido: {email}")
+                # Só gera email aleatório como último recurso
                 email = self._generate_random_email(data['name'])
-                current_app.logger.info(f"Email gerado automaticamente: {email}")
+                current_app.logger.info(f"Email gerado como fallback: {email}")
             else:
-                current_app.logger.info(f"Email fornecido: {email}")
+                current_app.logger.info(f"Email válido fornecido: {email}")
 
             # Processamento do telefone
             phone = data.get('phone', '')
