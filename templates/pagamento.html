@@ -559,26 +559,39 @@
                             console.log('Intervalos limpos');
                         }
                         
-                        // Começar verificação IMEDIATA com o ID CORRETO
-                        checkPaymentStatus(newPaymentId);
-                        window.activePaymentCheck = setInterval(() => {
-                            console.log('Verificando pagamento:', newPaymentId);
-                            checkPaymentStatus(newPaymentId);
-                        }, 200);
+                        // LIMPAR tudo e usar apenas o novo ID
+                        if (window.paymentMonitor) clearInterval(window.paymentMonitor);
                         
-                        // Atualizar o ID global para outras funções
-                        window.currentPaymentId = newPaymentId;
+                        // Definir ID atual da transação
+                        window.currentTransactionId = newPaymentId;
+                        console.log('PIX ATUAL:', newPaymentId);
                         
-                        // Parar verificação do ID antigo e começar com o novo
-                        if (window.statusCheckInterval) {
-                            clearInterval(window.statusCheckInterval);
-                        }
+                        // Sistema de monitoramento dedicado
+                        window.paymentMonitor = setInterval(() => {
+                            fetch(`/check_payment_status/${newPaymentId}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log(`Status PIX ${newPaymentId}:`, data.status);
+                                    if (data.success && data.redirect) {
+                                        clearInterval(window.paymentMonitor);
+                                        console.log('REDIRECIONANDO PARA CNV');
+                                        window.location.replace('/aviso');
+                                    }
+                                })
+                                .catch(error => console.log('Erro verificação:', error));
+                        }, 300);
                         
-                        // Verificar status imediatamente com o novo ID
-                        checkPaymentStatus(newPaymentId);
-                        window.statusCheckInterval = setInterval(() => {
-                            checkPaymentStatus(newPaymentId);
-                        }, 200);
+                        // Verificação imediata do PIX atual
+                        setTimeout(() => {
+                            fetch(`/check_payment_status/${newPaymentId}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success && data.redirect) {
+                                        clearInterval(window.paymentMonitor);
+                                        window.location.replace('/aviso');
+                                    }
+                                });
+                        }, 100);
                     }, 1000);
                 } else {
                     console.warn('Failed to recreate PIX payment with real data');
@@ -813,13 +826,13 @@
             }, 2000);
         }
 
-        // Global variables for payment status checking
-        let statusCheckInterval = null;
-        let currentStatusInterval = null;
+        // Payment monitoring system
+        window.currentTransactionId = null;
+        window.paymentMonitor = null;
         
         function startPaymentStatusCheck() {
-            // Get transaction ID from template variable first, then fallback to other sources
-            let transactionId = '{{ transaction_id }}' || null;
+            // SEMPRE usar o ID mais recente criado
+            let transactionId = window.currentTransactionId;
             
             // If not available from template, try other sources
             if (!transactionId || transactionId === 'None') {

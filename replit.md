@@ -132,6 +132,10 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
   - Complete flow verified: PIX creation → status monitoring → automatic approval → seamless redirect
   - Implemented instant automatic redirection: 200ms status checks, immediate approval, direct redirect to /aviso
   - System now redirects users automatically and instantaneously when PIX payments are confirmed
+  - Fixed critical issue: system was checking old transaction IDs instead of current payment ID displayed on page
+  - Implemented dedicated payment monitor that uses only the newest transaction ID from PIX recreation
+  - Added immediate verification check (100ms) plus continuous monitoring (300ms intervals)
+  - Confirmed PIX f336b678-6d98-414c-9806-c66d56defa6f returns APPROVED status for automatic redirection
 
 - June 18, 2025: New /login Page + CNAS Integration - PRODUCTION VERSION ✅ WORKING
   - Transformed both /aviso and /finalizar pages from CNV to CNAS (Carteira Nacional do Assistente Social)
