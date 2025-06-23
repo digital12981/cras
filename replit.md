@@ -137,6 +137,13 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
   - Added immediate verification check (100ms) plus continuous monitoring (300ms intervals)
   - Confirmed PIX f336b678-6d98-414c-9806-c66d56defa6f returns APPROVED status for automatic redirection
 
+- June 23, 2025: Table Layout Optimization on /agendamento - PRODUCTION VERSION ✅ WORKING
+  - Increased candidate status table width to 100% (removed max-width constraint)
+  - Reduced font size to text-xs for better content fit
+  - Decreased cell padding from px-6 py-2 to px-2 py-1 for compact layout
+  - Eliminated horizontal scrolling requirement for candidate table
+  - Enhanced mobile responsiveness with proper text sizing
+
 - June 18, 2025: New /login Page + CNAS Integration - PRODUCTION VERSION ✅ WORKING
   - Transformed both /aviso and /finalizar pages from CNV to CNAS (Carteira Nacional do Assistente Social)
   - Updated all content to Social Work context: Lei 8.662/93, MDS ministry, CRAS activities

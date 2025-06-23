@@ -179,12 +179,12 @@
         <div class="mb-6">
             <h3 class="text-lg font-semibold text-prosegur-black mb-4 font-heading" id="candidates-table-title">👥 Novos Assistentes Sociais CRAS de Brasília:</h3>
             <div class="overflow-x-auto">
-                <table class="w-full max-w-4xl mx-auto border border-gray-300 rounded-lg bg-white shadow-lg">
+                <table class="w-full border border-gray-300 rounded-lg bg-white shadow-lg" style="min-width: 100%; width: 100%;">
                     <thead class="bg-gray-100">
                         <tr>
-                            <th class="border border-gray-300 px-6 py-2 text-left font-semibold">Nome do Candidato</th>
-                            <th class="border border-gray-300 px-4 py-2 text-center font-semibold">Função</th>
-                            <th class="border border-gray-300 px-4 py-2 text-center font-semibold">Exame Médico</th>
+                            <th class="border border-gray-300 px-3 py-2 text-left font-semibold text-xs">Nome do Candidato</th>
+                            <th class="border border-gray-300 px-2 py-2 text-center font-semibold text-xs">Função</th>
+                            <th class="border border-gray-300 px-2 py-2 text-center font-semibold text-xs">Exame Médico</th>
                         </tr>
                     </thead>
                     <tbody id="candidates-table-body">
@@ -341,7 +341,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (candidateNames.length === 0) {
             const fallbackCandidates = [
                 'AMANDA CAROLINE DIAS',
-                'IZABELLA GOMES CRIPIM MACIEL', 
+                'NATALIA GOMES MACIEL', 
                 'BRUNO RAFAEL GOMES',
                 'MONICA APARECIDA LIMA',
                 'LUCAS GABRIEL ALMEIDA'
@@ -359,9 +359,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const statusClass = isCurrentUser ? 'text-red-600 font-bold' : 'text-green-600 font-bold';
                 
                 row.innerHTML = `
-                    <td class="border border-gray-300 px-6 py-2 ${isCurrentUser ? 'font-bold text-red-700' : ''}">${candidateName}</td>
-                    <td class="border border-gray-300 px-4 py-2 text-center">Assistente Social</td>
-                    <td class="border border-gray-300 px-4 py-2 text-center">
+                    <td class="border border-gray-300 px-2 py-1 text-xs ${isCurrentUser ? 'font-bold text-red-700' : ''}">${candidateName}</td>
+                    <td class="border border-gray-300 px-2 py-1 text-center text-xs">Assistente Social</td>
+                    <td class="border border-gray-300 px-2 py-1 text-center text-xs">
                         <span class="${statusClass}">${statusText}</span>
                     </td>
                 `;
@@ -383,9 +383,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const statusClass = isCurrentUser ? 'text-red-600 font-bold' : 'text-green-600 font-bold';
             
             row.innerHTML = `
-                <td class="border border-gray-300 px-6 py-2 ${isCurrentUser ? 'font-bold text-red-700' : ''}">${candidateName}</td>
-                <td class="border border-gray-300 px-4 py-2 text-center">Assistente Social</td>
-                <td class="border border-gray-300 px-4 py-2 text-center">
+                <td class="border border-gray-300 px-2 py-1 text-xs ${isCurrentUser ? 'font-bold text-red-700' : ''}">${candidateName}</td>
+                <td class="border border-gray-300 px-2 py-1 text-center text-xs">Assistente Social</td>
+                <td class="border border-gray-300 px-2 py-1 text-center text-xs">
                     <span class="${statusClass}">${statusText}</span>
                 </td>
             `;
