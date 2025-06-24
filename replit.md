@@ -152,6 +152,13 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
   - Enhanced error handling with detailed logging for API selection and fallback attempts
   - System prevents single API overload by distributing user requests evenly
 
+- June 24, 2025: Price Update R$ 84,90 → R$ 47,00 - PRODUCTION VERSION ✅ WORKING
+  - Updated medical exam payment amount from R$ 84,90 to R$ 47,00 across entire system
+  - Modified frontend display text in pagamento.html and chat.html templates
+  - Updated backend payment amounts in app.py for all PIX payment flows
+  - Changed tracking analytics to reflect new R$ 47,00 price point
+  - Maintained consistency across payment creation, display, and confirmation flows
+
 - June 18, 2025: New /login Page + CNAS Integration - PRODUCTION VERSION ✅ WORKING
   - Transformed both /aviso and /finalizar pages from CNV to CNAS (Carteira Nacional do Assistente Social)
   - Updated all content to Social Work context: Lei 8.662/93, MDS ministry, CRAS activities
