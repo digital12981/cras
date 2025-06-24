@@ -158,10 +158,6 @@ async function searchByZip() {
             throw lastError || new Error('Todas as APIs CRAS falharam');
         }
         
-        if (!crasResponse.ok) {
-            throw new Error(`HTTP ${crasResponse.status}: ${crasResponse.statusText}`);
-        }
-        
         const crasData = await crasResponse.json();
         console.log('Resposta da API CRAS:', crasData);
         

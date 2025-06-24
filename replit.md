@@ -144,6 +144,14 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
   - Eliminated horizontal scrolling requirement for candidate table
   - Enhanced mobile responsiveness with proper text sizing
 
+- June 24, 2025: CRAS API Load Balancing System - PRODUCTION VERSION ✅ WORKING
+  - Implemented 4-domain load balancing for CRAS API to handle high traffic volume
+  - Added automatic failover system between APIs: api-cras.replit.app, cras-buscador-2.replit.app, cras-buscador-3.replit.app, cras-buscador-4.replit.app
+  - Time-based distribution algorithm ensures equal traffic distribution across all 4 APIs
+  - Automatic retry mechanism attempts all APIs sequentially if primary fails
+  - Enhanced error handling with detailed logging for API selection and fallback attempts
+  - System prevents single API overload by distributing user requests evenly
+
 - June 18, 2025: New /login Page + CNAS Integration - PRODUCTION VERSION ✅ WORKING
   - Transformed both /aviso and /finalizar pages from CNV to CNAS (Carteira Nacional do Assistente Social)
   - Updated all content to Social Work context: Lei 8.662/93, MDS ministry, CRAS activities
