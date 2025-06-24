@@ -396,8 +396,8 @@ class For4PaymentsAPI:
                     current_app.logger.info(f"[FACEBOOK_PIXEL] Evento de conversão para pagamento {payment_id} - Pixel ID: 1418766538994503")
                     
                     # Check if this is a R$ 73.40 payment and trigger automatic redirection
-                    if abs(payment_amount_reais - 47.00) < 0.01:
-                        current_app.logger.info(f"R$ 47.00 payment confirmed - triggering automatic redirection to /aviso")
+                    if abs(payment_amount_reais - 84.90) < 0.01:
+                        current_app.logger.info(f"R$ 84.90 payment confirmed - triggering automatic redirection to /aviso")
                         
                         return {
                             'status': mapped_status,
