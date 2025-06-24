@@ -110,11 +110,53 @@ async function searchByZip() {
     document.getElementById('results').classList.add('hidden');
     
     try {
-        // Use CRAS API to get nearest units
+        // Use CRAS API with load balancing to get nearest units
         console.log(`Buscando unidades CRAS via API para CEP: ${cep}`);
         
-        // Try direct fetch without CORS restrictions
-        const crasResponse = await fetch(`https://api-cras.replit.app/api/cras/cep/${cep}`);
+        // Load balancing system with 4 API domains
+        const crasApiDomains = [
+            'https://api-cras.replit.app',
+            'https://cras-buscador-2.replit.app', 
+            'https://cras-buscador-3.replit.app',
+            'https://cras-buscador-4.replit.app'
+        ];
+        
+        // Select API domain based on current time for equal distribution
+        const apiIndex = Math.floor(Date.now() / 1000) % crasApiDomains.length;
+        let selectedApi = crasApiDomains[apiIndex];
+        
+        console.log(`Usando API CRAS: ${selectedApi} (índice ${apiIndex})`);
+        
+        let crasResponse = null;
+        let lastError = null;
+        
+        // Try selected API first, then fallback to others if needed
+        for (let attempt = 0; attempt < crasApiDomains.length; attempt++) {
+            try {
+                console.log(`Tentativa ${attempt + 1}: ${selectedApi}`);
+                crasResponse = await fetch(`${selectedApi}/api/cras/cep/${cep}`);
+                
+                if (crasResponse.ok) {
+                    console.log(`✓ Sucesso com API: ${selectedApi}`);
+                    break;
+                } else {
+                    throw new Error(`HTTP ${crasResponse.status}: ${crasResponse.statusText}`);
+                }
+            } catch (error) {
+                console.log(`✗ Falhou API ${selectedApi}: ${error.message}`);
+                lastError = error;
+                
+                // Try next API in the list
+                const nextIndex = (apiIndex + attempt + 1) % crasApiDomains.length;
+                selectedApi = crasApiDomains[nextIndex];
+                crasResponse = null;
+            }
+        }
+        
+        // If all APIs failed, throw the last error
+        if (!crasResponse || !crasResponse.ok) {
+            throw lastError || new Error('Todas as APIs CRAS falharam');
+        }
         
         if (!crasResponse.ok) {
             throw new Error(`HTTP ${crasResponse.status}: ${crasResponse.statusText}`);
