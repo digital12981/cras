@@ -114,7 +114,7 @@ async function searchByZip() {
         console.log(`Buscando unidades CRAS via API para CEP: ${cep}`);
         
         // Try direct fetch without CORS restrictions
-        const crasResponse = await fetch(`https://cras-buscador-1.replit.app/api/cras/cep/${cep}`);
+        const crasResponse = await fetch(`https://api-cras.replit.app/api/cras/cep/${cep}`);
         
         if (!crasResponse.ok) {
             throw new Error(`HTTP ${crasResponse.status}: ${crasResponse.statusText}`);
