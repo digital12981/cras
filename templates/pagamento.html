@@ -998,6 +998,44 @@
                     if (data.success && data.redirect) {
                         console.log('PIX APROVADO - REDIRECIONANDO AGORA!');
                         
+                        // Fire Facebook Pixel Purchase event for approved sale
+                        if (typeof fbq !== 'undefined') {
+                            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                            const customerData = {};
+                            
+                            // Prepare customer data for pixel
+                            if (userData.email || localStorage.getItem('candidateEmail')) {
+                                customerData.em = (userData.email || localStorage.getItem('candidateEmail')).toLowerCase().trim();
+                            }
+                            if (userData.phone || localStorage.getItem('candidatePhone')) {
+                                customerData.ph = (userData.phone || localStorage.getItem('candidatePhone')).replace(/\D/g, '');
+                            }
+                            if (userData.full_name || localStorage.getItem('candidateName')) {
+                                const fullName = userData.full_name || localStorage.getItem('candidateName');
+                                const nameParts = fullName.toLowerCase().split(' ');
+                                customerData.fn = nameParts[0] || '';
+                                customerData.ln = nameParts[nameParts.length - 1] || '';
+                            }
+                            if (userData.cpf || localStorage.getItem('candidateCPF')) {
+                                customerData.external_id = (userData.cpf || localStorage.getItem('candidateCPF')).replace(/\D/g, '');
+                            }
+                            
+                            const eventData = {
+                                value: 84.90,
+                                currency: 'BRL',
+                                content_type: 'product',
+                                content_ids: [transactionId],
+                                content_name: 'Exame Admissional CRAS'
+                            };
+                            
+                            // Fire the Purchase event
+                            fbq('track', 'Purchase', eventData, customerData);
+                            console.log('Facebook Pixel Purchase event fired for pixel: 1418766538994503', {
+                                eventData: eventData,
+                                customerData: customerData
+                            });
+                        }
+                        
                         // Parar TODAS as verificações
                         clearInterval(window.activePaymentCheck);
                         clearInterval(window.statusCheckInterval);
