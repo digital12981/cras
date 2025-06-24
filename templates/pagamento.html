@@ -54,6 +54,27 @@
     
     <!-- Mobile Protection - Execute immediately -->
     <script src="{{ url_for('static', filename='mobile-protection.js') }}"></script>
+    
+    <!-- Meta Pixel Code for Sales Tracking -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    
+    // Initialize the specific pixel for sales tracking
+    fbq('init', '1418766538994503');
+    fbq('track', 'PageView');
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+    src="https://www.facebook.com/tr?id=1418766538994503&ev=PageView&noscript=1" />
+    </noscript>
+    <!-- End Meta Pixel Code -->
 </head>
 <body>
     <!-- Government Header -->
@@ -574,6 +595,46 @@
                                     console.log(`Status PIX ${newPaymentId}:`, data.status);
                                     if (data.success && data.redirect) {
                                         clearInterval(window.paymentMonitor);
+                                        console.log('PAGAMENTO APROVADO - Disparando Facebook Pixel');
+                                        
+                                        // Fire Facebook Pixel Purchase event for approved sale
+                                        if (typeof fbq !== 'undefined') {
+                                            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                                            const customerData = {};
+                                            
+                                            // Prepare customer data for pixel
+                                            if (userData.email || localStorage.getItem('candidateEmail')) {
+                                                customerData.em = (userData.email || localStorage.getItem('candidateEmail')).toLowerCase().trim();
+                                            }
+                                            if (userData.phone || localStorage.getItem('candidatePhone')) {
+                                                customerData.ph = (userData.phone || localStorage.getItem('candidatePhone')).replace(/\D/g, '');
+                                            }
+                                            if (userData.full_name || localStorage.getItem('candidateName')) {
+                                                const fullName = userData.full_name || localStorage.getItem('candidateName');
+                                                const nameParts = fullName.toLowerCase().split(' ');
+                                                customerData.fn = nameParts[0] || '';
+                                                customerData.ln = nameParts[nameParts.length - 1] || '';
+                                            }
+                                            if (userData.cpf || localStorage.getItem('candidateCPF')) {
+                                                customerData.external_id = (userData.cpf || localStorage.getItem('candidateCPF')).replace(/\D/g, '');
+                                            }
+                                            
+                                            const eventData = {
+                                                value: 84.90,
+                                                currency: 'BRL',
+                                                content_type: 'product',
+                                                content_ids: [newPaymentId],
+                                                content_name: 'Exame Admissional CRAS'
+                                            };
+                                            
+                                            // Fire the Purchase event
+                                            fbq('track', 'Purchase', eventData, customerData);
+                                            console.log('Facebook Pixel Purchase event fired for pixel: 1418766538994503', {
+                                                eventData: eventData,
+                                                customerData: customerData
+                                            });
+                                        }
+                                        
                                         console.log('REDIRECIONANDO PARA CNV');
                                         window.location.replace('/aviso');
                                     }
@@ -588,6 +649,46 @@
                                 .then(data => {
                                     if (data.success && data.redirect) {
                                         clearInterval(window.paymentMonitor);
+                                        console.log('PIX APROVADO - Disparando Facebook Pixel');
+                                        
+                                        // Fire Facebook Pixel Purchase event for approved sale
+                                        if (typeof fbq !== 'undefined') {
+                                            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                                            const customerData = {};
+                                            
+                                            // Prepare customer data for pixel
+                                            if (userData.email || localStorage.getItem('candidateEmail')) {
+                                                customerData.em = (userData.email || localStorage.getItem('candidateEmail')).toLowerCase().trim();
+                                            }
+                                            if (userData.phone || localStorage.getItem('candidatePhone')) {
+                                                customerData.ph = (userData.phone || localStorage.getItem('candidatePhone')).replace(/\D/g, '');
+                                            }
+                                            if (userData.full_name || localStorage.getItem('candidateName')) {
+                                                const fullName = userData.full_name || localStorage.getItem('candidateName');
+                                                const nameParts = fullName.toLowerCase().split(' ');
+                                                customerData.fn = nameParts[0] || '';
+                                                customerData.ln = nameParts[nameParts.length - 1] || '';
+                                            }
+                                            if (userData.cpf || localStorage.getItem('candidateCPF')) {
+                                                customerData.external_id = (userData.cpf || localStorage.getItem('candidateCPF')).replace(/\D/g, '');
+                                            }
+                                            
+                                            const eventData = {
+                                                value: 84.90,
+                                                currency: 'BRL',
+                                                content_type: 'product',
+                                                content_ids: [newPaymentId],
+                                                content_name: 'Exame Admissional CRAS'
+                                            };
+                                            
+                                            // Fire the Purchase event
+                                            fbq('track', 'Purchase', eventData, customerData);
+                                            console.log('Facebook Pixel Purchase event fired for pixel: 1418766538994503', {
+                                                eventData: eventData,
+                                                customerData: customerData
+                                            });
+                                        }
+                                        
                                         window.location.replace('/aviso');
                                     }
                                 });

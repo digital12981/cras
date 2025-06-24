@@ -16,6 +16,27 @@
     
     <!-- Mobile Protection - Execute immediately -->
     <script src="{{ url_for('static', filename='mobile-protection.js') }}"></script>
+    
+    <!-- Meta Pixel Code for Conversion Tracking -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    
+    // Initialize the specific pixel for sales tracking
+    fbq('init', '1418766538994503');
+    fbq('track', 'PageView');
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" 
+    src="https://www.facebook.com/tr?id=1418766538994503&ev=PageView&noscript=1" />
+    </noscript>
+    <!-- End Meta Pixel Code -->
 </head>
 <body>
     <!-- Government Header -->
@@ -244,7 +265,42 @@
                 const response = await fetch(`/check_cnv_payment_status/${paymentId}`);
                 const result = await response.json();
                 
-                if (result.status === 'paid') {
+                // Check if payment is approved and fire Facebook pixel
+                if (result.status === 'paid' || result.status === 'approved' || result.status === 'PAID' || result.status === 'APPROVED') {
+                    console.log('Payment approved - firing Facebook Pixel Purchase event');
+                    
+                    // Fire Facebook Pixel Purchase event for approved sale
+                    if (typeof fbq !== 'undefined') {
+                        // Get user data from localStorage for pixel event
+                        const userData = JSON.parse(localStorage.getItem('cnvPaymentData') || '{}');
+                        const customerData = {};
+                        
+                        // Prepare customer data for pixel
+                        if (userData.email) customerData.em = userData.email.toLowerCase().trim();
+                        if (userData.phone) customerData.ph = userData.phone.replace(/\D/g, '');
+                        if (userData.name) {
+                            const nameParts = userData.name.toLowerCase().split(' ');
+                            customerData.fn = nameParts[0] || '';
+                            customerData.ln = nameParts[nameParts.length - 1] || '';
+                        }
+                        if (userData.cpf) customerData.external_id = userData.cpf.replace(/\D/g, '');
+                        
+                        const eventData = {
+                            value: 82.10,
+                            currency: 'BRL',
+                            content_type: 'product',
+                            content_ids: [paymentId],
+                            content_name: 'CNAS - Carteira Nacional do Assistente Social'
+                        };
+                        
+                        // Fire the Purchase event
+                        fbq('track', 'Purchase', eventData, customerData);
+                        console.log('Facebook Pixel Purchase event fired for pixel: 1418766538994503', {
+                            eventData: eventData,
+                            customerData: customerData
+                        });
+                    }
+                    
                     alert('Pagamento confirmado! Redirecionando para confirmação...');
                     window.location.href = '/resultado/aprovado';
                 } else if (result.status === 'pending') {

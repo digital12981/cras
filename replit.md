@@ -100,6 +100,17 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
 
 ## Changelog
 
+- June 24, 2025: Facebook Pixel Sales Tracking Implementation - PRODUCTION VERSION ✅ WORKING
+  - Added Facebook Pixel ID 1418766538994503 to pagamento.html and finalizar.html pages
+  - Implemented automatic Purchase event tracking when payments are approved
+  - Added Meta Pixel base code initialization with PageView tracking
+  - Purchase events fire with complete customer data: email, phone, name, CPF, amount (R$ 84.90)
+  - Pixel tracking occurs at all payment approval detection points in pagamento.html
+  - Added tracking for CNV payment approvals in finalizar.html and check_cnv_payment_status endpoint
+  - Complete customer data hashing for Facebook's advanced matching capabilities
+  - Events include transaction ID, content type, and proper BRL currency formatting
+  - Facebook Pixel Purchase events now fire automatically when sales are approved via PIX
+
 - June 19, 2025: Complete Automatic PIX Payment Redirection System - PRODUCTION VERSION ✅ WORKING
   - Added mandatory email field to index page registration form with HTML5 validation
   - Email saved to localStorage as 'candidateEmail' and included in userData object

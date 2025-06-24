@@ -1158,6 +1158,34 @@ def check_cnv_payment_status(payment_id):
         
         status_result = payment_api.check_payment_status(payment_id)
         
+        # Check if payment is approved/paid for Facebook pixel tracking
+        if status_result and status_result.get('status') in ['paid', 'approved', 'PAID', 'APPROVED']:
+            app.logger.info(f"CNV Payment approved - Payment ID: {payment_id} - Triggering Facebook Pixel: 1418766538994503")
+            
+            # Prepare Facebook pixel event data for client-side tracking
+            try:
+                # Get user data from localStorage/session for pixel event
+                customer_info = {
+                    'transaction_id': payment_id,
+                    'amount': 82.10,
+                    'currency': 'BRL',
+                    'content_name': 'CNAS - Carteira Nacional do Assistente Social',
+                    'content_type': 'product'
+                }
+                
+                # Add Facebook pixel event data to response
+                status_result['facebook_pixel_event'] = {
+                    'pixel_id': '1418766538994503',
+                    'event_type': 'Purchase',
+                    'event_data': customer_info,
+                    'fire_pixel': True
+                }
+                
+                app.logger.info(f"Facebook Pixel Purchase event prepared for pixel: 1418766538994503")
+                
+            except Exception as pixel_error:
+                app.logger.error(f"Error preparing Facebook pixel event: {pixel_error}")
+        
         return jsonify(status_result)
         
     except Exception as e:
