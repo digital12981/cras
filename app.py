@@ -496,8 +496,8 @@ def create_pix_payment():
         
         # Track the mock sale
         try:
-            db_analytics.track_sale('João Silva', 84.90, '12345678901', mock_payment['id'])
-            analytics_tracker.track_sale('João Silva', 84.90)
+            db_analytics.track_sale('João Silva', 47.00, '12345678901', mock_payment['id'])
+            analytics_tracker.track_sale('João Silva', 47.00)
         except Exception:
             pass
             
@@ -688,7 +688,7 @@ def check_payment_status(transaction_id):
                 }
                 
                 purchase_data = {
-                    'amount': 84.90,
+                    'amount': 47.00,
                     'transaction_id': transaction_id,
                     'payment_method': 'PIX'
                 }
