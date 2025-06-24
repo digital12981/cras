@@ -144,6 +144,11 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
   - Eliminated horizontal scrolling requirement for candidate table
   - Enhanced mobile responsiveness with proper text sizing
 
+- June 23, 2025: CRAS API Update - PRODUCTION VERSION ✅ WORKING
+  - Updated CRAS API endpoint from api-cras.replit.app to cras-buscador-1.replit.app
+  - Maintained full compatibility with existing search functionality
+  - Preserved CEP-based location detection and CRAS unit display
+
 - June 18, 2025: New /login Page + CNAS Integration - PRODUCTION VERSION ✅ WORKING
   - Transformed both /aviso and /finalizar pages from CNV to CNAS (Carteira Nacional do Assistente Social)
   - Updated all content to Social Work context: Lei 8.662/93, MDS ministry, CRAS activities
