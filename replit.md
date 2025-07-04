@@ -100,6 +100,17 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
 
 ## Changelog
 
+- July 4, 2025: Fixed Perplexity API integration with real hospital data - PRODUCTION VERSION ✅ WORKING  
+  - Updated API model to use "sonar-pro" instead of deprecated "llama-3.1-sonar-small-128k-online"
+  - Successfully integrated real hospital search finding Hospital Anchieta with authentic data:
+    * Name: Hospital Anchieta
+    * Address: QS 1 Rua 210, Lote 40, Taguatinga Sul, Brasília - DF  
+    * Phone: (61) 3353-9000
+    * Specialty: Ginecologia e Obstetrícia
+  - Improved regex patterns to extract real hospital information from Perplexity responses
+  - Removed fallback fake data to ensure only authentic hospital information is displayed
+  - API confirmed working with live queries returning real Brazilian hospital data
+
 - July 4, 2025: Transformed /agendamento page for Implanon scheduling - PRODUCTION VERSION ✅ WORKING
   - Changed main title from "Exame Médico Admissional" to "Agendamento Implanon Gratuito"
   - Updated subtitle to "Sistema de Agendamento SUS - Clínicas Particulares Conveniadas"
