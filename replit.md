@@ -100,6 +100,16 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
 
 ## Changelog
 
+- July 4, 2025: Fixed /pagamento page footer duplication and hospital data integration - PRODUCTION VERSION ✅ WORKING
+  - Removed duplicate footer from /pagamento page that was appearing twice
+  - Converted page to properly use layout.html template for consistent header/footer
+  - Cleaned up JavaScript code and removed conflicting scripts outside template blocks
+  - Integrated Perplexity API hospital search into /pagamento page same as /agendamento
+  - Hospital data now loads: "Hospital Anchieta" at "QS 1 Rua 210, Lote 40, Águas Claras, Brasília - DF"
+  - Preserved essential Facebook Pixel tracking for R$ 57.00 purchase events
+  - Fixed template structure to end properly at {% endblock %} without trailing code
+  - System now shows single footer and consistent branding across all pages
+
 - July 4, 2025: Fixed Perplexity API integration with real hospital data - PRODUCTION VERSION ✅ WORKING  
   - Updated API model to use "sonar-pro" instead of deprecated "llama-3.1-sonar-small-128k-online"
   - Successfully integrated real hospital search finding Hospital Anchieta with authentic data:

