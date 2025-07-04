@@ -84,7 +84,6 @@
             <table class="w-full border-collapse border border-gray-300">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="border border-gray-300 px-2 py-1 text-left text-xs font-medium text-gray-500 uppercase">Posição</th>
                         <th class="border border-gray-300 px-2 py-1 text-left text-xs font-medium text-gray-500 uppercase">Nome da Paciente</th>
                         <th class="border border-gray-300 px-2 py-1 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
                     </tr>
@@ -171,7 +170,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const statusClass = index === 1 ? 'text-yellow-700 bg-yellow-100' : 'text-green-700 bg-green-100';
             
             row.innerHTML = `
-                <td class="border border-gray-300 px-2 py-1 text-xs">${index + 1}º</td>
                 <td class="border border-gray-300 px-2 py-1 text-xs font-medium">${name}</td>
                 <td class="border border-gray-300 px-2 py-1 text-xs">
                     <span class="px-2 py-1 rounded-full text-xs font-medium ${statusClass}">${status}</span>
