@@ -94,238 +94,80 @@
 </main>
 
 <script>
+    // Execute immediately when page loads
     document.addEventListener('DOMContentLoaded', function() {
-        // Recuperar dados da unidade CRAS selecionada
-        const selectedUnit = JSON.parse(localStorage.getItem('selectedCrasUnit') || '{}');
+        populateTable();
+    });
+
+    // Simple function to populate the table
+    function populateTable() {
+        // Get user name from localStorage
+        const userName = localStorage.getItem('candidateName') || localStorage.getItem('full_name') || 'PEDRO H SANTOS';
+        const userCity = localStorage.getItem('candidateCity') || 'Brasília';
         
-        // State vacancy mapping
-        const stateVacancies = {
-            'AC': 5, 'AL': 6, 'AP': 4, 'AM': 8, 'BA': 15, 'CE': 10, 'DF': 7, 'ES': 6,
-            'GO': 9, 'MA': 8, 'MT': 7, 'MS': 6, 'MG': 20, 'PA': 8, 'PB': 5, 'PR': 25,
-            'PE': 10, 'PI': 5, 'RJ': 30, 'RN': 6, 'RS': 20, 'RO': 5, 'RR': 4, 'SC': 12,
-            'SP': 50, 'SE': 5, 'TO': 5
-        };
-
-        // State name mapping for display
-        const stateNames = {
-            'AC': 'Acre', 'AL': 'Alagoas', 'AP': 'Amapá', 'AM': 'Amazonas', 'BA': 'Bahia', 
-            'CE': 'Ceará', 'DF': 'Distrito Federal', 'ES': 'Espírito Santo', 'GO': 'Goiás', 
-            'MA': 'Maranhão', 'MT': 'Mato Grosso', 'MS': 'Mato Grosso do Sul', 'MG': 'Minas Gerais', 
-            'PA': 'Pará', 'PB': 'Paraíba', 'PR': 'Paraná', 'PE': 'Pernambuco', 'PI': 'Piauí', 
-            'RJ': 'Rio de Janeiro', 'RN': 'Rio Grande do Norte', 'RS': 'Rio Grande do Sul', 
-            'RO': 'Rondônia', 'RR': 'Roraima', 'SC': 'Santa Catarina', 'SP': 'São Paulo', 
-            'SE': 'Sergipe', 'TO': 'Tocantins'
-        };
-
-
-
-        // Debug localStorage
-        console.log('Selected Unit from localStorage:', selectedUnit);
+        // Update city display
+        const cityDisplay = document.getElementById('user-city-display');
+        if (cityDisplay) {
+            cityDisplay.textContent = userCity;
+        }
         
-        // Preencher informações da vaga se houver unidade selecionada
-        if (selectedUnit && selectedUnit.name) {
-            const jobInfoContainer = document.getElementById('job-info');
-            jobInfoContainer.innerHTML = `
-                <div>
-                    <h3 class="font-semibold text-prosegur-black mb-3">Local de Trabalho:</h3>
-                    <p class="text-prosegur-gray mb-2"><strong>Unidade:</strong> ${selectedUnit.name}</p>
-                    <p class="text-prosegur-gray mb-2"><strong>Endereço:</strong> ${selectedUnit.address}</p>
-                    <p class="text-prosegur-gray mb-2"><strong>Cidade:</strong> ${selectedUnit.city}</p>
-                    <p class="text-prosegur-gray mb-4"><strong>Vagas Disponíveis:</strong> ${selectedUnit.vacancies}</p>
-                    
-                    <h3 class="font-semibold text-prosegur-black mb-3">Condições de Trabalho:</h3>
-                    <p class="text-prosegur-gray mb-1"><strong>Carga Horária:</strong> 40 horas semanais</p>
-                    <p class="text-prosegur-gray mb-1"><strong>Horário:</strong> 08:00 às 17:00 (Segunda a Sexta)</p>
-                    <p class="text-prosegur-gray mb-1"><strong>Salário:</strong> R$ 4.500 - R$ 5.500</p>
-                </div>
-                <div>
-                    <h3 class="font-semibold text-prosegur-black mb-3">Benefícios:</h3>
-                    <ul class="space-y-1 text-prosegur-gray mb-4">
-                        <li>• Vale transporte</li>
-                        <li>• Vale alimentação (R$ 1.320,00)</li>
-                        <li>• Plano de saúde básico</li>
-                        <li>• 13º salário</li>
-                        <li>• Férias remuneradas</li>
-                    </ul>
-                    
-                    <h3 class="font-semibold text-prosegur-black mb-3">Requisitos:</h3>
-                    <p class="text-prosegur-gray mb-2">✓ <strong>Não é necessário</strong> curso superior ou técnico</p>
-                    <p class="text-prosegur-gray mb-2">✓ Ensino médio completo</p>
-                    <p class="text-prosegur-gray mb-4">✓ O CRAS oferecerá <strong>curso gratuito</strong> de Serviço Social para sua preparação</p>
-                </div>
+        // Fixed list of 12 female patients
+        const patients = [
+            'MARIA SILVA SANTOS',
+            userName.toUpperCase(), // User in 2nd position
+            'JULIANA FERREIRA SOUZA',
+            'CARLA CRISTINA RODRIGUES',
+            'FERNANDA MARIA BORGES',
+            'PATRICIA HELENA MARTINS',
+            'AMANDA CAROLINE DIAS',
+            'VIVIANE CRISTIANE NUNES',
+            'CLAUDIA REGINA ALVES',
+            'SIMONE APARECIDA CRUZ',
+            'DANIELA CRISTINE MOURA',
+            'ANA BEATRIZ COSTA'
+        ];
+        
+        // Build table HTML
+        let tableHTML = '';
+        for (let i = 0; i < patients.length; i++) {
+            const position = i + 1;
+            const name = patients[i];
+            const isUser = (i === 1); // User is in 2nd position
+            
+            const rowClass = isUser ? 'bg-green-50 border-green-200' : '';
+            const nameClass = isUser ? 'font-bold text-green-700' : '';
+            
+            tableHTML += `
+                <tr class="${rowClass}">
+                    <td class="border border-gray-300 px-1 py-2 font-bold text-center w-12">${position}º</td>
+                    <td class="border border-gray-300 px-6 py-2 ${nameClass}">${name}</td>
+                </tr>
             `;
+        }
+        
+        // Insert into table
+        const tableBody = document.getElementById('ranking-table-body');
+        if (tableBody) {
+            tableBody.innerHTML = tableHTML;
+            console.log('Table populated successfully with', patients.length, 'patients');
         } else {
-            // Fallback se não houver unidade selecionada
-            const jobInfoContainer = document.getElementById('job-info');
-            jobInfoContainer.innerHTML = `
-                <div>
-                    <h3 class="font-semibold text-prosegur-black mb-3">Local de Trabalho:</h3>
-                    <p class="text-prosegur-gray mb-2">Unidade CRAS será definida após seleção</p>
-                    
-                    <h3 class="font-semibold text-prosegur-black mb-3">Condições de Trabalho:</h3>
-                    <p class="text-prosegur-gray mb-1"><strong>Carga Horária:</strong> 40 horas semanais</p>
-                    <p class="text-prosegur-gray mb-1"><strong>Horário:</strong> 08:00 às 17:00 (Segunda a Sexta)</p>
-                    <p class="text-prosegur-gray mb-1"><strong>Salário:</strong> R$ 4.500 - R$ 5.500</p>
-                </div>
-                <div>
-                    <h3 class="font-semibold text-prosegur-black mb-3">Benefícios:</h3>
-                    <ul class="space-y-1 text-prosegur-gray mb-4">
-                        <li>• Vale transporte</li>
-                        <li>• Vale alimentação (R$ 1.320,00)</li>
-                        <li>• Plano de saúde básico</li>
-                        <li>• 13º salário</li>
-                        <li>• Férias remuneradas</li>
-                    </ul>
-                    
-                    <h3 class="font-semibold text-prosegur-black mb-3">Requisitos:</h3>
-                    <p class="text-prosegur-gray mb-2">✓ <strong>Não é necessário</strong> curso superior ou técnico</p>
-                    <p class="text-prosegur-gray mb-2">✓ Ensino médio completo</p>
-                    <p class="text-prosegur-gray mb-4">✓ O CRAS oferecerá <strong>curso gratuito</strong> de Serviço Social para sua preparação</p>
-                </div>
-            `;
+            console.error('Table body not found!');
         }
-
-        // Generate simple ranking with 12 female names
-        function generateRanking() {
-            const userCity = localStorage.getItem('candidateCity') || 'São Paulo'; 
-            const userName = localStorage.getItem('candidateName') || localStorage.getItem('full_name') || 'USUÁRIA';
-            
-            // Display user city
-            document.getElementById('user-city-display').textContent = userCity;
-            
-            // Fixed list of 12 female names for Implanon appointments
-            const femalePatients = [
-                'MARIA SILVA SANTOS',
-                'ANA BEATRIZ COSTA', 
-                'JULIANA FERREIRA SOUZA',
-                'CARLA CRISTINA RODRIGUES',
-                'FERNANDA MARIA BORGES',
-                'PATRICIA HELENA MARTINS',
-                'AMANDA CAROLINE DIAS',
-                'VIVIANE CRISTIANE NUNES',
-                'CLAUDIA REGINA ALVES',
-                'SIMONE APARECIDA CRUZ',
-                'DANIELA CRISTINE MOURA'
-            ];
-            
-            // Create candidates list with user in 2nd position
-            const candidates = [];
-            
-            // Add first candidate
-            candidates.push({
-                name: femalePatients[0],
-                isUser: false
-            });
-            
-            // Add user as 2nd
-            candidates.push({
-                name: userName.toUpperCase(),
-                isUser: true
-            });
-            
-            // Add remaining candidates
-            for (let i = 1; i < femalePatients.length; i++) {
-                candidates.push({
-                    name: femalePatients[i],
-                    isUser: false
-                });
-            }
-            
-            // Populate table
-            const tableBody = document.getElementById('ranking-table-body');
-            if (tableBody) {
-                tableBody.innerHTML = '';
-                
-                candidates.forEach((candidate, index) => {
-                    const row = document.createElement('tr');
-                    const position = index + 1;
-                    
-                    if (candidate.isUser) {
-                        row.className = 'bg-green-50 border-green-200';
-                    }
-                    
-                    row.innerHTML = `
-                        <td class="border border-gray-300 px-1 py-2 font-bold text-center w-12">${position}º</td>
-                        <td class="border border-gray-300 px-6 py-2 ${candidate.isUser ? 'font-bold text-green-700' : ''}">${candidate.name}</td>
-                    `;
-                    
-                    tableBody.appendChild(row);
-                });
-            }
-        }
-
-        // Generate ranking on page load
-        generateRanking();
-
-        // Try to get user data to update the name
+        
+        // Try to get fresh user data from server
         fetch('/get_user_data')
             .then(response => response.json())
             .then(data => {
-                if (data.full_name) {
+                if (data.full_name && data.full_name !== userName) {
                     localStorage.setItem('candidateName', data.full_name);
-                    // Regenerate table with correct user name
-                    generateRanking();
+                    populateTable(); // Refresh with correct name
                 }
             })
             .catch(error => {
-                console.log('Using default ranking');
+                console.log('Using stored data');
             });
+    }
 
 
-    });
-
-let experienceCount = 1;
-
-function toggleExperience(show) {
-    const experienceSection = document.getElementById('experience-section');
-    experienceSection.style.display = show ? 'block' : 'none';
-}
-
-function addExperience() {
-    experienceCount++;
-    const container = document.getElementById('experience-container');
-    
-    const newExperience = document.createElement('div');
-    newExperience.className = 'experience-item border p-4 rounded mb-4';
-    newExperience.innerHTML = `
-        <h4 class="font-semibold mb-3">Experiência Profissional ${experienceCount}</h4>
-        
-        <div class="grid md:grid-cols-2 gap-4">
-            <div>
-                <label class="block text-sm font-medium text-prosegur-black mb-1">
-                    Qual função você exercia/exerce?
-                </label>
-                <textarea name="job_function_${experienceCount}" rows="3" 
-                    class="w-full p-2 border rounded focus:ring-2 focus:ring-prosegur-blue"
-                    placeholder="Descreva suas principais atividades..."></textarea>
-            </div>
-            
-            <div>
-                <label class="block text-sm font-medium text-prosegur-black mb-1">
-                    Por quanto tempo trabalhou/trabalha?
-                </label>
-                <input type="text" name="job_duration_${experienceCount}" 
-                    class="w-full p-2 border rounded focus:ring-2 focus:ring-prosegur-blue"
-                    placeholder="Ex: 2 anos, 6 meses...">
-            </div>
-        </div>
-        
-        <button type="button" onclick="removeExperience(this)" 
-                class="mt-2 text-red-600 hover:text-red-800">
-            <i class="fas fa-trash mr-1"></i>Remover esta experiência
-        </button>
-    `;
-    
-    container.appendChild(newExperience);
-}
-
-function removeExperience(button) {
-    button.closest('.experience-item').remove();
-}
-
-document.getElementById('interview-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    alert('Entrevista finalizada com sucesso! Entraremos em contato em breve.');
-});
 </script>
 {% endblock %}

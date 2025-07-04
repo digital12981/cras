@@ -393,7 +393,8 @@ def submit_psicotecnico():
 
 @app.route("/aprovado")
 def aprovado():
-    if not session.get('registration_data'):
+    # For Implanon context, allow direct access without session check in development
+    if not session.get('registration_data') and not os.environ.get('REPLIT_ENVIRONMENT'):
         return redirect(url_for('loading', 
             next='/', 
             text='Redirecionando...', 
