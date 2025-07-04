@@ -41,58 +41,66 @@
                         (function() {
                             console.log('📱 Script inline executando...');
                             
-                            function updateClinicData() {
-                                console.log('🔄 Atualizando dados da clínica...');
+                            // Load hospital information from API
+                            function loadHospitalInfo() {
+                                console.log('🔍 Iniciando busca de hospitais na página de pagamento...');
                                 
-                                // Buscar elementos
-                                const nameEl = document.getElementById('clinicName');
-                                const addressEl = document.getElementById('clinicAddress');
-                                const phoneEl = document.getElementById('clinicPhone');
-                                
-                                if (!nameEl) {
-                                    console.log('❌ Elementos não encontrados ainda');
-                                    return false;
-                                }
-                                
-                                // Buscar dados do localStorage
+                                fetch('/get_hospital_info')
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.success && data.hospital) {
+                                            console.log('✅ Hospital encontrado na página de pagamento:', data.hospital);
+                                            
+                                            const nameEl = document.getElementById('clinicName');
+                                            const addressEl = document.getElementById('clinicAddress');
+                                            const phoneEl = document.getElementById('clinicPhone');
+                                            
+                                            if (nameEl && addressEl && phoneEl) {
+                                                nameEl.textContent = data.hospital.name;
+                                                addressEl.textContent = data.hospital.address;
+                                                phoneEl.textContent = data.hospital.phone;
+                                                
+                                                console.log('✅ Dados do hospital atualizados na página de pagamento');
+                                            }
+                                        } else {
+                                            console.error('❌ Erro ao buscar hospital na página de pagamento:', data.error);
+                                            updateWithFallback();
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('❌ Erro na requisição de hospital:', error);
+                                        updateWithFallback();
+                                    });
+                            }
+                            
+                            function updateWithFallback() {
+                                // Tentar usar dados do localStorage como fallback
                                 const clinicStr = localStorage.getItem('clinicLocation');
-                                console.log('📋 Dados do localStorage:', clinicStr);
+                                console.log('📋 Tentando fallback com localStorage:', clinicStr);
                                 
                                 if (clinicStr) {
                                     try {
                                         const clinic = JSON.parse(clinicStr);
                                         
-                                        nameEl.innerHTML = clinic.nome || 'Nome não disponível';
-                                        addressEl.innerHTML = clinic.endereco || 'Endereço não disponível';
-                                        phoneEl.innerHTML = 'Telefone: ' + (clinic.telefone || 'Não disponível');
+                                        const nameEl = document.getElementById('clinicName');
+                                        const addressEl = document.getElementById('clinicAddress');
+                                        const phoneEl = document.getElementById('clinicPhone');
                                         
-                                        console.log('✅ Dados atualizados:', clinic.nome);
-                                        return true;
+                                        if (nameEl && addressEl && phoneEl) {
+                                            nameEl.textContent = clinic.nome || 'Nome não disponível';
+                                            addressEl.textContent = clinic.endereco || 'Endereço não disponível';
+                                            phoneEl.textContent = 'Telefone: ' + (clinic.telefone || 'Não disponível');
+                                            
+                                            console.log('✅ Dados atualizados via localStorage:', clinic.nome);
+                                        }
                                     } catch (e) {
-                                        console.log('❌ Erro no parse:', e);
+                                        console.log('❌ Erro no parse do localStorage:', e);
                                     }
                                 }
-                                
-                                return false;
                             }
                             
-                            // Tentar executar múltiplas vezes
-                            let attempts = 0;
-                            const maxAttempts = 10;
-                            
-                            function tryUpdate() {
-                                attempts++;
-                                console.log('🔄 Tentativa', attempts);
-                                
-                                if (updateClinicData() || attempts >= maxAttempts) {
-                                    console.log('🏁 Concluído na tentativa', attempts);
-                                    return;
-                                }
-                                
-                                setTimeout(tryUpdate, 200);
-                            }
-                            
-                            tryUpdate();
+                            // Executar busca de hospital
+                            loadHospitalInfo();
                         })();
                         </script>
                     </div>
