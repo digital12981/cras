@@ -286,26 +286,8 @@
                 displayQuestion(currentQuestion);
                 updateButtons();
             } else {
-                // Simplified submission - just redirect without processing exam data
-                fetch('/submit_exam', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({completed: true})
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        window.location.href = data.redirect || '/';
-                    } else {
-                        window.location.href = '/psicotecnico';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    window.location.href = '/psicotecnico';
-                });
+                // Redirect directly to aprovado without processing exam data
+                window.location.href = '/aprovado';
             }
         } else {
             alert('Por favor, selecione uma opção antes de prosseguir.');
