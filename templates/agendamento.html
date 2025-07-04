@@ -597,13 +597,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function selectDate(date, element) {
-        // Remove previous selection
+        // Remove previous selection (only if calendar elements exist)
         document.querySelectorAll('.calendar-day.selected').forEach(el => {
             el.classList.remove('selected');
         });
         
-        // Add selection to clicked element
-        element.classList.add('selected');
+        // Add selection to clicked element (only if element is provided)
+        if (element) {
+            element.classList.add('selected');
+        }
+        
         selectedDate = date;
         
         const formattedDate = date.toLocaleDateString('pt-BR');
@@ -611,14 +614,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedDateInfo = document.getElementById('selected-date-info');
         const selectedDateInput = document.getElementById('selected-date-input');
         
-        selectedDateText.textContent = formattedDate;
-        selectedDateInput.value = date.toISOString().split('T')[0];
-        selectedDateInfo.style.display = 'block';
+        if (selectedDateText) selectedDateText.textContent = formattedDate;
+        if (selectedDateInput) selectedDateInput.value = date.toISOString().split('T')[0];
+        if (selectedDateInfo) selectedDateInfo.style.display = 'block';
         
         // Save to localStorage
         localStorage.setItem('examDate', formattedDate);
         localStorage.setItem('examDateISO', date.toISOString().split('T')[0]);
         
+        console.log('Data selecionada:', formattedDate);
         updateScheduleButton();
     }
 

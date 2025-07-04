@@ -1,0 +1,304 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="mb-8">
+        <h1 class="text-2xl font-bold text-prosegur-black mb-4 font-heading">Agendamento Implanon Gratuito</h1>
+        <p class="text-prosegur-gray mb-2 font-body">Sistema de Agendamento SUS - Clínicas Particulares Conveniadas</p>
+        <div class="h-1 w-32 bg-prosegur-blue"></div>
+    </div>
+
+    <!-- Hospital Information -->
+    <div class="bg-white shadow-sm rounded-lg p-6 mb-8 border border-gray-200">
+        <h2 class="text-lg font-semibold text-prosegur-black mb-4 font-heading">Clínica Conveniada</h2>
+        
+        <div id="loading-container" class="text-center py-8">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-prosegur-blue mx-auto mb-4"></div>
+            <p class="text-prosegur-gray">Localizando clínica próxima ao seu endereço...</p>
+        </div>
+
+        <div id="clinic-info" class="hidden">
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded mb-4">
+                <h3 class="text-sm font-medium text-blue-800 mb-2">Clínica Encontrada</h3>
+                <p><strong id="clinic-name">Carregando...</strong></p>
+                <p><span id="clinic-address">Carregando endereço...</span></p>
+                <p><strong>Telefone:</strong> <span id="clinic-phone">Carregando...</span></p>
+            </div>
+        </div>
+
+        <div id="error-container" class="hidden bg-red-50 border-l-4 border-red-400 p-4 rounded">
+            <p class="text-red-800">Erro ao carregar informações</p>
+        </div>
+    </div>
+
+    <!-- Date Selection -->
+    <div class="bg-white shadow-sm rounded-lg p-6 mb-8 border border-gray-200">
+        <h3 class="text-lg font-semibold text-prosegur-black mb-4 font-heading">Selecione a Data da Consulta</h3>
+        
+        <div class="max-w-md mb-4">
+            <label class="block text-sm font-medium text-prosegur-black mb-2">Data da Consulta</label>
+            <select id="date-dropdown" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-prosegur-blue bg-white">
+                <option value="">Selecione uma data</option>
+                <!-- Options populated by JavaScript -->
+            </select>
+        </div>
+
+        <div id="selected-date-info" class="mt-4 p-3 bg-prosegur-blue bg-opacity-20 rounded-lg" style="display: none;">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-check-circle text-prosegur-black"></i>
+                <span class="font-semibold text-prosegur-black font-body">Data selecionada: </span>
+                <span id="selected-date-text" class="text-prosegur-black font-body"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Time Selection -->
+    <div class="bg-white shadow-sm rounded-lg p-6 mb-8 border border-gray-200">
+        <h3 class="text-lg font-semibold text-prosegur-black mb-4 font-heading">Selecione o Horário</h3>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <button type="button" class="timeslot-btn" data-time="08:00-09:00">08:00 - 09:00</button>
+            <button type="button" class="timeslot-btn" data-time="09:00-10:00">09:00 - 10:00</button>
+            <button type="button" class="timeslot-btn" data-time="10:00-11:00">10:00 - 11:00</button>
+            <button type="button" class="timeslot-btn" data-time="11:00-12:00">11:00 - 12:00</button>
+            <button type="button" class="timeslot-btn" data-time="14:00-15:00">14:00 - 15:00</button>
+            <button type="button" class="timeslot-btn" data-time="15:00-16:00">15:00 - 16:00</button>
+            <button type="button" class="timeslot-btn" data-time="16:00-17:00">16:00 - 17:00</button>
+            <button type="button" class="timeslot-btn" data-time="17:00-18:00">17:00 - 18:00</button>
+        </div>
+
+        <div id="selected-time-info" class="mt-4 p-3 bg-prosegur-blue bg-opacity-20 rounded-lg" style="display: none;">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-clock text-prosegur-black"></i>
+                <span class="font-semibold text-prosegur-black font-body">Horário selecionado: </span>
+                <span id="selected-time-text" class="text-prosegur-black font-body"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Patients Table -->
+    <div class="bg-white shadow-sm rounded-lg p-6 mb-8 border border-gray-200">
+        <h2 class="text-lg font-semibold text-prosegur-black mb-4 font-heading">Lista de Agendamentos Confirmados</h2>
+        
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse border border-gray-300">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="border border-gray-300 px-2 py-1 text-left text-xs font-medium text-gray-500 uppercase">Posição</th>
+                        <th class="border border-gray-300 px-2 py-1 text-left text-xs font-medium text-gray-500 uppercase">Nome da Paciente</th>
+                        <th class="border border-gray-300 px-2 py-1 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="patients-table">
+                    <!-- Populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Schedule Button -->
+    <div class="bg-white shadow-sm rounded-lg p-6 mb-8 border border-gray-200">
+        <form method="GET" action="/pagamento" id="scheduling-form">
+            <input type="hidden" id="selected-date-input" name="exam_date" value="">
+            <input type="hidden" id="selected-time-input" name="exam_time" value="">
+            
+            <button type="submit" id="schedule-btn" disabled
+                class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-prosegur-black bg-gray-300 cursor-not-allowed transition-colors duration-200 font-body">
+                <i class="fas fa-calendar-plus mr-2"></i>
+                <span>Selecione data e horário para continuar</span>
+            </button>
+        </form>
+    </div>
+</div>
+
+<style>
+.timeslot-btn {
+    padding: 12px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    background-color: white;
+    color: #374151;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.timeslot-btn:hover {
+    border-color: #1451B4;
+    background-color: #fef9c3;
+}
+
+.timeslot-btn.selected {
+    border-color: #1451B4;
+    background-color: #1451B4;
+    color: white;
+    font-weight: 600;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Mobile protection disabled in Replit environment');
+    
+    let selectedDate = null;
+    let selectedTime = null;
+    
+    // Patient names
+    const patientNames = [
+        'Ana Clara Silva',
+        'Mariana Santos',
+        'Juliana Costa', 
+        'Camila Rodrigues',
+        'Fernanda Lima',
+        'Beatriz Souza',
+        'Larissa Ferreira',
+        'Gabriela Alves',
+        'Rafaela Pereira',
+        'Isabela Martins',
+        'Carolina Oliveira',
+        'Natália Barbosa'
+    ];
+
+    // Populate patients table
+    function populateTable() {
+        const tbody = document.getElementById('patients-table');
+        tbody.innerHTML = '';
+        
+        patientNames.forEach((name, index) => {
+            const row = document.createElement('tr');
+            const status = index === 1 ? 'PENDENTE' : 'AGENDADO';
+            const statusClass = index === 1 ? 'text-yellow-700 bg-yellow-100' : 'text-green-700 bg-green-100';
+            
+            row.innerHTML = `
+                <td class="border border-gray-300 px-2 py-1 text-xs">${index + 1}º</td>
+                <td class="border border-gray-300 px-2 py-1 text-xs font-medium">${name}</td>
+                <td class="border border-gray-300 px-2 py-1 text-xs">
+                    <span class="px-2 py-1 rounded-full text-xs font-medium ${statusClass}">${status}</span>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+        
+        console.log('Table populated successfully with', patientNames.length, 'patients');
+    }
+
+    // Generate date dropdown
+    function generateDateDropdown() {
+        const dropdown = document.getElementById('date-dropdown');
+        const today = new Date();
+        const daysOfWeek = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+        const months = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+        
+        let validDatesAdded = 0;
+        let currentDate = new Date(today);
+        currentDate.setDate(today.getDate() + 2); // Start 2 days ahead
+        
+        while (validDatesAdded < 4) {
+            const dayOfWeek = currentDate.getDay();
+            
+            if (dayOfWeek !== 0) { // Skip Sundays
+                const option = document.createElement('option');
+                const dateValue = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`;
+                const displayText = `${daysOfWeek[dayOfWeek]}, ${currentDate.getDate()} de ${months[currentDate.getMonth()]}`;
+                
+                option.value = dateValue;
+                option.textContent = displayText;
+                dropdown.appendChild(option);
+                
+                validDatesAdded++;
+            }
+            
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+
+        dropdown.addEventListener('change', function() {
+            if (this.value) {
+                selectedDate = this.value;
+                const dateObj = new Date(this.value + 'T00:00:00');
+                const formattedDate = dateObj.toLocaleDateString('pt-BR');
+                
+                document.getElementById('selected-date-text').textContent = formattedDate;
+                document.getElementById('selected-date-input').value = this.value;
+                document.getElementById('selected-date-info').style.display = 'block';
+                
+                console.log('Data selecionada:', formattedDate);
+                updateScheduleButton();
+            }
+        });
+    }
+
+    // Handle time selection
+    document.querySelectorAll('.timeslot-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.timeslot-btn').forEach(b => b.classList.remove('selected'));
+            this.classList.add('selected');
+            
+            selectedTime = this.dataset.time;
+            document.getElementById('selected-time-text').textContent = selectedTime;
+            document.getElementById('selected-time-input').value = selectedTime;
+            document.getElementById('selected-time-info').style.display = 'block';
+            
+            console.log('Horário selecionado:', selectedTime);
+            updateScheduleButton();
+        });
+    });
+
+    // Update schedule button
+    function updateScheduleButton() {
+        const scheduleBtn = document.getElementById('schedule-btn');
+        
+        if (selectedDate && selectedTime) {
+            scheduleBtn.disabled = false;
+            scheduleBtn.className = 'w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-prosegur-blue hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-prosegur-blue focus:ring-offset-2 transition-colors duration-200 font-body';
+            scheduleBtn.innerHTML = '<i class="fas fa-calendar-plus mr-2"></i><span>Confirmar Agendamento Implanon</span>';
+        } else {
+            scheduleBtn.disabled = true;
+            scheduleBtn.className = 'w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-prosegur-black bg-gray-300 cursor-not-allowed transition-colors duration-200 font-body';
+            
+            if (!selectedDate && !selectedTime) {
+                scheduleBtn.innerHTML = '<i class="fas fa-calendar-plus mr-2"></i><span>Selecione data e horário para continuar</span>';
+            } else if (!selectedDate) {
+                scheduleBtn.innerHTML = '<i class="fas fa-calendar-plus mr-2"></i><span>Selecione uma data para continuar</span>';
+            } else {
+                scheduleBtn.innerHTML = '<i class="fas fa-calendar-plus mr-2"></i><span>Selecione um horário para continuar</span>';
+            }
+        }
+    }
+
+    // Load hospital information
+    function loadHospitalInfo() {
+        console.log('🔍 Iniciando busca de hospitais...');
+        
+        fetch('/get_hospital_info')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.hospital) {
+                    console.log('✅ Hospital encontrado:', data.hospital);
+                    
+                    document.getElementById('clinic-name').textContent = data.hospital.name;
+                    document.getElementById('clinic-address').textContent = data.hospital.address;
+                    document.getElementById('clinic-phone').textContent = data.hospital.phone;
+                    
+                    document.getElementById('loading-container').style.display = 'none';
+                    document.getElementById('clinic-info').style.display = 'block';
+                } else {
+                    console.error('❌ Erro ao buscar hospital:', data.error);
+                    document.getElementById('loading-container').style.display = 'none';
+                    document.getElementById('error-container').style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('❌ Erro na requisição:', error);
+                document.getElementById('loading-container').style.display = 'none';
+                document.getElementById('error-container').style.display = 'block';
+            });
+    }
+
+    // Initialize
+    populateTable();
+    generateDateDropdown();
+    loadHospitalInfo();
+});
+</script>
+{% endblock %}

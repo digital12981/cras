@@ -771,7 +771,7 @@ def resultado(status):
 @app.route("/agendamento")
 @simple_mobile_only
 def agendamento():
-    return render_template("agendamento.html")
+    return render_template("agendamento_fixed.html")
 
 def search_hospital_perplexity(user_address):
     """Search for private hospitals near user address using Perplexity AI"""
