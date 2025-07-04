@@ -77,41 +77,7 @@ def serve_font(filename):
 
 @app.route("/")
 def index():
-    return """
-    <!DOCTYPE html>
-    <html lang="pt-BR">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Ministério da Saúde - Programa Implanon</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-    </head>
-    <body class="bg-gray-100">
-        <header class="bg-gray-800 text-white p-4">
-            <div class="container mx-auto">
-                <h1 class="text-2xl font-bold">Ministério da Saúde</h1>
-                <p class="text-sm">Programa Implanon Gratuito</p>
-            </div>
-        </header>
-        <main class="container mx-auto p-4">
-            <h2 class="text-3xl font-bold mb-4">Programa Implanon Gratuito</h2>
-            <p class="text-lg mb-4">
-                Cadastre-se agora no programa gratuito do Implanon pelo SUS. 
-                O implante contraceptivo que normalmente custa R$ 1.800 - R$ 4.000 
-                agora está disponível gratuitamente.
-            </p>
-            <div class="bg-yellow-100 p-4 rounded-lg mb-4">
-                <h3 class="font-bold">Importante:</h3>
-                <p>• Hospitais públicos: vagas disponíveis a partir de maio/2026</p>
-                <p>• Clínicas conveniadas: disponibilidade imediata por R$ 44,70</p>
-            </div>
-            <button class="bg-blue-600 text-white px-6 py-3 rounded-lg font-bold">
-                Cadastrar Agora
-            </button>
-        </main>
-    </body>
-    </html>
-    """
+    return render_template("index_simple.html")
 
 @app.route("/test")
 def test():
