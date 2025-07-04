@@ -20,7 +20,6 @@
                     <tr>
                         <th class="border border-gray-300 px-1 py-2 text-center font-semibold w-12">Pos.</th>
                         <th class="border border-gray-300 px-6 py-2 text-left font-semibold">Nome da Paciente</th>
-                        <th class="border border-gray-300 px-1 py-2 text-center font-semibold w-16">Data</th>
                     </tr>
                 </thead>
                 <tbody id="ranking-table-body">
@@ -118,20 +117,7 @@
             'SE': 'Sergipe', 'TO': 'Tocantins'
         };
 
-        // Female names for generating candidates (maioria feminina)
-        const femaleNames = [
-            'MARIA SILVA SANTOS', 'ANA BEATRIZ COSTA', 'JULIANA FERREIRA SOUZA', 'CARLA CRISTINA RODRIGUES',
-            'FERNANDA MARIA BORGES', 'PATRICIA HELENA MARTINS', 'AMANDA CAROLINE DIAS', 'VIVIANE CRISTIANE NUNES',
-            'CLAUDIA REGINA ALVES', 'SIMONE APARECIDA CRUZ', 'DANIELA CRISTINE MOURA', 'LUCIANA TORRES SILVA',
-            'ROBERTA SANTOS LIMA', 'SANDRA CRISTINA ROCHA', 'MONICA APARECIDA LIMA', 'RENATA GOMES PEREIRA',
-            'CRISTINA MARIA OLIVEIRA', 'ELISANGELA JOSE SILVA', 'VANESSA CRISTINA ALMEIDA', 'KARINA SOUZA MACHADO'
-        ];
 
-        const maleNames = [
-            'JOÃO CARLOS OLIVEIRA', 'PEDRO HENRIQUE LIMA', 'RAFAEL AUGUSTO PEREIRA', 'LUCAS GABRIEL ALMEIDA',
-            'DIEGO ANTONIO BARBOSA', 'THIAGO EDUARDO ROCHA', 'BRUNO RAFAEL GOMES', 'CARLOS EDUARDO SILVA',
-            'MARCOS ANTONIO LIMA', 'ANDRE LUIS FERREIRA'
-        ];
 
         // Debug localStorage
         console.log('Selected Unit from localStorage:', selectedUnit);
@@ -199,163 +185,90 @@
             `;
         }
 
-        // Generate ranking based on user's state or selected unit
+        // Generate simple ranking with 12 female names
         function generateRanking() {
-            const userState = localStorage.getItem('candidateState') || 'SP';
             const userCity = localStorage.getItem('candidateCity') || 'São Paulo'; 
-            const userName = localStorage.getItem('candidateName') || localStorage.getItem('full_name') || 'CANDIDATO USUARIO';
+            const userName = localStorage.getItem('candidateName') || localStorage.getItem('full_name') || 'USUÁRIA';
             
-            console.log('Debug - User state:', userState, 'User city:', userCity, 'User name:', userName);
+            // Display user city
+            document.getElementById('user-city-display').textContent = userCity;
             
-            // Display user city and state name
-            const stateName = stateNames[userState] || userState;
-            document.getElementById('user-city-display').textContent = `${userCity} - ${stateName}`;
+            // Fixed list of 12 female names for Implanon appointments
+            const femalePatients = [
+                'MARIA SILVA SANTOS',
+                'ANA BEATRIZ COSTA', 
+                'JULIANA FERREIRA SOUZA',
+                'CARLA CRISTINA RODRIGUES',
+                'FERNANDA MARIA BORGES',
+                'PATRICIA HELENA MARTINS',
+                'AMANDA CAROLINE DIAS',
+                'VIVIANE CRISTIANE NUNES',
+                'CLAUDIA REGINA ALVES',
+                'SIMONE APARECIDA CRUZ',
+                'DANIELA CRISTINE MOURA'
+            ];
             
-            // Get number of vacancies - use selected unit if available, otherwise state default
-            let vacancies;
-            if (selectedUnit && selectedUnit.vacancies) {
-                vacancies = parseInt(selectedUnit.vacancies);
-                console.log('Using unit vacancies:', vacancies);
-            } else {
-                vacancies = stateVacancies[userState] || 10;
-                console.log('Using state default vacancies:', vacancies);
-            }
-            
-            // Generate candidates with 70% female, 30% male
-            // Reserve 1 spot for user, so generate (vacancies - 1) other candidates
-            const otherCandidatesCount = vacancies - 1;
-            const femaleCount = Math.floor(otherCandidatesCount * 0.7);
-            const maleCount = otherCandidatesCount - femaleCount;
-            
+            // Create candidates list with user in 2nd position
             const candidates = [];
             
-            // Add female candidates
-            const shuffledFemales = [...femaleNames].sort(() => Math.random() - 0.5);
-            for (let i = 0; i < femaleCount; i++) {
-                // Generate random dates in the next 30 days
-                const baseDate = new Date();
-                baseDate.setDate(baseDate.getDate() + (i + 1) * 2); // Spread appointments every 2 days
-                const dateStr = baseDate.toLocaleDateString('pt-BR');
-                
+            // Add first candidate
+            candidates.push({
+                name: femalePatients[0],
+                isUser: false
+            });
+            
+            // Add user as 2nd
+            candidates.push({
+                name: userName.toUpperCase(),
+                isUser: true
+            });
+            
+            // Add remaining candidates
+            for (let i = 1; i < femalePatients.length; i++) {
                 candidates.push({
-                    name: shuffledFemales[i] || `CANDIDATA ${i + 1}`,
-                    date: dateStr,
-                    score: 19 - (i * 0.5) - Math.random() * 2, // Keep score for sorting
+                    name: femalePatients[i],
                     isUser: false
                 });
-            }
-            
-            // Add male candidates
-            const shuffledMales = [...maleNames].sort(() => Math.random() - 0.5);
-            for (let i = 0; i < maleCount; i++) {
-                // Generate random dates in the next 30 days
-                const baseDate = new Date();
-                baseDate.setDate(baseDate.getDate() + (femaleCount + i + 1) * 2);
-                const dateStr = baseDate.toLocaleDateString('pt-BR');
-                
-                candidates.push({
-                    name: shuffledMales[i] || `CANDIDATO ${i + 1}`,
-                    date: dateStr,
-                    score: 19 - ((femaleCount + i) * 0.5) - Math.random() * 2,
-                    isUser: false
-                });
-            }
-            
-            // Shuffle all candidates
-            candidates.sort(() => Math.random() - 0.5);
-            
-            // Sort by score descending first
-            candidates.sort((a, b) => b.score - a.score);
-            
-            // Add user as 2nd place candidate
-            if (candidates.length >= 1) {
-                // Set user score slightly lower than 1st place
-                const firstPlaceScore = candidates[0] ? candidates[0].score : 19;
-                
-                // Generate user's appointment date (tomorrow)
-                const userDate = new Date();
-                userDate.setDate(userDate.getDate() + 1);
-                const userDateStr = userDate.toLocaleDateString('pt-BR');
-                
-                const userCandidate = {
-                    name: userName.toUpperCase(),
-                    date: userDateStr,
-                    score: firstPlaceScore - 0.5, // Garantir que fica em 2º lugar
-                    isUser: true
-                };
-                
-                // Insert user at position 1 (2nd place)
-                candidates.splice(1, 0, userCandidate);
-            } else {
-                // If somehow no other candidates, add user as first
-                candidates.push({
-                    name: userName.toUpperCase(),
-                    score: 19,
-                    isUser: true
-                });
-            }
-            
-            // Ensure we have exactly the number of vacancies
-            while (candidates.length > vacancies) {
-                candidates.pop();
             }
             
             // Populate table
             const tableBody = document.getElementById('ranking-table-body');
-            tableBody.innerHTML = '';
-            
-            // Store all candidate names in localStorage
-            const candidateNames = candidates.map(candidate => candidate.name);
-            localStorage.setItem('rankingCandidates', JSON.stringify(candidateNames));
-            
-            candidates.forEach((candidate, index) => {
-                const row = document.createElement('tr');
-                const position = index + 1;
+            if (tableBody) {
+                tableBody.innerHTML = '';
                 
-                if (candidate.isUser) {
-                    row.className = 'bg-green-50 border-green-200';
-                }
-                
-                row.innerHTML = `
-                    <td class="border border-gray-300 px-1 py-2 font-bold text-center w-12">${position}º</td>
-                    <td class="border border-gray-300 px-6 py-2 ${candidate.isUser ? 'font-bold text-green-700' : ''}">${candidate.name}</td>
-                    <td class="border border-gray-300 px-1 py-2 text-center font-bold w-16">${candidate.date}</td>
-                `;
-                
-                tableBody.appendChild(row);
-            });
+                candidates.forEach((candidate, index) => {
+                    const row = document.createElement('tr');
+                    const position = index + 1;
+                    
+                    if (candidate.isUser) {
+                        row.className = 'bg-green-50 border-green-200';
+                    }
+                    
+                    row.innerHTML = `
+                        <td class="border border-gray-300 px-1 py-2 font-bold text-center w-12">${position}º</td>
+                        <td class="border border-gray-300 px-6 py-2 ${candidate.isUser ? 'font-bold text-green-700' : ''}">${candidate.name}</td>
+                    `;
+                    
+                    tableBody.appendChild(row);
+                });
+            }
         }
 
-        // Generate ranking immediately
+        // Generate ranking on page load
         generateRanking();
 
-        // Get user data and regenerate ranking with correct name
+        // Try to get user data to update the name
         fetch('/get_user_data')
             .then(response => response.json())
             .then(data => {
-                // Store complete user data in localStorage
                 if (data.full_name) {
                     localStorage.setItem('candidateName', data.full_name);
-                }
-                if (data.cpf) {
-                    localStorage.setItem('candidateCPF', data.cpf);
-                }
-                
-                // Also store the complete user data object
-                localStorage.setItem('userData', JSON.stringify(data));
-                
-                // Regenerate ranking with correct name
-                if (data.full_name) {
+                    // Regenerate table with correct user name
                     generateRanking();
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                // Fallback: try to get name from localStorage
-                const storedName = localStorage.getItem('candidateName');
-                if (storedName && storedName !== 'CANDIDATO USUARIO') {
-                    generateRanking();
-                }
+                console.log('Using default ranking');
             });
 
 
