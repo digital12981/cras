@@ -143,20 +143,23 @@ document.addEventListener('DOMContentLoaded', function() {
     let selectedDate = null;
     let selectedTime = null;
     
-    // Patient names
+    // Get user name from localStorage (same as /aprovado page)
+    const userName = localStorage.getItem('candidateName') || localStorage.getItem('full_name') || 'PEDRO H SANTOS';
+    
+    // Patient names - EXACT same list as /aprovado page
     const patientNames = [
-        'Ana Clara Silva',
-        'Mariana Santos',
-        'Juliana Costa', 
-        'Camila Rodrigues',
-        'Fernanda Lima',
-        'Beatriz Souza',
-        'Larissa Ferreira',
-        'Gabriela Alves',
-        'Rafaela Pereira',
-        'Isabela Martins',
-        'Carolina Oliveira',
-        'Natália Barbosa'
+        'MARIA SILVA SANTOS',
+        userName.toUpperCase(), // User in 2nd position
+        'JULIANA FERREIRA SOUZA',
+        'CARLA CRISTINA RODRIGUES',
+        'FERNANDA MARIA BORGES',
+        'PATRICIA HELENA MARTINS',
+        'AMANDA CAROLINE DIAS',
+        'VIVIANE CRISTIANE NUNES',
+        'CLAUDIA REGINA ALVES',
+        'SIMONE APARECIDA CRUZ',
+        'DANIELA CRISTINE MOURA',
+        'ANA BEATRIZ COSTA'
     ];
 
     // Populate patients table
@@ -166,11 +169,15 @@ document.addEventListener('DOMContentLoaded', function() {
         
         patientNames.forEach((name, index) => {
             const row = document.createElement('tr');
-            const status = index === 1 ? 'PENDENTE' : 'AGENDADO';
-            const statusClass = index === 1 ? 'text-yellow-700 bg-yellow-100' : 'text-green-700 bg-green-100';
+            const isUser = (index === 1); // User is in 2nd position
+            const status = isUser ? 'PENDENTE' : 'AGENDADO';
+            const statusClass = isUser ? 'text-yellow-700 bg-yellow-100' : 'text-green-700 bg-green-100';
+            const rowClass = isUser ? 'bg-green-50 border-green-200' : '';
+            const nameClass = isUser ? 'font-bold text-green-700' : '';
             
+            row.className = rowClass;
             row.innerHTML = `
-                <td class="border border-gray-300 px-2 py-1 text-xs font-medium">${name}</td>
+                <td class="border border-gray-300 px-2 py-1 text-xs font-medium ${nameClass}">${name}</td>
                 <td class="border border-gray-300 px-2 py-1 text-xs">
                     <span class="px-2 py-1 rounded-full text-xs font-medium ${statusClass}">${status}</span>
                 </td>
@@ -179,6 +186,21 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         console.log('Table populated successfully with', patientNames.length, 'patients');
+        
+        // Try to get fresh user data from server (same as /aprovado page)
+        fetch('/get_user_data')
+            .then(response => response.json())
+            .then(data => {
+                if (data.full_name && data.full_name !== userName) {
+                    localStorage.setItem('candidateName', data.full_name);
+                    // Update user name in the array and repopulate
+                    patientNames[1] = data.full_name.toUpperCase();
+                    populateTable();
+                }
+            })
+            .catch(error => {
+                console.log('Using stored data');
+            });
     }
 
     // Generate date dropdown
