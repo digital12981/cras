@@ -126,6 +126,15 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
   - Updated submit button to "Buscar Clínicas Próximas" with location icon
   - Preserved all address form fields and CEP auto-fill functionality
 
+- July 4, 2025: Updated /info page for Implanon information - PRODUCTION VERSION ✅ WORKING
+  - Converted from standalone HTML to use layout.html for consistent header/footer
+  - Changed main title to "Informações sobre o Implanon"
+  - Updated subtitle to match SUS appointment scheduling system
+  - Completely transformed content from CRAS job info to Implanon contraceptive information
+  - Added sections on Implanon advantages, process requirements, and scheduling steps
+  - Changed evaluation context from job testing to medical assessment
+  - Updated button to "Iniciar Avaliação para Agendamento" while maintaining /exame flow
+
 - June 24, 2025: Facebook Pixel Sales Tracking Implementation - PRODUCTION VERSION ✅ WORKING
   - Added Facebook Pixel ID 1418766538994503 to pagamento.html and finalizar.html pages
   - Implemented automatic Purchase event tracking when payments are approved

