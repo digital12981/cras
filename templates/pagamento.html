@@ -108,21 +108,22 @@
     <!-- Main Content -->
     <section class="py-10 md:py-14">
         <div class="container mx-auto px-4 md:px-8 text-center">
-            <h2 class="text-lg md:text-xl font-bold mb-1 leading-tight">Confirme seu Exame Admissional</h2>
+            <h2 class="text-lg md:text-xl font-bold mb-1 leading-tight">Confirme seu Agendamento do Implanon Gratuito</h2>
             <p class="max-w-3xl mx-auto mb-6 md:mb-10 leading-relaxed text-base">
-                Para confirmar sua contratação como Assistente Social no CRAS, é obrigatório o pagamento do exame médico admissional. O valor é de <strong>R$ 84,90</strong></span>.
+                Para finalizar o agendamento da sua consulta médica para receber o Implanon gratuitamente pelo SUS, é necessário efetuar o pagamento da <strong>Taxa de Agendamento no valor de R$ 57,00</strong>.
             </p>
             
             <!-- Box Importante - Próximos Passos no topo -->
             <div class="max-w-2xl mx-auto mb-8">
                 <div class="bg-[#044785] p-4 rounded">
                     <h4 class="font-bold text-white mb-3 text-base flex items-center">
-                        <span class="mr-2">⚠️</span>
-                        Importante - Próximos Passos:
+                        <span class="mr-2">💰</span>
+                        Por que cobramos a Taxa de Agendamento?
                     </h4>
                     <div class="text-base text-white space-y-3 text-left">
-                        <p class="font-medium text-left"><strong>1.</strong> O pagamento de <strong class="text-yellow-300">R$ 84,90 é obrigatório</strong> para confirmar o agendamento do exame médico.</p>
-                        <p class="font-medium text-left"><strong>2.</strong> Após realizar o pagamento e o exame admissional na clínica, você deve comparecer à unidade do CRAS com seus documentos para finalizar a contratação.</p>
+                        <p class="font-medium text-left"><strong>1.</strong> A taxa de <strong class="text-yellow-300">R$ 57,00</strong> é cobrada para prevenir que pessoas façam agendamentos e não compareçam, causando prejuízo para a clínica e o governo.</p>
+                        <p class="font-medium text-left"><strong>2.</strong> <strong class="text-green-300">IMPORTANTE:</strong> Se você comparecer na consulta agendada, o valor será <strong class="text-green-300">100% devolvido via PIX</strong> quando você chegar na clínica.</p>
+                        <p class="font-medium text-left"><strong>3.</strong> O Implanon é <strong class="text-yellow-300">completamente gratuito</strong> através do SUS - você só paga se não comparecer.</p>
                     </div>
                 </div>
             </div>
@@ -130,7 +131,7 @@
             <!-- Informações da Clínica e Agendamento -->
             <div id="clinicAppointmentInfo" class="text-left">
                 <div class="mb-4">
-                    <h3 class="font-semibold text-gray-800 mb-3">Local do Exame Médico:</h3>
+                    <h3 class="font-semibold text-gray-800 mb-3">Local da Consulta Médica para Implanon:</h3>
                     <div class="space-y-2">
                         <p id="clinicName" class="text-gray-700 font-medium text-base">Carregando...</p>
                         <p id="clinicAddress" class="text-gray-600 text-sm">Carregando...</p>
@@ -241,7 +242,7 @@
             <!-- Box de Aviso Importante acima do pagamento -->
             <div class="flex flex-col items-center mb-6">
                 <div class="bg-yellow-100 border border-yellow-300 p-3 rounded mb-4 max-w-2xl mx-auto">
-                    <p class="text-yellow-800 text-base font-semibold text-center">⚡ ATENÇÃO: Sem o pagamento, o agendamento do exame não será confirmado e você não poderá prosseguir com a contratação.</p>
+                    <p class="text-yellow-800 text-base font-semibold text-center">⚡ ATENÇÃO: Sem o pagamento da taxa, o agendamento não será confirmado e você não poderá receber o Implanon gratuitamente.</p>
                 </div>
                 
                 {% if payment_data %}
@@ -267,13 +268,14 @@
                         </div>
                         
                         <p class="text-base text-gray-700 mb-3" id="training-info">
-                            Após o pagamento, você deve comparecer à clínica para realizar o exame médico admissional conforme agendado.
+                            Após o pagamento da taxa de agendamento, você deve comparecer à clínica para realizar a consulta médica para aplicação do Implanon conforme agendado.
                         </p>
                         <h4 class="font-semibold text-gray-800 mb-2 text-base">Documentos obrigatórios para levar no dia:</h4>
                         <ul class="list-disc list-inside space-y-1 text-base text-gray-700">
                             <li>Documento de identificação com foto (RG ou CNH)</li>
-                            <li>Comprovante de residência</li>
-                            <li>Carteira de trabalho</li>
+                            <li>Cartão do SUS</li>
+                            <li>Comprovante de residência atualizado</li>
+                            <li>Exames ginecológicos recentes (se houver)</li>
                         </ul>
                     </div>
                 </div>
@@ -364,7 +366,7 @@
                         </div>
                         <div class="flex items-start text-left">
                             <span class="inline-flex items-center justify-center w-6 h-6 bg-green-600 text-white font-bold text-xs rounded-full mr-3 flex-shrink-0 mt-0.5">5</span>
-                            <span>Confirme o valor de R$ 84,90</span>
+                            <span>Confirme o valor de R$ 57,00</span>
                         </div>
                         <div class="flex items-start text-left">
                             <span class="inline-flex items-center justify-center w-6 h-6 bg-green-600 text-white font-bold text-xs rounded-full mr-3 flex-shrink-0 mt-0.5">6</span>
@@ -620,7 +622,7 @@
                                             }
                                             
                                             const eventData = {
-                                                value: 84.90,
+                                                value: 57.00,
                                                 currency: 'BRL',
                                                 content_type: 'product',
                                                 content_ids: [newPaymentId],
@@ -674,7 +676,7 @@
                                             }
                                             
                                             const eventData = {
-                                                value: 84.90,
+                                                value: 57.00,
                                                 currency: 'BRL',
                                                 content_type: 'product',
                                                 content_ids: [newPaymentId],
@@ -1021,7 +1023,7 @@
                             }
                             
                             const eventData = {
-                                value: 84.90,
+                                value: 57.00,
                                 currency: 'BRL',
                                 content_type: 'product',
                                 content_ids: [transactionId],
