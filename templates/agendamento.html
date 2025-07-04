@@ -434,42 +434,39 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Get hospital information using Perplexity AI
-    async function getHospitalLocation() {
+    function getHospitalLocation() {
         console.log('🔍 Iniciando busca de hospitais...');
         
         // Show loading indicator
         showLoadingIndicator();
         
-        try {
-            // Fetch hospital info using Perplexity API
-            const response = await fetch('/get_hospital_info');
-            const data = await response.json();
-            
-            if (data.success && data.hospital) {
-                console.log('✅ Hospital encontrado:', data.hospital);
-                
-                // Update clinic info with hospital data
-                const hospitalInfo = {
-                    nome: data.hospital.name,
-                    endereco: data.hospital.address,
-                    especialidade: data.hospital.specialty,
-                    telefone: data.hospital.phone
-                };
-                
-                updateClinicInfo(hospitalInfo);
-                showClinicInfo();
-                generateCalendar();
-                populatePatientsTable(); // Use the new function
-                
-                return;
-            } else {
-                console.error('❌ Erro ao buscar hospital:', data.error);
+        // Fetch hospital info using Perplexity API
+        fetch('/get_hospital_info')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.hospital) {
+                    console.log('✅ Hospital encontrado:', data.hospital);
+                    
+                    // Update clinic info with hospital data
+                    const hospitalInfo = {
+                        nome: data.hospital.name,
+                        endereco: data.hospital.address,
+                        especialidade: data.hospital.specialty,
+                        telefone: data.hospital.phone
+                    };
+                    
+                    updateClinicInfo(hospitalInfo);
+                    showClinicInfo();
+                    setupTimeslotSelection();
+                } else {
+                    console.error('❌ Erro ao buscar hospital:', data.error);
+                    showError();
+                }
+            })
+            .catch(error => {
+                console.error('❌ Erro na requisição:', error);
                 showError();
-            }
-        } catch (error) {
-            console.error('❌ Erro na requisição:', error);
-            showError();
-        }
+            });
     }
 
     // Helper functions
@@ -494,104 +491,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function setupTimeslotSelection() {
         // Add timeslot selection functionality here if needed
         console.log('Setting up timeslot selection...');
-    }
-            
-            if (!response.ok) {
-                throw new Error(`API retornou erro: ${response.status} - ${response.statusText}`);
-            }
-            
-            const data = await response.json();
-            console.log('📋 Resposta da API:', data);
-            
-            if (data.clinics && data.clinics.length > 0) {
-                const clinic = data.clinics[0];
-                console.log('🏥 Clínica encontrada:', clinic.name);
-                
-                const formattedClinic = {
-                    nome: clinic.name,
-                    endereco: clinic.address,
-                    telefone: clinic.phone || 'Telefone não informado',
-                    especialidade: clinic.specialty
-                };
-                
-                console.log('📋 Dados formatados da clínica:', formattedClinic);
-                hideLoadingIndicator();
-                updateClinicInfo(formattedClinic);
-                clinicData = formattedClinic;
-                localStorage.setItem('clinicLocation', JSON.stringify(formattedClinic));
-                
-                // Show clinic info section
-                const clinicInfoSection = document.getElementById('clinic-info');
-                if (clinicInfoSection) {
-                    clinicInfoSection.style.display = 'block';
-                    console.log('✅ Seção clinic-info exibida');
-                }
-                
-                // Force show the clinic section
-                setTimeout(() => {
-                    const section = document.getElementById('clinic-info');
-                    if (section) {
-                        section.style.display = 'block';
-                        console.log('🔄 Forçando exibição da seção de clínica');
-                    }
-                }, 100);
-            } else {
-                console.log('⚠️ API não retornou clínicas para este CEP:', cleanCep);
-                console.log('🔄 Aguardando... API pode estar processando...');
-                
-                // Wait a bit more and try again once
-                setTimeout(async () => {
-                    try {
-                        const retryResponse = await fetch(apiUrl, {
-                            method: 'GET',
-                            mode: 'cors',
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json'
-                            }
-                        });
-                        
-                        const retryData = await retryResponse.json();
-                        if (retryData.clinics && retryData.clinics.length > 0) {
-                            const clinic = retryData.clinics[0];
-                            const formattedClinic = {
-                                nome: clinic.name,
-                                endereco: clinic.address,
-                                telefone: clinic.phone || 'Telefone não informado',
-                                especialidade: clinic.specialty
-                            };
-                            
-                            hideLoadingIndicator();
-                            updateClinicInfo(formattedClinic);
-                            clinicData = formattedClinic;
-                            localStorage.setItem('clinicLocation', JSON.stringify(formattedClinic));
-                            
-                            const clinicInfoSection = document.getElementById('clinic-info');
-                            if (clinicInfoSection) {
-                                clinicInfoSection.style.display = 'block';
-                            }
-                            console.log('✅ Clínica encontrada na segunda tentativa');
-                        } else {
-                            console.log('⏳ API ainda processando para CEP:', cleanCep);
-                        }
-                        hideLoadingIndicator();
-                    } catch (retryError) {
-                        console.log('⏳ API ainda carregando...');
-                        hideLoadingIndicator();
-                    }
-                }, 3000);
-            }
-            
-        } catch (error) {
-            console.error('❌ Erro na API:', error.message);
-            console.log('⏳ Aguardando API...');
-            
-            // Keep loading indicator for a bit longer, then hide it
-            setTimeout(() => {
-                hideLoadingIndicator();
-                console.log('🔄 Loading indicator removido após timeout');
-            }, 5000);
-        }
     }
     
     function showLoadingIndicator() {
@@ -743,21 +642,7 @@ document.addEventListener('DOMContentLoaded', function() {
     generateCalendar();
     
     // Load hospital location using Perplexity AI
-    getHospitalLocation().then(() => {
-        loadingContainer.style.display = 'none';
-        clinicInfo.style.display = 'block';
-        setupTimeslotSelection();
-        
-        // Set clinic data in form
-        const clinicDataInput = document.getElementById('clinic-data');
-        if (clinicDataInput && clinicData) {
-            clinicDataInput.value = JSON.stringify(clinicData);
-        }
-    }).catch(error => {
-        console.error('Error:', error);
-        loadingContainer.style.display = 'none';
-        errorContainer.style.display = 'block';
-    });
+    getHospitalLocation();
 });
 </script>
 {% endblock %}
