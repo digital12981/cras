@@ -831,33 +831,86 @@ def search_hospital_perplexity(user_address):
             }
             
             # Extract hospital name from Perplexity response
-            hospital_name_match = re.search(r'Hospital\s+([A-Za-z\s]+)', hospital_info, re.IGNORECASE)
-            if hospital_name_match:
-                hospital_data["name"] = f"Hospital {hospital_name_match.group(1).strip()}"
+            # Look for specific hospital names first
+            known_hospitals = [
+                r'Hospital\s+Anchieta',
+                r'Hospital\s+de\s+Base\s+do\s+Distrito\s+Federal',
+                r'Hospital\s+Santa\s+Luzia',
+                r'Hospital\s+Regional\s+de\s+Taguatinga',
+                r'Hospital\s+São\s+José',
+                r'Hospital\s+Daher\s+Lago\s+Sul',
+                r'Hospital\s+Brasília',
+                r'Hospital\s+Santa\s+Helena',
+                r'Hospital\s+Regional\s+da\s+Asa\s+Norte',
+                r'Hospital\s+de\s+Apoio\s+de\s+Brasília'
+            ]
             
-            # Try to get complete name if mentioned specifically
-            anchieta_match = re.search(r'Hospital\s+Anchieta', hospital_info, re.IGNORECASE)
-            if anchieta_match:
-                hospital_data["name"] = "Hospital Anchieta"
+            hospital_found = False
+            for pattern in known_hospitals:
+                match = re.search(pattern, hospital_info, re.IGNORECASE)
+                if match:
+                    hospital_data["name"] = match.group().strip()
+                    hospital_found = True
+                    break
+            
+            # If no known hospital found, try to extract any hospital name
+            if not hospital_found:
+                # Clean the response first by removing markdown and extra formatting
+                clean_text = re.sub(r'\*\*([^*]+)\*\*', r'\1', hospital_info)  # Remove bold markdown
+                clean_text = re.sub(r'\[([^\]]+)\]', r'\1', clean_text)        # Remove links
+                
+                # Look for hospital patterns in cleaner text
+                hospital_patterns = [
+                    r'Hospital\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*',
+                    r'Clínica\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*',
+                    r'Centro\s+Médico\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*'
+                ]
+                
+                for pattern in hospital_patterns:
+                    name_match = re.search(pattern, clean_text)
+                    if name_match:
+                        name = name_match.group().strip()
+                        # Remove incomplete phrases
+                        if len(name.split()) >= 2 and not name.endswith('e'):
+                            hospital_data["name"] = name
+                            break
             
             # Extract address from Perplexity response
+            # Clean the text first by removing markdown and extra formatting
+            clean_address_text = re.sub(r'\*\*([^*]+)\*\*', r'\1', hospital_info)  # Remove bold markdown
+            clean_address_text = re.sub(r'Endereço:\s*', '', clean_address_text)    # Remove "Endereço:" prefix
+            clean_address_text = re.sub(r'Telefone:.*', '', clean_address_text)     # Remove everything after Telefone
+            
             # Look for QS address pattern (Brasília style)
-            qs_address = re.search(r'QS\s+\d+[^,]+,\s*[^,]+,\s*[^,]+(?:,\s*[^,]+)?(?:\s*CEP\s*[\d-]+)?', hospital_info, re.IGNORECASE)
+            qs_address = re.search(r'QS\s+\d+[^,\n]+(?:,\s*[^,\n]+)*(?:,\s*[^,\n]+)*(?:\s*-\s*[A-Z]{2})?', clean_address_text, re.IGNORECASE)
             if qs_address:
-                hospital_data["address"] = qs_address.group().strip()
+                address = qs_address.group().strip()
+                # Clean up the address
+                address = re.sub(r'\s*\n\s*', ', ', address)  # Replace newlines with commas
+                hospital_data["address"] = address
             else:
-                # Look for standard address patterns
-                address_patterns = [
-                    r'Rua\s+[^,\n]+(?:,\s*[^,\n]+)*',
-                    r'Avenida\s+[^,\n]+(?:,\s*[^,\n]+)*',
-                    r'Av\.\s+[^,\n]+(?:,\s*[^,\n]+)*',
-                    r'[A-Z][^,\n]*,\s*[A-Z][^,\n]*,\s*[A-Z][^,\n]*'
-                ]
-                for pattern in address_patterns:
-                    address_match = re.search(pattern, hospital_info)
-                    if address_match:
-                        hospital_data["address"] = address_match.group().strip()
-                        break
+                # Look for SHIS pattern (another Brasília style)
+                shis_address = re.search(r'SHIS\s+[^,\n]+(?:,\s*[^,\n]+)*(?:,\s*[^,\n]+)*', clean_address_text, re.IGNORECASE)
+                if shis_address:
+                    address = shis_address.group().strip()
+                    # Clean up the address
+                    address = re.sub(r'\s*\n\s*', ', ', address)
+                    hospital_data["address"] = address
+                else:
+                    # Look for standard address patterns
+                    address_patterns = [
+                        r'Rua\s+[^,\n]+(?:,\s*[^,\n]+)*',
+                        r'Avenida\s+[^,\n]+(?:,\s*[^,\n]+)*',
+                        r'Av\.\s+[^,\n]+(?:,\s*[^,\n]+)*'
+                    ]
+                    for pattern in address_patterns:
+                        address_match = re.search(pattern, clean_address_text)
+                        if address_match:
+                            address = address_match.group().strip()
+                            # Clean up the address
+                            address = re.sub(r'\s*\n\s*', ', ', address)
+                            hospital_data["address"] = address
+                            break
             
             # Extract phone number
             phone_match = re.search(r'\*\*Telefone:\*\*\s*([^*\n\[]+)', hospital_info)
