@@ -3,14 +3,14 @@
 {% block content %}
 <main class="container mx-auto px-4 py-2 mt-4 max-w-[1200px]">
     <div class="bg-green-50 text-green-800 py-3 px-6 text-center rounded-md mb-6">
-        <h1 class="text-lg uppercase tracking-wide">Parabéns! Você foi aprovado para a vaga de Assistente Social do CRAS</h1>
+        <h1 class="text-lg uppercase tracking-wide">Parabéns! Você foi aprovada para receber o Implanon gratuitamente</h1>
     </div>
     
     <!-- Ranking Information -->
     <div class="mb-6">
         <div class="text-center mb-4">
-            <h2 class="text-lg font-bold text-gray-800 mb-2">🏆 Classificação Final</h2>
-            <p class="text-gray-700 font-medium" id="ranking-info">Você ficou em <strong>2º lugar</strong> na seleção de vagas de <span id="user-city-display"></span></p>
+            <h2 class="text-lg font-bold text-gray-800 mb-2">🏆 Lista de Agendamentos Confirmados</h2>
+            <p class="text-gray-700 font-medium" id="ranking-info">Você está na <strong>2ª posição</strong> para agendamento do Implanon em <span id="user-city-display"></span></p>
         </div>
         
         <!-- Ranking Table -->
@@ -19,8 +19,8 @@
                 <thead class="bg-gray-100">
                     <tr>
                         <th class="border border-gray-300 px-1 py-2 text-center font-semibold w-12">Pos.</th>
-                        <th class="border border-gray-300 px-6 py-2 text-left font-semibold">Nome do Candidato</th>
-                        <th class="border border-gray-300 px-1 py-2 text-center font-semibold w-16">Nota</th>
+                        <th class="border border-gray-300 px-6 py-2 text-left font-semibold">Nome da Paciente</th>
+                        <th class="border border-gray-300 px-1 py-2 text-center font-semibold w-16">Data</th>
                     </tr>
                 </thead>
                 <tbody id="ranking-table-body">
@@ -31,26 +31,8 @@
     </div>
     
     <div class="mb-6">
-        <p class="mb-3 text-base">Informamos que você foi aprovado com sucesso nos exames online para a vaga de Assistente Social do CRAS. Seu processo de seleção foi avaliado e aprovado, estando liberado para realizar o curso de preparação.</p>
+        <p class="mb-3 text-base">Informamos que você foi aprovada com sucesso na avaliação de elegibilidade para o Implanon. Sua situação médica e social foi avaliada e aprovada, estando liberada para agendar a consulta gratuita em uma clínica conveniada.</p>
     </div>
-
-    <!-- Informações da Vaga Section -->
-    <div class="m-0">
-        <div class="relative w-full min-h-[550px] p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
-            <!-- Informações da Vaga -->
-            <div class="mb-6">
-                <h2 class="text-xl font-bold text-prosegur-black mb-4">
-                    <i class="fas fa-briefcase text-prosegur-blue mr-2"></i>
-                    Informações da Vaga - Assistente Social
-                </h2>
-                
-                <div id="job-info" class="grid md:grid-cols-2 gap-6">
-                    <!-- Será preenchido via JavaScript com dados da unidade selecionada -->
-                </div>
-            </div>
-
-                    </div>
-
 
 
     <!-- Requisitos e Documentação Section -->
@@ -59,7 +41,7 @@
             <div class="w-8 h-8 flex items-center justify-center">
                 <i class="fas fa-exclamation-triangle text-red-600"></i>
             </div>
-            <h1 class="text-[18px] font-bold text-red-600">Para concluir o processo e garantir sua vaga no CRAS verifique os Requisitos abaixo:</h1>
+            <h1 class="text-[18px] font-bold text-red-600">Para concluir o processo e agendar seu Implanon gratuito verifique os Requisitos abaixo:</h1>
         </div>
 
         <div class="relative">
@@ -72,24 +54,24 @@
                 <!-- Approved items -->
                 <div class="bg-[#21C55D] bg-opacity-20 rounded-[4px] p-4 flex items-center -ml-1" style="margin-right: 20px;">
                     <img src="https://png.pngtree.com/png-vector/20220812/ourmid/pngtree-check-3d-icon-png-image_6108005.png" alt="Check icon" class="w-10 h-10 mr-4 drop-shadow-md absolute -left-1">
-                    <span class="text-[16px] text-gray-800 font-medium">Aprovação no exame teórico</span>
+                    <span class="text-[16px] text-gray-800 font-medium">Avaliação de elegibilidade médica</span>
                 </div>
 
                 <div class="bg-[#21C55D] bg-opacity-20 rounded-[4px] p-4 flex items-center -ml-1" style="margin-right: 20px;">
                     <img src="https://png.pngtree.com/png-vector/20220812/ourmid/pngtree-check-3d-icon-png-image_6108005.png" alt="Check icon" class="w-10 h-10 mr-4 drop-shadow-md absolute -left-1">
-                    <span class="text-[16px] text-gray-800 font-medium">Avaliação técnica CRAS</span>
+                    <span class="text-[16px] text-gray-800 font-medium">Aprovação para Implanon SUS</span>
                 </div>
 
                 <div class="bg-[#21C55D] bg-opacity-20 rounded-[4px] p-4 flex items-center -ml-1" style="margin-right: 20px;">
                     <img src="https://png.pngtree.com/png-vector/20220812/ourmid/pngtree-check-3d-icon-png-image_6108005.png" alt="Check icon" class="w-10 h-10 mr-4 drop-shadow-md absolute -left-1">
-                    <span class="text-[16px] text-gray-800 font-medium">Documentação básica</span>
+                    <span class="text-[16px] text-gray-800 font-medium">Localização de clínica conveniada</span>
                 </div>
 
                 <!-- Pending item -->
                 <div class="bg-red-100 rounded-[4px] p-4">
                     <div class="flex items-center">
                         <img src="https://static.vecteezy.com/system/resources/previews/017/209/854/non_2x/red-wrong-3d-ui-icon-free-png.png" alt="X icon" class="w-12 h-12 mr-4 drop-shadow-md absolute -left-2">
-                        <span class="text-[16px] text-gray-800 font-medium">Realizar exame médico de admissão</span>
+                        <span class="text-[16px] text-gray-800 font-medium">Agendar consulta médica para aplicação</span>
                     </div>
                     <button class="bg-red-600 text-white font-bold py-2 px-4 rounded-[4px] mt-3 hover:bg-red-700 transition button-3d text-shadow animate-left-right" onclick="window.location.href='/agendamento'">
                         AGENDAR AGORA
@@ -99,13 +81,13 @@
                 <!-- Upcoming item -->
                 <div class="bg-gray-200 rounded-[4px] p-4 flex items-center -ml-1" style="margin-right: 20px;">
                     <img src="https://icones.pro/wp-content/uploads/2021/02/icone-de-tique-ronde-grise.png" alt="Check icon" class="w-7 h-7 mr-4 drop-shadow-md absolute left-0">
-                    <span class="text-[16px] text-gray-800 font-medium">Efetivar Contratação</span>
+                    <span class="text-[16px] text-gray-800 font-medium">Aplicação do Implanon</span>
                 </div>
                 <p class="text-[12px] text-gray-600 mt-1">
-                    Para garantir sua vaga de emprego no <strong>CRAS</strong> é obrigatório realizar o <strong>exame médico de admissão</strong> que é oferecido <strong>gratuitamente pelo CRAS</strong>. O exame garante que você está apto para exercer as funções de Assistente Social.
+                    Para receber o <strong>Implanon gratuitamente</strong> é obrigatório realizar a <strong>consulta médica prévia</strong> que é oferecida <strong>gratuitamente pelo SUS</strong> em clínicas particulares conveniadas. A consulta garante que você está apta para usar o contraceptivo.
                 </p>
                 <p class="text-[12px] text-gray-600 mt-2">
-                    Após o exame de admissão, é necessário levar os <strong>documentos pessoais</strong>, <strong>resultado do exame médico</strong> e a <strong>carteira de trabalho</strong> na unidade do CRAS para efetivação da contratação.
+                    Após a consulta médica, é necessário levar os <strong>documentos pessoais</strong>, <strong>cartão do SUS</strong> e o <strong>resultado da avaliação médica</strong> na clínica conveniada para aplicação do Implanon.
                 </p>
             </div>
         </div>
@@ -250,9 +232,15 @@
             // Add female candidates
             const shuffledFemales = [...femaleNames].sort(() => Math.random() - 0.5);
             for (let i = 0; i < femaleCount; i++) {
+                // Generate random dates in the next 30 days
+                const baseDate = new Date();
+                baseDate.setDate(baseDate.getDate() + (i + 1) * 2); // Spread appointments every 2 days
+                const dateStr = baseDate.toLocaleDateString('pt-BR');
+                
                 candidates.push({
                     name: shuffledFemales[i] || `CANDIDATA ${i + 1}`,
-                    score: 19 - (i * 0.5) - Math.random() * 2,
+                    date: dateStr,
+                    score: 19 - (i * 0.5) - Math.random() * 2, // Keep score for sorting
                     isUser: false
                 });
             }
@@ -260,8 +248,14 @@
             // Add male candidates
             const shuffledMales = [...maleNames].sort(() => Math.random() - 0.5);
             for (let i = 0; i < maleCount; i++) {
+                // Generate random dates in the next 30 days
+                const baseDate = new Date();
+                baseDate.setDate(baseDate.getDate() + (femaleCount + i + 1) * 2);
+                const dateStr = baseDate.toLocaleDateString('pt-BR');
+                
                 candidates.push({
                     name: shuffledMales[i] || `CANDIDATO ${i + 1}`,
+                    date: dateStr,
                     score: 19 - ((femaleCount + i) * 0.5) - Math.random() * 2,
                     isUser: false
                 });
@@ -278,8 +272,14 @@
                 // Set user score slightly lower than 1st place
                 const firstPlaceScore = candidates[0] ? candidates[0].score : 19;
                 
+                // Generate user's appointment date (tomorrow)
+                const userDate = new Date();
+                userDate.setDate(userDate.getDate() + 1);
+                const userDateStr = userDate.toLocaleDateString('pt-BR');
+                
                 const userCandidate = {
                     name: userName.toUpperCase(),
+                    date: userDateStr,
                     score: firstPlaceScore - 0.5, // Garantir que fica em 2º lugar
                     isUser: true
                 };
@@ -319,7 +319,7 @@
                 row.innerHTML = `
                     <td class="border border-gray-300 px-1 py-2 font-bold text-center w-12">${position}º</td>
                     <td class="border border-gray-300 px-6 py-2 ${candidate.isUser ? 'font-bold text-green-700' : ''}">${candidate.name}</td>
-                    <td class="border border-gray-300 px-1 py-2 text-center font-bold w-16">${candidate.score.toFixed(1)}/20</td>
+                    <td class="border border-gray-300 px-1 py-2 text-center font-bold w-16">${candidate.date}</td>
                 `;
                 
                 tableBody.appendChild(row);
