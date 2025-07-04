@@ -100,6 +100,15 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
 
 ## Changelog
 
+- July 4, 2025: Updated /vagas page for Impanon SUS - PRODUCTION VERSION ✅ WORKING
+  - Changed content focus from CRAS job vacancies to Impanon contraceptive availability through SUS
+  - Updated page title and main content to reflect Impanon being offered for free through SUS
+  - Emphasized fast scheduling and quality service at partnered private clinics
+  - Removed the state-by-state vacancy table as requested
+  - Maintained all existing images and overall page structure
+  - Updated call-to-action button to "AGENDAR CONSULTA GRATUITA"
+  - Modified benefits section to highlight Impanon advantages and SUS partnership
+
 - June 24, 2025: Facebook Pixel Sales Tracking Implementation - PRODUCTION VERSION ✅ WORKING
   - Added Facebook Pixel ID 1418766538994503 to pagamento.html and finalizar.html pages
   - Implemented automatic Purchase event tracking when payments are approved
