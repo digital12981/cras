@@ -3,8 +3,8 @@
 {% block content %}
 <div class="max-w-[1800px] mx-auto px-2">
     <div class="mb-8">
-        <h1 class="text-2xl font-bold text-prosegur-black mb-4 font-heading">Avaliação de Conhecimentos CRAS</h1>
-        <p class="text-prosegur-gray mb-2 font-body">Primeira etapa - Conhecimentos básicos em Assistência Social</p>
+        <h1 class="text-2xl font-bold text-prosegur-black mb-4 font-heading">Avaliação de Elegibilidade para Implanon</h1>
+        <p class="text-prosegur-gray mb-2 font-body">Primeira etapa - Avaliação médica e social para acesso gratuito</p>
         <div class="h-1 w-32 bg-prosegur-blue"></div>
     </div>
 
@@ -110,109 +110,109 @@
 </style>
 
 <script>
-    // Conteúdos educativos simplificados sobre assistência social
+    // Informações educativas sobre elegibilidade para o Implanon
     const educationalContent = [
-        "O assistente social ajuda famílias em dificuldades. Ele conversa com as pessoas, entende seus problemas e oferece soluções como programas sociais e encaminhamentos para outros serviços.",
-        "O SUAS é o sistema que organiza a ajuda social no Brasil. Ele tem dois tipos: proteção básica (previne problemas) e proteção especial (ajuda quem já tem problemas graves).",
-        "O assistente social escreve relatórios sobre as famílias. Estes documentos são importantes para entender a situação das pessoas e decidir que tipo de ajuda elas precisam.",
-        "É importante conhecer o bairro onde as famílias moram. O assistente social precisa saber que recursos existem perto das casas das pessoas para poder ajudar melhor.",
-        "O trabalho com famílias busca torná-las mais fortes e unidas. O assistente social usa atividades que fazem as famílias participarem e resolverem seus próprios problemas.",
-        "Trabalhar junto com outros serviços é muito importante. O assistente social conversa com pessoas da saúde, educação e habitação para ajudar completamente as famílias.",
-        "Existem benefícios como o BPC e auxílios que as pessoas têm direito. O assistente social explica como conseguir esses benefícios e acompanha as famílias que recebem.",
-        "As pessoas devem participar dos conselhos e reuniões sobre seus direitos. O assistente social incentiva as famílias a participarem desses espaços importantes.",
-        "Os documentos do assistente social devem ser bem escritos e respeitosos. Ele anota as informações de forma clara e protege a privacidade das pessoas.",
-        "Trabalhar em equipe e receber orientação é fundamental. O assistente social participa de reuniões e treinamentos para sempre melhorar seu trabalho."
+        "O histórico de gravidez é importante para avaliar a adequação do Implanon. Mulheres que já engravidaram ou nunca engravidaram podem usar o método, mas é necessário avaliar planos futuros de gravidez.",
+        "O uso atual de métodos contraceptivos ajuda a determinar a necessidade do Implanon. É importante conhecer a experiência anterior com anticoncepcionais para fazer a melhor recomendação médica.",
+        "A idade é um fator importante na escolha contraceptiva. O Implanon é adequado para mulheres em idade reprodutiva, especialmente aquelas que buscam proteção de longa duração.",
+        "Condições de saúde específicas podem influenciar a indicação do Implanon. É fundamental avaliar o histórico médico para garantir a segurança e eficácia do método contraceptivo.",
+        "A situação de relacionamento pode influenciar a escolha do método contraceptivo. O Implanon oferece proteção independente da parceria, sendo ideal para diferentes situações de vida.",
+        "A renda familiar é considerada para acesso gratuito pelo SUS. O programa prioriza mulheres em situação de vulnerabilidade socioeconômica para garantir acesso universal ao planejamento familiar.",
+        "O nível de escolaridade não impede o acesso ao Implanon, mas ajuda na orientação adequada. Todas as mulheres têm direito ao método, independentemente do grau de instrução.",
+        "A frequência de consultas médicas indica o acompanhamento de saúde atual. Mulheres que fazem acompanhamento regular podem ter vantagens na adaptação ao novo método contraceptivo.",
+        "A preferência por métodos de longa duração é importante na escolha do Implanon. Mulheres que buscam praticidade e eficácia prolongada são candidatas ideais para este contraceptivo.",
+        "A motivação para usar o Implanon deve ser avaliada para garantir satisfação e aderência. É importante que a escolha seja consciente e alinhada com as necessidades e expectativas da mulher."
     ];
 
     const questions = [
         {
-            question: "Qual a principal função do assistente social?",
+            question: "Qual é o seu histórico de gravidez?",
             options: [
-                "Controlar as famílias",
-                "Ajudar famílias em dificuldades",
-                "Dar dinheiro para as pessoas",
-                "Fiscalizar comportamentos"
+                "Sim, já engravidei",
+                "Nunca engravidei",
+                "Pretendo engravidar no futuro",
+                "Não tenho planos para engravidar"
             ]
         },
         {
-            question: "O que é o SUAS?",
+            question: "Atualmente você usa algum método contraceptivo?",
             options: [
-                "Um tipo de benefício",
-                "Sistema que organiza a ajuda social",
-                "Um programa de habitação",
-                "Uma escola de assistentes sociais"
+                "Sim, uso pílula anticoncepcional",
+                "Sim, uso camisinha ou outros métodos",
+                "Não uso nenhum método contraceptivo",
+                "Uso métodos naturais (tabelinha, coito interrompido)"
             ]
         },
         {
-            question: "Para que servem os relatórios do assistente social?",
+            question: "Qual é a sua faixa etária?",
             options: [
-                "Para controlar as pessoas",
-                "Para entender a situação das famílias",
-                "Para punir quem faz errado",
-                "Para ganhar dinheiro"
+                "18 a 25 anos",
+                "26 a 35 anos",
+                "36 a 45 anos",
+                "Acima de 45 anos"
             ]
         },
         {
-            question: "Por que é importante conhecer o bairro das famílias?",
+            question: "Você tem alguma condição de saúde que requer acompanhamento médico?",
             options: [
-                "Para controlar onde elas moram",
-                "Para saber que recursos existem perto",
-                "Para cobrar impostos",
-                "Para mudá-las de lugar"
+                "Não tenho problemas de saúde conhecidos",
+                "Tenho diabetes ou pressão alta",
+                "Tenho problemas hormonais",
+                "Tenho outras condições médicas"
             ]
         },
         {
-            question: "Como o assistente social trabalha com famílias?",
+            question: "Qual é a sua situação de relacionamento atual?",
             options: [
-                "Resolve tudo sozinho",
-                "Torna as famílias mais fortes e unidas",
-                "Separa as famílias",
-                "Dá ordens para todos"
+                "Estou em um relacionamento estável",
+                "Estou solteira",
+                "Tenho relacionamentos esporádicos",
+                "Prefiro não informar"
             ]
         },
         {
-            question: "Por que trabalhar com outros serviços é importante?",
+            question: "Qual é a renda mensal da sua família?",
             options: [
-                "Para dividir o trabalho",
-                "Para ajudar completamente as famílias",
-                "Para economizar dinheiro",
-                "Para ter menos responsabilidade"
+                "Até 1 salário mínimo",
+                "De 1 a 3 salários mínimos",
+                "De 3 a 5 salários mínimos",
+                "Acima de 5 salários mínimos"
             ]
         },
         {
-            question: "O que são benefícios como o BPC?",
+            question: "Qual é o seu nível de escolaridade?",
             options: [
-                "Punições para famílias",
-                "Direitos que as pessoas têm",
-                "Obrigações das famílias",
-                "Serviços pagos"
+                "Ensino fundamental incompleto ou completo",
+                "Ensino médio incompleto ou completo",
+                "Ensino superior incompleto ou completo",
+                "Pós-graduação"
             ]
         },
         {
-            question: "Como você lidaria com preconceitos pessoais durante o atendimento?",
+            question: "Com que frequência você vai ao médico?",
             options: [
-                "Deixaria claro minha opinião para educar o usuário",
-                "Fingiria concordar para manter boa relação",
-                "Buscaria autoreflexão e supervisão técnica",
-                "Transferiria o caso para outro profissional"
+                "Raramente ou nunca vou ao médico",
+                "Vou apenas quando estou doente",
+                "Faço consultas preventivas anualmente",
+                "Tenho acompanhamento médico regular"
             ]
         },
         {
-            question: "Sua reação ao receber ordens que considera questionáveis é:",
+            question: "Você tem preferência por métodos contraceptivos de longa duração?",
             options: [
-                "Executo sem questionar para evitar problemas",
-                "Contesto abertamente a autoridade",
-                "Busco esclarecimentos de forma respeitosa",
-                "Avalia a situação e age conforme ética profissional"
+                "Sim, prefiro métodos que durem anos",
+                "Prefiro métodos de curta duração",
+                "Não tenho preferência específica",
+                "Nunca usei métodos de longa duração"
             ]
         },
         {
-            question: "Como você avalia sua capacidade de trabalhar em equipe sob pressão?",
+            question: "Por que você tem interesse no Implanon?",
             options: [
-                "Tenho dificuldades em colaborar quando estou estressado",
-                "Consigo trabalhar em equipe, mas prefiro agir sozinho",
-                "Trabalho bem em equipe e contribuo de forma positiva",
-                "Sou um líder natural que inspira confiança na equipe"
+                "Busco um método mais prático e eficaz",
+                "Tenho problemas com outros contraceptivos",
+                "Foi recomendado por médico ou conhecida",
+                "Quero um método gratuito pelo SUS"
             ]
         }
     ];
