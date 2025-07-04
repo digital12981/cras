@@ -77,7 +77,7 @@ def serve_font(filename):
 
 @app.route("/")
 def index():
-    return render_template("index_simple.html")
+    return render_template("index_working.html")
 
 @app.route("/test")
 def test():
