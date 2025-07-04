@@ -1,0 +1,212 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="mb-8">
+        <h1 class="text-2xl font-bold text-prosegur-black mb-4 font-heading">Agendamento Implanon Gratuito</h1>
+        <p class="text-prosegur-gray mb-2 font-body">Sistema de Agendamento SUS - Clínicas Particulares Conveniadas</p>
+        <div class="h-1 w-32 bg-prosegur-blue"></div>
+    </div>
+
+    <!-- Information Section -->
+    <div class="bg-white shadow-sm rounded-lg p-6 mb-8 border border-gray-200">
+        <div class="flex items-start space-x-4 mb-6">
+            <div>
+                <h2 class="text-lg font-semibold text-prosegur-black mb-4 font-heading">Consulta médica para aplicação do Implanon:</h2>
+                <div class="space-y-4 text-prosegur-gray font-body">
+                    <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded mb-4 w-full">
+                        <p class="text-green-800"><strong>✓ AGENDAMENTO CONFIRMADO:</strong></p>
+                        <p class="text-green-700 text-2sm mt-1">Você foi aprovada para receber o Implanon gratuitamente através do SUS. O implante contraceptivo subcutâneo oferece proteção contraceptiva por 3 anos com 99,9% de eficácia.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hospital Information -->
+    <div class="bg-white shadow-sm rounded-lg p-6 mb-8 border border-gray-200">
+        <h2 class="text-lg font-semibold text-prosegur-black mb-4 font-heading">Clínica Conveniada</h2>
+        
+        <div id="loading-container" class="text-center py-8">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-prosegur-blue mx-auto mb-4"></div>
+            <p class="text-prosegur-gray">Localizando clínica próxima ao seu endereço...</p>
+        </div>
+
+        <div id="clinic-info" class="hidden">
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded mb-4">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium text-blue-800">
+                            Clínica Encontrada
+                        </h3>
+                        <div class="mt-2 text-sm text-blue-700">
+                            <p><strong id="clinic-name">Carregando...</strong></p>
+                            <p><span id="clinic-address">Carregando endereço...</span></p>
+                            <p><strong>Especialidade:</strong> <span id="clinic-specialty">Ginecologia e Obstetrícia</span></p>
+                            <p><strong>Telefone:</strong> <span id="clinic-phone">Carregando...</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="error-container" class="hidden">
+            <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded">
+                <p class="text-red-800">Erro ao carregar informações</p>
+                <p class="text-red-700 text-sm">Não foi possível localizar uma clínica médica. Tente novamente mais tarde.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Patients Status Table -->
+    <div class="bg-white shadow-sm rounded-lg p-6 mb-8 border border-gray-200">
+        <h2 class="text-lg font-semibold text-prosegur-black mb-4 font-heading">Lista de Agendamentos Confirmados</h2>
+        
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse border border-gray-300">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="border border-gray-300 px-2 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Posição</th>
+                        <th class="border border-gray-300 px-2 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome da Paciente</th>
+                        <th class="border border-gray-300 px-2 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Procedimento</th>
+                        <th class="border border-gray-300 px-2 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Consulta</th>
+                    </tr>
+                </thead>
+                <tbody id="patients-table" class="bg-white">
+                    <!-- Populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Calendar and Appointment -->
+    <div class="bg-white shadow-sm rounded-lg p-6 mb-8 border border-gray-200">
+        <h2 class="text-lg font-semibold text-prosegur-black mb-4 font-heading">Agendamento da Consulta</h2>
+        
+        <form action="/submit_agendamento" method="post" class="space-y-6">
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-prosegur-black mb-2">Data da Consulta</label>
+                    <select name="appointment_date" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-prosegur-blue" required>
+                        <option value="">Selecione a data</option>
+                        <option value="2025-07-07">Segunda-feira, 07/07/2025</option>
+                        <option value="2025-07-08">Terça-feira, 08/07/2025</option>
+                        <option value="2025-07-09">Quarta-feira, 09/07/2025</option>
+                        <option value="2025-07-10">Quinta-feira, 10/07/2025</option>
+                        <option value="2025-07-11">Sexta-feira, 11/07/2025</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-prosegur-black mb-2">Horário</label>
+                    <select name="appointment_time" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-prosegur-blue" required>
+                        <option value="">Selecione o horário</option>
+                        <option value="08:00">08:00</option>
+                        <option value="09:00">09:00</option>
+                        <option value="10:00">10:00</option>
+                        <option value="11:00">11:00</option>
+                        <option value="14:00">14:00</option>
+                        <option value="15:00">15:00</option>
+                        <option value="16:00">16:00</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="pt-6">
+                <button type="submit" class="w-full bg-prosegur-blue text-white py-3 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-prosegur-blue focus:ring-offset-2 font-medium">
+                    <i class="fas fa-calendar-check mr-2"></i>
+                    Confirmar Agendamento Implanon
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Patient names (same as /aprovado page)
+    const patientNames = [
+        'Ana Clara Silva',
+        'Mariana Santos',  // User's position (2nd)
+        'Juliana Costa', 
+        'Camila Rodrigues',
+        'Fernanda Lima',
+        'Beatriz Souza',
+        'Larissa Ferreira',
+        'Gabriela Alves',
+        'Rafaela Pereira',
+        'Isabela Martins',
+        'Carolina Oliveira',
+        'Natália Barbosa'
+    ];
+
+    // Populate patients table
+    function populatePatientsTable() {
+        const tbody = document.getElementById('patients-table');
+        tbody.innerHTML = '';
+        
+        patientNames.forEach((name, index) => {
+            const row = document.createElement('tr');
+            const status = index === 1 ? 'PENDENTE' : 'AGENDADO';
+            const statusClass = index === 1 ? 'text-yellow-700 bg-yellow-100' : 'text-green-700 bg-green-100';
+            
+            row.innerHTML = `
+                <td class="border border-gray-300 px-2 py-1 text-xs">${index + 1}º</td>
+                <td class="border border-gray-300 px-2 py-1 text-xs font-medium">${name}</td>
+                <td class="border border-gray-300 px-2 py-1 text-xs">Consulta Implanon</td>
+                <td class="border border-gray-300 px-2 py-1 text-xs">
+                    <span class="px-2 py-1 rounded-full text-xs font-medium ${statusClass}">
+                        ${status}
+                    </span>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+        
+        console.log('Table populated successfully with', patientNames.length, 'patients');
+    }
+
+    // Load hospital information
+    function loadHospitalInfo() {
+        console.log('🔍 Iniciando busca de hospitais...');
+        
+        fetch('/get_hospital_info')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.hospital) {
+                    console.log('✅ Hospital encontrado:', data.hospital);
+                    
+                    // Update hospital info
+                    document.getElementById('clinic-name').textContent = data.hospital.name;
+                    document.getElementById('clinic-address').textContent = data.hospital.address;
+                    document.getElementById('clinic-specialty').textContent = data.hospital.specialty;
+                    document.getElementById('clinic-phone').textContent = data.hospital.phone;
+                    
+                    // Show clinic info
+                    document.getElementById('loading-container').style.display = 'none';
+                    document.getElementById('clinic-info').style.display = 'block';
+                    
+                } else {
+                    console.error('❌ Erro ao buscar hospital:', data.error);
+                    document.getElementById('loading-container').style.display = 'none';
+                    document.getElementById('error-container').style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('❌ Erro na requisição:', error);
+                document.getElementById('loading-container').style.display = 'none';
+                document.getElementById('error-container').style.display = 'block';
+            });
+    }
+
+    // Initialize
+    populatePatientsTable();
+    loadHospitalInfo();
+});
+</script>
+{% endblock %}

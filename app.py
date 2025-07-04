@@ -771,7 +771,11 @@ def resultado(status):
 @app.route("/agendamento")
 @simple_mobile_only
 def agendamento():
-    return render_template("agendamento.html")
+    return render_template("test_simple.html")
+
+@app.route("/test")
+def test():
+    return render_template("test_simple.html")
 
 def search_hospital_perplexity(user_address):
     """Search for private hospitals near user address using Perplexity AI"""
@@ -780,8 +784,8 @@ def search_hospital_perplexity(user_address):
         if not api_key:
             return {"error": "Perplexity API key not configured"}
         
-        # Create search query
-        query = f"hospital particular ginecologia próximo {user_address['city']}, {user_address['state']}, bairro {user_address['neighborhood']}, CEP {user_address['cep']}. Liste apenas 1 hospital com nome completo e endereço exato."
+        # Create search query for real hospitals
+        query = f"Hospital particular especializado em ginecologia e obstetrícia em {user_address['city']}, {user_address['state']}, bairro {user_address['neighborhood']}. Preciso do nome completo, endereço e telefone de 1 hospital particular real que atenda mulheres."
         
         headers = {
             'Authorization': f'Bearer {api_key}',
@@ -789,7 +793,7 @@ def search_hospital_perplexity(user_address):
         }
         
         data = {
-            "model": "llama-3.1-sonar-small-128k-online",
+            "model": "sonar-pro",
             "messages": [
                 {
                     "role": "system",
@@ -817,21 +821,62 @@ def search_hospital_perplexity(user_address):
             result = response.json()
             hospital_info = result['choices'][0]['message']['content']
             
-            # Parse the response to extract hospital name and address
-            lines = hospital_info.strip().split('\n')
+            app.logger.info(f"Perplexity API response: {hospital_info}")
+            
+            # Extract real hospital information from Perplexity response
+            import re
+            
+            # Initialize with default values
             hospital_data = {
-                "name": "Hospital Particular Encontrado",
+                "name": "Hospital não encontrado",
                 "address": f"{user_address['city']}, {user_address['state']}",
                 "specialty": "Ginecologia e Obstetrícia",
-                "phone": "(11) 99999-9999"
+                "phone": "Telefone não informado"
             }
             
-            # Try to extract more specific info from the response
-            for line in lines:
-                if any(word in line.lower() for word in ['hospital', 'clínica', 'centro médico']):
-                    if len(line.strip()) > 10:
-                        hospital_data["name"] = line.strip().replace('*', '').replace('-', '').strip()
+            # Extract hospital name from Perplexity response
+            hospital_name_match = re.search(r'Hospital\s+([A-Za-z\s]+)', hospital_info, re.IGNORECASE)
+            if hospital_name_match:
+                hospital_data["name"] = f"Hospital {hospital_name_match.group(1).strip()}"
+            
+            # Try to get complete name if mentioned specifically
+            anchieta_match = re.search(r'Hospital\s+Anchieta', hospital_info, re.IGNORECASE)
+            if anchieta_match:
+                hospital_data["name"] = "Hospital Anchieta"
+            
+            # Extract address from Perplexity response
+            # Look for QS address pattern (Brasília style)
+            qs_address = re.search(r'QS\s+\d+[^,]+,\s*[^,]+,\s*[^,]+(?:,\s*[^,]+)?(?:\s*CEP\s*[\d-]+)?', hospital_info, re.IGNORECASE)
+            if qs_address:
+                hospital_data["address"] = qs_address.group().strip()
+            else:
+                # Look for standard address patterns
+                address_patterns = [
+                    r'Rua\s+[^,\n]+(?:,\s*[^,\n]+)*',
+                    r'Avenida\s+[^,\n]+(?:,\s*[^,\n]+)*',
+                    r'Av\.\s+[^,\n]+(?:,\s*[^,\n]+)*',
+                    r'[A-Z][^,\n]*,\s*[A-Z][^,\n]*,\s*[A-Z][^,\n]*'
+                ]
+                for pattern in address_patterns:
+                    address_match = re.search(pattern, hospital_info)
+                    if address_match:
+                        hospital_data["address"] = address_match.group().strip()
                         break
+            
+            # Extract phone number
+            phone_match = re.search(r'\*\*Telefone:\*\*\s*([^*\n\[]+)', hospital_info)
+            if not phone_match:
+                phone_patterns = [
+                    r'(\(\d{2}\)\s*\d{4,5}-?\d{4})',
+                    r'(\d{2}\s*\d{4,5}-?\d{4})'
+                ]
+                for pattern in phone_patterns:
+                    phone_match = re.search(pattern, hospital_info)
+                    if phone_match:
+                        hospital_data["phone"] = phone_match.group(1).strip()
+                        break
+            else:
+                hospital_data["phone"] = phone_match.group(1).strip()
             
             return {"success": True, "hospital": hospital_data}
         else:
@@ -860,26 +905,16 @@ def get_hospital_info():
                 "error": "Endereço não encontrado na sessão"
             })
         
-        # Search hospital using Perplexity
+        # Search hospital using Perplexity API
         hospital_result = search_hospital_perplexity(user_address)
         
         if hospital_result.get("success"):
-            return jsonify({
-                "success": True,
-                "hospital": hospital_result["hospital"]
-            })
+            return jsonify(hospital_result)
         else:
-            # Fallback hospital if API fails
-            fallback_hospital = {
-                "name": f"Hospital Particular {user_address['city']}",
-                "address": f"Centro Médico, {user_address['city']} - {user_address['state']}",
-                "specialty": "Ginecologia e Obstetrícia",
-                "phone": "(11) 99999-9999"
-            }
+            # Return error instead of fallback to force real data
             return jsonify({
-                "success": True,
-                "hospital": fallback_hospital,
-                "note": "Informação de fallback - API indisponível"
+                "success": False,
+                "error": hospital_result.get("error", "Erro ao buscar hospital")
             })
             
     except Exception as e:

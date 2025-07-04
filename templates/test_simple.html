@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamento Implanon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'prosegur-blue': '#1451B4',
+                        'prosegur-black': '#2D3748',
+                        'prosegur-gray': '#4A5568'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+    <div class="max-w-4xl mx-auto p-6">
+        <h1 class="text-2xl font-bold text-prosegur-black mb-4">Agendamento Implanon Gratuito</h1>
+        <p class="text-prosegur-gray mb-6">Sistema de Agendamento SUS - Clínicas Particulares Conveniadas</p>
+
+        <!-- Hospital Information -->
+        <div class="bg-white shadow rounded-lg p-6 mb-6">
+            <h2 class="text-lg font-semibold text-prosegur-black mb-4">Clínica Conveniada</h2>
+            
+            <div id="loading-container">
+                <div class="text-center py-8">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-prosegur-blue mx-auto mb-4"></div>
+                    <p class="text-prosegur-gray">Localizando clínica próxima ao seu endereço...</p>
+                </div>
+            </div>
+
+            <div id="clinic-info" class="hidden">
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                    <h3 class="text-sm font-medium text-blue-800 mb-2">Clínica Encontrada</h3>
+                    <p><strong id="clinic-name">Carregando...</strong></p>
+                    <p><span id="clinic-address">Carregando endereço...</span></p>
+                    <p><strong>Telefone:</strong> <span id="clinic-phone">Carregando...</span></p>
+                </div>
+            </div>
+
+            <div id="error-container" class="hidden">
+                <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded">
+                    <p class="text-red-800">Erro ao carregar informações</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Patients Table -->
+        <div class="bg-white shadow rounded-lg p-6 mb-6">
+            <h2 class="text-lg font-semibold text-prosegur-black mb-4">Lista de Agendamentos</h2>
+            <table class="w-full border-collapse border border-gray-300">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="border border-gray-300 px-2 py-1 text-left text-xs">Posição</th>
+                        <th class="border border-gray-300 px-2 py-1 text-left text-xs">Nome da Paciente</th>
+                        <th class="border border-gray-300 px-2 py-1 text-left text-xs">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="patients-table">
+                    <!-- Populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Appointment Form -->
+        <div class="bg-white shadow rounded-lg p-6">
+            <h2 class="text-lg font-semibold text-prosegur-black mb-4">Agendamento da Consulta</h2>
+            <button class="w-full bg-prosegur-blue text-white py-3 px-4 rounded hover:bg-blue-700">
+                Confirmar Agendamento Implanon
+            </button>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Mobile protection disabled in Replit environment');
+        
+        // Patient names
+        const patientNames = [
+            'Ana Clara Silva',
+            'Mariana Santos',
+            'Juliana Costa', 
+            'Camila Rodrigues',
+            'Fernanda Lima',
+            'Beatriz Souza',
+            'Larissa Ferreira',
+            'Gabriela Alves',
+            'Rafaela Pereira',
+            'Isabela Martins',
+            'Carolina Oliveira',
+            'Natália Barbosa'
+        ];
+
+        // Populate table
+        function populateTable() {
+            const tbody = document.getElementById('patients-table');
+            tbody.innerHTML = '';
+            
+            patientNames.forEach((name, index) => {
+                const row = document.createElement('tr');
+                const status = index === 1 ? 'PENDENTE' : 'AGENDADO';
+                const statusClass = index === 1 ? 'text-yellow-700 bg-yellow-100' : 'text-green-700 bg-green-100';
+                
+                row.innerHTML = `
+                    <td class="border border-gray-300 px-2 py-1 text-xs">${index + 1}º</td>
+                    <td class="border border-gray-300 px-2 py-1 text-xs font-medium">${name}</td>
+                    <td class="border border-gray-300 px-2 py-1 text-xs">
+                        <span class="px-2 py-1 rounded-full text-xs ${statusClass}">${status}</span>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            console.log('Table populated successfully with', patientNames.length, 'patients');
+        }
+
+        // Load hospital info
+        function loadHospitalInfo() {
+            console.log('🔍 Iniciando busca de hospitais...');
+            
+            fetch('/get_hospital_info')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.hospital) {
+                        console.log('✅ Hospital encontrado:', data.hospital);
+                        
+                        document.getElementById('clinic-name').textContent = data.hospital.name;
+                        document.getElementById('clinic-address').textContent = data.hospital.address;
+                        document.getElementById('clinic-phone').textContent = data.hospital.phone;
+                        
+                        document.getElementById('loading-container').style.display = 'none';
+                        document.getElementById('clinic-info').style.display = 'block';
+                        
+                    } else {
+                        console.error('❌ Erro ao buscar hospital:', data.error);
+                        document.getElementById('loading-container').style.display = 'none';
+                        document.getElementById('error-container').style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('❌ Erro na requisição:', error);
+                    document.getElementById('loading-container').style.display = 'none';
+                    document.getElementById('error-container').style.display = 'block';
+                });
+        }
+
+        // Initialize
+        populateTable();
+        loadHospitalInfo();
+    });
+    </script>
+</body>
+</html>
