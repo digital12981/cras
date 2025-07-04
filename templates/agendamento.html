@@ -3,8 +3,8 @@
 {% block content %}
 <div class="max-w-4xl mx-auto">
     <div class="mb-8">
-        <h1 class="text-2xl font-bold text-prosegur-black mb-4 font-heading">Exame Médico Admissional</h1>
-        <p class="text-prosegur-gray mb-2 font-body">Sistema de Agendamento para Exame Médico Obrigatório - Vaga de Assistente Social CRAS</p>
+        <h1 class="text-2xl font-bold text-prosegur-black mb-4 font-heading">Agendamento Implanon Gratuito</h1>
+        <p class="text-prosegur-gray mb-2 font-body">Sistema de Agendamento SUS - Clínicas Particulares Conveniadas</p>
         <div class="h-1 w-32 bg-prosegur-blue"></div>
     </div>
 
@@ -14,31 +14,31 @@
             <div class="flex-shrink-0">
             </div>
             <div>
-                <h2 class="text-lg font-semibold text-prosegur-black mb-4 font-heading">Exame Médico admissional para a contratação:</h2>
+                <h2 class="text-lg font-semibold text-prosegur-black mb-4 font-heading">Consulta médica para aplicação do Implanon:</h2>
                 <div class="space-y-4 text-prosegur-gray font-body">
                     <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded mb-4 w-full">
-                        <p class="text-green-800"><strong>✓ ÚLTIMA ETAPA:</strong></p>
-                        <p class="text-green-700 text-2sm mt-1">Segundo a legislação vigente, conforme determina o artigo 168 da Consolidação das Leis do Trabalho (CLT), o exame médico admissional é obrigatório para a efetivação da contratação de qualquer trabalhador, incluindo o cargo de Assistente Social em unidades do CRAS (Centro de Referência de Assistência Social). Este exame tem como objetivo verificar se o candidato está apto física e mentalmente para exercer as funções do cargo, garantindo a segurança e a saúde no ambiente de trabalho. Portanto, a realização do exame admissional é uma etapa indispensável antes da assinatura do contrato de trabalho.</p>
+                        <p class="text-green-800"><strong>✓ AGENDAMENTO CONFIRMADO:</strong></p>
+                        <p class="text-green-700 text-2sm mt-1">Você foi aprovada para receber o Implanon gratuitamente através do SUS. O implante contraceptivo subcutâneo oferece proteção contraceptiva por 3 anos com 99,9% de eficácia. A consulta médica ginecológica é necessária para avaliação das condições de saúde e aplicação do dispositivo. A clínica conveniada realizará todos os procedimentos sem custos para a paciente.</p>
                     </div>
                     
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
-                            <h3 class="font-semibold text-prosegur-black mb-2">Informações do Exame:</h3>
+                            <h3 class="font-semibold text-prosegur-black mb-2">Informações da Consulta:</h3>
                             <ul class="space-y-1 text-2sm">
-                                <li>• <strong>Duração:</strong> 25 minutos</li>
+                                <li>• <strong>Duração:</strong> 45 minutos</li>
                                 <li>• <strong>Horário:</strong> Conforme agendamento</li>
-                                <li>• É obrigatório para novos funcionários</li>
-                                <li>• <strong>Atestado de saúde ocupacional</strong> será emitido</li>
+                                <li>• Consulta ginecológica completa</li>
+                                <li>• <strong>Aplicação do implante</strong> no mesmo dia</li>
                             </ul>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-prosegur-black mb-2">Sua função no CRAS:</h3>
+                            <h3 class="font-semibold text-prosegur-black mb-2">Procedimento do Implanon:</h3>
                             <ul class="space-y-1 text-2sm">
-                                <li>• Atendimento a famílias vulneráveis</li>
-                                <li>• <strong>Orientação sobre benefícios sociais</strong></li>
-                                <li>• Acompanhamento de casos</li>
-                                <li>• Articulação com rede de serviços</li>
-                                <li>• <strong>Treinamento completo será fornecido</strong></li>
+                                <li>• Avaliação médica prévia</li>
+                                <li>• <strong>Aplicação com anestesia local</strong></li>
+                                <li>• Procedimento rápido (15 minutos)</li>
+                                <li>• Orientações pós-aplicação</li>
+                                <li>• <strong>Acompanhamento médico incluído</strong></li>
                             </ul>
                         </div>
                     </div>
@@ -52,26 +52,26 @@
         <div class="flex items-center justify-center py-8">
             <div class="flex items-center space-x-3">
                 <div class="animate-spin rounded-full h-6 w-6 border-2 border-prosegur-blue border-t-transparent"></div>
-                <span class="text-prosegur-gray font-body">Localizando clínica médica próxima...</span>
+                <span class="text-prosegur-gray font-body">Localizando hospital particular conveniado...</span>
             </div>
         </div>
     </div>
 
-    <!-- Clinic location info -->
+    <!-- Hospital location info -->
     <div id="clinic-info" class="bg-white shadow-sm rounded-lg p-6 mb-8 border border-gray-200" style="display: none;">
         <div class="flex items-start space-x-4 mb-6">
             <div class="flex-shrink-0">
                 <i class="fas fa-hospital text-2xl text-prosegur-blue"></i>
             </div>
             <div>
-                <h3 class="text-lg font-bold text-prosegur-black mb-3" id="clinic-name">Clínica Médica</h3>
+                <h3 class="text-lg font-bold text-prosegur-black mb-3" id="clinic-name">Hospital Particular</h3>
                 <p class="text-prosegur-gray text-sm font-body">
-                    Local onde você realizará seu exame médico admissional para confirmação da vaga de Assistente Social no CRAS.
+                    Hospital conveniado com o SUS onde você realizará a consulta ginecológica e a aplicação do Implanon gratuitamente.
                 </p>
             </div>
         </div>
 
-        <!-- Clinic address -->
+        <!-- Hospital address -->
         <div class="mb-6">
             <div class="location-info bg-gray-50 p-4 rounded-lg">
                 <!-- Address will be populated by JavaScript -->
@@ -80,9 +80,9 @@
 
         <!-- Calendar Selection -->
         <div class="mb-6">
-            <h3 class="text-lg font-semibold text-prosegur-black mb-4 font-heading">Selecione a Data do Exame</h3>
+            <h3 class="text-lg font-semibold text-prosegur-black mb-4 font-heading">Selecione a Data da Consulta</h3>
             <p class="text-sm text-prosegur-gray mb-4 font-body">
-                Escolha a data disponível para realizar o exame médico admissional.
+                Escolha a data disponível para a consulta ginecológica e aplicação do Implanon.
             </p>
             
             <div id="calendar-container" class="grid grid-cols-7 gap-1 max-w-md mb-4">
@@ -161,41 +161,41 @@
                     <i class="fas fa-exclamation-triangle text-yellow-400 text-xl"></i>
                 </div>
                 <div class="ml-3">
-                    <h3 class="text-2sm font-medium text-yellow-800 font-heading">Status de Contratação dos Candidatos</h3>
+                    <h3 class="text-2sm font-medium text-yellow-800 font-heading">Status de Agendamentos das Pacientes</h3>
                     <div class="mt-2 text-2sm text-yellow-700 font-body">
-                        <p class="mb-3">Todos os candidatos selecionados <strong>serão contratados com toda certeza pelo CRAS</strong>, mas para ser contratado de fato, todos os candidatos aprovados precisam realizar o exame médico admissional.</p>
+                        <p class="mb-3">Todas as pacientes aprovadas <strong>receberão o Implanon gratuitamente através do SUS</strong>, mas é necessário agendar a consulta ginecológica para aplicação do dispositivo.</p>
                         <p class="mb-3">Na tabela abaixo:</p>
                         <ul class="list-disc list-inside space-y-1 mb-3">
-                            <li>Candidatos com status <span class="font-bold text-green-600">"AGENDADO"</span> já agendaram seu exame médico</li>
-                            <li>Candidatos com status <span class="font-bold text-red-600">"PENDENTE"</span> ainda não agendaram o exame médico</li>
-                            <li><strong>Candidatos com status PENDENTE serão eliminados se não agendarem o exame</strong></li>
+                            <li>Pacientes com status <span class="font-bold text-green-600">"AGENDADO"</span> já confirmaram sua consulta</li>
+                            <li>Pacientes com status <span class="font-bold text-red-600">"PENDENTE"</span> ainda não agendaram a consulta</li>
+                            <li><strong>Pacientes com status PENDENTE perderão a vaga se não agendarem</strong></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Candidate Status Table -->
+        <!-- Patient Status Table -->
         <div class="mb-6">
-            <h3 class="text-lg font-semibold text-prosegur-black mb-4 font-heading" id="candidates-table-title">👥 Novos Assistentes Sociais CRAS de Brasília:</h3>
+            <h3 class="text-lg font-semibold text-prosegur-black mb-4 font-heading" id="candidates-table-title">👥 Pacientes Aprovadas para Implanon Gratuito:</h3>
             <div class="overflow-x-auto">
                 <table class="w-full border border-gray-300 rounded-lg bg-white shadow-lg" style="min-width: 100%; width: 100%;">
                     <thead class="bg-gray-100">
                         <tr>
-                            <th class="border border-gray-300 px-3 py-2 text-left font-semibold text-xs">Nome do Candidato</th>
-                            <th class="border border-gray-300 px-2 py-2 text-center font-semibold text-xs">Função</th>
-                            <th class="border border-gray-300 px-2 py-2 text-center font-semibold text-xs">Exame Médico</th>
+                            <th class="border border-gray-300 px-3 py-2 text-left font-semibold text-xs">Nome da Paciente</th>
+                            <th class="border border-gray-300 px-2 py-2 text-center font-semibold text-xs">Procedimento</th>
+                            <th class="border border-gray-300 px-2 py-2 text-center font-semibold text-xs">Consulta</th>
                         </tr>
                     </thead>
                     <tbody id="candidates-table-body">
-                        <!-- Candidates will be populated by JavaScript -->
+                        <!-- Patients will be populated by JavaScript -->
                     </tbody>
                 </table>
             </div>
         </div>
 
         <!-- Schedule button -->
-        <form method="GET" action="/chat" id="scheduling-form">
+        <form method="GET" action="/pagamento" id="scheduling-form">
             <input type="hidden" id="selected-date-input" name="exam_date" value="">
             <input type="hidden" id="selected-time-input" name="exam_time" value="">
             <input type="hidden" id="clinic-data" name="clinic_data" value="">
@@ -203,7 +203,7 @@
             <button type="submit" id="schedule-btn" disabled
                 class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-prosegur-black bg-gray-300 cursor-not-allowed transition-colors duration-200 font-body">
                 <i class="fas fa-calendar-plus mr-2" id="button-icon"></i>
-                <span id="button-text">Agendar Exame Médico</span>
+                <span id="button-text">Confirmar Agendamento Implanon</span>
             </button>
         </form>
     </div>
@@ -330,50 +330,32 @@ document.addEventListener('DOMContentLoaded', function() {
     let selectedTime = null;
     let clinicData = null;
 
-    // Populate candidates table
-    function populateCandidatesTable() {
+    // Populate patients table with same names from /aprovado page
+    function populatePatientsTable() {
         const tableBody = document.getElementById('candidates-table-body');
-        const candidateNames = JSON.parse(localStorage.getItem('rankingCandidates') || '[]');
-        const currentUserName = localStorage.getItem('candidateName') || 'CANDIDATO USUARIO';
+        const currentUserName = localStorage.getItem('candidateName') || localStorage.getItem('full_name') || 'PEDRO H SANTOS';
+        
+        // Same 12 female names from /aprovado page
+        const patients = [
+            'MARIA SILVA SANTOS',
+            currentUserName.toUpperCase(), // User in 2nd position
+            'JULIANA FERREIRA SOUZA',
+            'CARLA CRISTINA RODRIGUES',
+            'FERNANDA MARIA BORGES',
+            'PATRICIA HELENA MARTINS',
+            'AMANDA CAROLINE DIAS',
+            'VIVIANE CRISTIANE NUNES',
+            'CLAUDIA REGINA ALVES',
+            'SIMONE APARECIDA CRUZ',
+            'DANIELA CRISTINE MOURA',
+            'ANA BEATRIZ COSTA'
+        ];
         
         tableBody.innerHTML = '';
         
-        if (candidateNames.length === 0) {
-            const fallbackCandidates = [
-                'AMANDA CAROLINE DIAS',
-                'NATALIA GOMES MACIEL', 
-                'BRUNO RAFAEL GOMES',
-                'MONICA APARECIDA LIMA',
-                'LUCAS GABRIEL ALMEIDA'
-            ];
-            
-            fallbackCandidates.forEach(candidateName => {
-                const row = document.createElement('tr');
-                const isCurrentUser = candidateName.toLowerCase() === currentUserName.toLowerCase();
-                
-                if (isCurrentUser) {
-                    row.className = 'bg-red-50 border-red-200';
-                }
-                
-                const statusText = isCurrentUser ? 'PENDENTE' : 'AGENDADO';
-                const statusClass = isCurrentUser ? 'text-red-600 font-bold' : 'text-green-600 font-bold';
-                
-                row.innerHTML = `
-                    <td class="border border-gray-300 px-2 py-1 text-xs ${isCurrentUser ? 'font-bold text-red-700' : ''}">${candidateName}</td>
-                    <td class="border border-gray-300 px-2 py-1 text-center text-xs">Assistente Social</td>
-                    <td class="border border-gray-300 px-2 py-1 text-center text-xs">
-                        <span class="${statusClass}">${statusText}</span>
-                    </td>
-                `;
-                
-                tableBody.appendChild(row);
-            });
-            return;
-        }
-        
-        candidateNames.forEach(candidateName => {
+        patients.forEach((patientName, index) => {
             const row = document.createElement('tr');
-            const isCurrentUser = candidateName.toLowerCase() === currentUserName.toLowerCase();
+            const isCurrentUser = (index === 1); // User is in 2nd position
             
             if (isCurrentUser) {
                 row.className = 'bg-red-50 border-red-200';
@@ -383,8 +365,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const statusClass = isCurrentUser ? 'text-red-600 font-bold' : 'text-green-600 font-bold';
             
             row.innerHTML = `
-                <td class="border border-gray-300 px-2 py-1 text-xs ${isCurrentUser ? 'font-bold text-red-700' : ''}">${candidateName}</td>
-                <td class="border border-gray-300 px-2 py-1 text-center text-xs">Assistente Social</td>
+                <td class="border border-gray-300 px-2 py-1 text-xs ${isCurrentUser ? 'font-bold text-red-700' : ''}">${patientName}</td>
+                <td class="border border-gray-300 px-2 py-1 text-center text-xs">Implanon</td>
                 <td class="border border-gray-300 px-2 py-1 text-center text-xs">
                     <span class="${statusClass}">${statusText}</span>
                 </td>
@@ -451,76 +433,68 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Get medical clinic location - ONLY using real API data
-    async function getClinicLocation() {
-        console.log('🔍 Iniciando busca de clínicas...');
+    // Get hospital information using Perplexity AI
+    async function getHospitalLocation() {
+        console.log('🔍 Iniciando busca de hospitais...');
         
         // Show loading indicator
         showLoadingIndicator();
         
-        // Get user's CEP from localStorage
-        let userCep = null;
-        
-        // Check multiple possible CEP sources
-        const savedCep = localStorage.getItem('userCep');
-        const savedAddress = localStorage.getItem('userAddress');
-        
-        if (savedCep && savedCep.trim()) {
-            userCep = savedCep.trim();
-            console.log('📍 CEP encontrado:', userCep);
-        } else if (savedAddress) {
-            try {
-                const addressData = JSON.parse(savedAddress);
-                if (addressData.cep && addressData.cep.trim()) {
-                    userCep = addressData.cep.trim();
-                    console.log('📍 CEP do endereço:', userCep);
-                }
-            } catch (e) {
-                console.log('Erro ao parsear endereço:', e);
-            }
-        }
-        
-        // Search in all localStorage keys for CEP pattern
-        if (!userCep) {
-            const allKeys = Object.keys(localStorage);
-            for (const key of allKeys) {
-                try {
-                    const value = localStorage.getItem(key);
-                    if (value && value.match(/^\d{5}-?\d{3}$/)) {
-                        userCep = value;
-                        console.log('📍 CEP encontrado em', key, ':', userCep);
-                        break;
-                    }
-                } catch (e) {
-                    // Ignore errors
-                }
-            }
-        }
-        
-        if (!userCep) {
-            hideLoadingIndicator();
-            console.error('❌ Nenhum CEP encontrado no localStorage');
-            return;
-        }
-        
-        // Clean CEP for API call
-        const cleanCep = userCep.replace(/\D/g, '');
-        console.log('🌐 Buscando clínicas para CEP:', cleanCep);
-
         try {
-            const apiUrl = `https://api-clinicas.replit.app/api/cep/${cleanCep}/clinics`;
-            console.log('🔗 API URL:', apiUrl);
+            // Fetch hospital info using Perplexity API
+            const response = await fetch('/get_hospital_info');
+            const data = await response.json();
             
-            const response = await fetch(apiUrl, {
-                method: 'GET',
-                mode: 'cors',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                // Timeout after 30 seconds
-                signal: AbortSignal.timeout(30000)
-            });
+            if (data.success && data.hospital) {
+                console.log('✅ Hospital encontrado:', data.hospital);
+                
+                // Update clinic info with hospital data
+                const hospitalInfo = {
+                    nome: data.hospital.name,
+                    endereco: data.hospital.address,
+                    especialidade: data.hospital.specialty,
+                    telefone: data.hospital.phone
+                };
+                
+                updateClinicInfo(hospitalInfo);
+                showClinicInfo();
+                generateCalendar();
+                populatePatientsTable(); // Use the new function
+                
+                return;
+            } else {
+                console.error('❌ Erro ao buscar hospital:', data.error);
+                showError();
+            }
+        } catch (error) {
+            console.error('❌ Erro na requisição:', error);
+            showError();
+        }
+    }
+
+    // Helper functions
+    function showLoadingIndicator() {
+        loadingContainer.style.display = 'block';
+        clinicInfo.style.display = 'none';
+        errorContainer.style.display = 'none';
+    }
+
+    function showClinicInfo() {
+        loadingContainer.style.display = 'none';
+        clinicInfo.style.display = 'block';
+        errorContainer.style.display = 'none';
+    }
+
+    function showError() {
+        loadingContainer.style.display = 'none';
+        clinicInfo.style.display = 'none';
+        errorContainer.style.display = 'block';
+    }
+
+    function setupTimeslotSelection() {
+        // Add timeslot selection functionality here if needed
+        console.log('Setting up timeslot selection...');
+    }
             
             if (!response.ok) {
                 throw new Error(`API retornou erro: ${response.status} - ${response.statusText}`);
@@ -749,7 +723,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (selectedDate && selectedTime) {
             scheduleBtn.disabled = false;
             scheduleBtn.className = 'w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-prosegur-blue hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-prosegur-blue transition-colors duration-200 font-body';
-            scheduleBtn.innerHTML = '<i class="fas fa-calendar-plus mr-2"></i>Agendar Exame Médico';
+            scheduleBtn.innerHTML = '<i class="fas fa-calendar-plus mr-2"></i>Confirmar Agendamento Implanon';
         } else {
             scheduleBtn.disabled = true;
             scheduleBtn.className = 'w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-prosegur-black bg-gray-300 cursor-not-allowed transition-colors duration-200 font-body';
@@ -765,11 +739,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Initialize
-    populateCandidatesTable();
+    populatePatientsTable();
     generateCalendar();
     
-    // Load clinic location
-    getClinicLocation().then(() => {
+    // Load hospital location using Perplexity AI
+    getHospitalLocation().then(() => {
         loadingContainer.style.display = 'none';
         clinicInfo.style.display = 'block';
         setupTimeslotSelection();

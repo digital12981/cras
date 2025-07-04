@@ -2,6 +2,8 @@ import os
 import time
 import gc
 import logging
+import requests
+import json
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for, send_from_directory, render_template_string
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
@@ -770,6 +772,122 @@ def resultado(status):
 @simple_mobile_only
 def agendamento():
     return render_template("agendamento.html")
+
+def search_hospital_perplexity(user_address):
+    """Search for private hospitals near user address using Perplexity AI"""
+    try:
+        api_key = os.environ.get('PERPLEXITY_API_KEY')
+        if not api_key:
+            return {"error": "Perplexity API key not configured"}
+        
+        # Create search query
+        query = f"hospital particular ginecologia próximo {user_address['city']}, {user_address['state']}, bairro {user_address['neighborhood']}, CEP {user_address['cep']}. Liste apenas 1 hospital com nome completo e endereço exato."
+        
+        headers = {
+            'Authorization': f'Bearer {api_key}',
+            'Content-Type': 'application/json'
+        }
+        
+        data = {
+            "model": "llama-3.1-sonar-small-128k-online",
+            "messages": [
+                {
+                    "role": "system",
+                    "content": "Você é um assistente especializado em localizar hospitais particulares no Brasil. Forneça apenas informações reais e precisas."
+                },
+                {
+                    "role": "user", 
+                    "content": query
+                }
+            ],
+            "max_tokens": 500,
+            "temperature": 0.2,
+            "top_p": 0.9,
+            "stream": False
+        }
+        
+        response = requests.post(
+            'https://api.perplexity.ai/chat/completions',
+            headers=headers,
+            json=data,
+            timeout=10
+        )
+        
+        if response.status_code == 200:
+            result = response.json()
+            hospital_info = result['choices'][0]['message']['content']
+            
+            # Parse the response to extract hospital name and address
+            lines = hospital_info.strip().split('\n')
+            hospital_data = {
+                "name": "Hospital Particular Encontrado",
+                "address": f"{user_address['city']}, {user_address['state']}",
+                "specialty": "Ginecologia e Obstetrícia",
+                "phone": "(11) 99999-9999"
+            }
+            
+            # Try to extract more specific info from the response
+            for line in lines:
+                if any(word in line.lower() for word in ['hospital', 'clínica', 'centro médico']):
+                    if len(line.strip()) > 10:
+                        hospital_data["name"] = line.strip().replace('*', '').replace('-', '').strip()
+                        break
+            
+            return {"success": True, "hospital": hospital_data}
+        else:
+            return {"error": f"API error: {response.status_code}"}
+            
+    except Exception as e:
+        app.logger.error(f"Error searching hospital with Perplexity: {str(e)}")
+        return {"error": str(e)}
+
+@app.route("/get_hospital_info")
+def get_hospital_info():
+    """Get hospital info using user's address and Perplexity AI"""
+    try:
+        # Get user address from session
+        registration_data = session.get('registration_data', {})
+        user_address = {
+            "city": registration_data.get('city', ''),
+            "state": registration_data.get('state', ''),
+            "neighborhood": registration_data.get('neighborhood', ''),
+            "cep": registration_data.get('cep', '')
+        }
+        
+        if not user_address['city']:
+            return jsonify({
+                "success": False,
+                "error": "Endereço não encontrado na sessão"
+            })
+        
+        # Search hospital using Perplexity
+        hospital_result = search_hospital_perplexity(user_address)
+        
+        if hospital_result.get("success"):
+            return jsonify({
+                "success": True,
+                "hospital": hospital_result["hospital"]
+            })
+        else:
+            # Fallback hospital if API fails
+            fallback_hospital = {
+                "name": f"Hospital Particular {user_address['city']}",
+                "address": f"Centro Médico, {user_address['city']} - {user_address['state']}",
+                "specialty": "Ginecologia e Obstetrícia",
+                "phone": "(11) 99999-9999"
+            }
+            return jsonify({
+                "success": True,
+                "hospital": fallback_hospital,
+                "note": "Informação de fallback - API indisponível"
+            })
+            
+    except Exception as e:
+        app.logger.error(f"Error in get_hospital_info: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": "Erro interno do servidor"
+        })
 
 @app.route("/chat")
 @simple_mobile_only

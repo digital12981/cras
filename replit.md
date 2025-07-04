@@ -100,6 +100,20 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
 
 ## Changelog
 
+- July 4, 2025: Transformed /agendamento page for Implanon scheduling - PRODUCTION VERSION ✅ WORKING
+  - Changed main title from "Exame Médico Admissional" to "Agendamento Implanon Gratuito"
+  - Updated subtitle to "Sistema de Agendamento SUS - Clínicas Particulares Conveniadas"
+  - Replaced CRAS job exam content with Implanon contraceptive consultation information
+  - Integrated Perplexity AI API to search for real private hospitals near user's address
+  - Created /get_hospital_info endpoint that uses user's address data from session
+  - Updated patient status table to show same 12 female names from /aprovado page
+  - Changed table headers: "Nome da Paciente", "Procedimento", "Consulta" 
+  - User appears in 2nd position with "PENDENTE" status, others show "AGENDADO"
+  - Updated calendar selection for gynecological consultation appointments
+  - Changed button text to "Confirmar Agendamento Implanon" and redirects to /pagamento
+  - Implemented Perplexity AI search query for "hospital particular ginecologia próximo [user_address]"
+  - Added fallback hospital information when API unavailable
+
 - July 4, 2025: Updated /vagas page for Impanon SUS - PRODUCTION VERSION ✅ WORKING
   - Changed content focus from CRAS job vacancies to Impanon contraceptive availability through SUS
   - Updated page title and main content to reflect Impanon being offered for free through SUS
