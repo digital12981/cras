@@ -187,7 +187,7 @@ def consulta_cpf():
             return jsonify(cached_result)
         
         # Use the new API token
-        token = "6285fe45-e991-4071-a848-3fac8273c82a"
+        token = "1285fe4s-e931-4071-a848-3fac8273c55a"
         
         # Make API request to CPF validation service
         api_url = f"https://consulta.fontesderenda.blog/cpf.php?token={token}&cpf={cpf_limpo}"
