@@ -100,6 +100,15 @@ This is a Flask-based web application that implements a Prosegur CNV (Carteira N
 
 ## Changelog
 
+- July 5, 2025: Fixed Heroku deployment SQLAlchemy configuration - PRODUCTION VERSION ✅ WORKING
+  - Removed invalid 'connect_timeout' parameter causing TypeError on Heroku
+  - Simplified SQLALCHEMY_ENGINE_OPTIONS for Heroku PostgreSQL compatibility  
+  - Reduced pool configuration to essential parameters only
+  - Updated application name from "prosegur_enterprise" to "implanon_app"
+  - Corrected SSL mode configuration for Heroku environment
+  - Fixed header positioning: not fixed only on /exame page, fixed on all other pages
+  - Increased top margin (pt-32) for proper spacing below fixed header
+
 - July 4, 2025: Fixed /pagamento page footer duplication and hospital data integration - PRODUCTION VERSION ✅ WORKING
   - Removed duplicate footer from /pagamento page that was appearing twice
   - Converted page to properly use layout.html template for consistent header/footer

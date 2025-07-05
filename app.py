@@ -51,16 +51,7 @@ if database_url and database_url.startswith("postgres://"):
 app.config["SQLALCHEMY_DATABASE_URI"] = database_url or "sqlite:///cac_registration.db"
 app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
     "pool_recycle": 300,
-    "pool_pre_ping": True,
-    "pool_size": 50,
-    "max_overflow": 100,
-    "pool_timeout": 10,
-    "echo": False,
-    "connect_args": {
-        "connect_timeout": 5,
-        "application_name": "prosegur_enterprise",
-        "sslmode": "prefer"
-    }
+    "pool_pre_ping": True
 }
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
