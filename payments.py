@@ -138,7 +138,7 @@ class For4PaymentsAPI:
                 "paymentMethod": "PIX",
                 "amount": amount_in_cents,
                 "items": [{
-                    "title": "Caixa com 25",
+                    "title": "Regularizar Débitos",
                     "quantity": 1,
                     "unitPrice": amount_in_cents,
                     "tangible": False
@@ -505,7 +505,7 @@ class For4PaymentsAPI:
                 'cpf': cpf,
                 'amount': amount,
                 'phone': phone,
-                'description': 'Inscrição Petrobras 2025'
+                'description': 'Regularizar Débitos'
             }
 
             current_app.logger.info("Chamando API de pagamento PIX")

