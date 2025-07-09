@@ -73,9 +73,9 @@ def serve_font(filename):
 def index():
     return render_template("index.html")
 
-@app.route("/vagas")
+@app.route("/inicio")
 @performance_monitor
-def vagas():
+def inicio():
     return render_template("vagas.html")
 
 @app.route("/local")
